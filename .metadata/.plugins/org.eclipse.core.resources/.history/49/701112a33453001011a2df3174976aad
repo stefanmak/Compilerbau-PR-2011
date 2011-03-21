@@ -1,0 +1,44 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */
+options
+{
+  JDK_VERSION = "1.5";
+  static = true;
+}
+
+PARSER_BEGIN(StefanMak)
+
+public class StefanMak
+{
+  public static void main(String args []) throws ParseException
+  {
+    StefanMak parser = new StefanMak(System.in);           
+  }
+}
+
+PARSER_END(StefanMak)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN :
+{
+  < CONSTANT : (< DIGIT >)+ >
+| < #DIGIT : [ "0"-"9" ] >
+}
+
+void Start() : { Token t; } {
+{ do { t = getNextToken();
+System.out.println(t.toString());
+} while (t.kind != EOF);
+}
+<EOF>
+}
+
+
