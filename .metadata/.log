@@ -11,3 +11,16 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.e
 
 !ENTRY JavaCC 1 0 2011-03-20 21:43:55.996
 !MESSAGE Initializing JavaCC project preferences
+!SESSION 2011-03-21 19:20:50.049 -----------------------------------------------
+eclipse.buildId=M20110210-1200
+java.version=1.6.0_23
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_AT
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY JavaCC 1 0 2011-03-21 22:01:03.771
+!MESSAGE File L/CAB_3_1/src/CAB_3_1.jj created
+
+!ENTRY JavaCC 1 0 2011-03-21 22:01:03.978
+!MESSAGE Initializing JavaCC project preferences

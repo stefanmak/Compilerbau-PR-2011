@@ -29,79 +29,75 @@ public interface StefanMakConstants {
   /** RegularExpression Id. */
   int COLON = 14;
   /** RegularExpression Id. */
-  int CALLSIGN = 15;
+  int IF = 15;
   /** RegularExpression Id. */
-  int QUESTIONMARK = 16;
+  int ENDIF = 16;
   /** RegularExpression Id. */
-  int IF = 17;
+  int THEN = 17;
   /** RegularExpression Id. */
-  int ENDIF = 18;
+  int ELSE = 18;
   /** RegularExpression Id. */
-  int THEN = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int ELSE = 20;
+  int VOID = 20;
   /** RegularExpression Id. */
-  int OR = 21;
+  int AND = 21;
   /** RegularExpression Id. */
-  int VOID = 22;
+  int TRUE = 22;
   /** RegularExpression Id. */
-  int AND = 23;
+  int FALSE = 23;
   /** RegularExpression Id. */
-  int TRUE = 24;
+  int WHILE = 24;
   /** RegularExpression Id. */
-  int FALSE = 25;
+  int ENDWHILE = 25;
   /** RegularExpression Id. */
-  int WHILE = 26;
+  int DO = 26;
   /** RegularExpression Id. */
-  int ENDWHILE = 27;
+  int RETURN = 27;
   /** RegularExpression Id. */
-  int DO = 28;
+  int WRITE = 28;
   /** RegularExpression Id. */
-  int RETURN = 29;
+  int BEGIN = 29;
   /** RegularExpression Id. */
-  int WRITE = 30;
+  int END = 30;
   /** RegularExpression Id. */
-  int BEGIN = 31;
+  int PROCEDURE = 31;
   /** RegularExpression Id. */
-  int END = 32;
+  int PROGRAM = 32;
   /** RegularExpression Id. */
-  int PROCEDURE = 33;
+  int INTEGER = 33;
   /** RegularExpression Id. */
-  int PROGRAM = 34;
+  int BOOLEAN = 34;
   /** RegularExpression Id. */
-  int INTEGER = 35;
+  int CONST = 35;
   /** RegularExpression Id. */
-  int BOOLEAN = 36;
+  int DECLARE = 36;
   /** RegularExpression Id. */
-  int CONST = 37;
+  int READONLY = 37;
   /** RegularExpression Id. */
-  int DECLARE = 38;
+  int NEW = 38;
   /** RegularExpression Id. */
-  int READONLY = 39;
+  int BLANK = 39;
   /** RegularExpression Id. */
-  int NEW = 40;
+  int RELOP = 40;
   /** RegularExpression Id. */
-  int BLANK = 41;
+  int EQUALOP = 41;
   /** RegularExpression Id. */
-  int LETTER = 42;
+  int ADDOP = 42;
   /** RegularExpression Id. */
-  int DIGIT = 43;
+  int MULOP = 43;
   /** RegularExpression Id. */
-  int OTHERCHAR = 44;
+  int NUMBER = 44;
   /** RegularExpression Id. */
-  int IDENT = 45;
+  int DIGIT = 45;
   /** RegularExpression Id. */
-  int NUMBER = 46;
+  int IDENT = 46;
   /** RegularExpression Id. */
   int STRING = 47;
   /** RegularExpression Id. */
-  int RELOP = 48;
+  int LETTER = 48;
   /** RegularExpression Id. */
-  int EQUALOP = 49;
-  /** RegularExpression Id. */
-  int ADDOP = 50;
-  /** RegularExpression Id. */
-  int MULOP = 51;
+  int OTHERCHAR = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -123,8 +119,6 @@ public interface StefanMakConstants {
     "\".\"",
     "\"=\"",
     "\":\"",
-    "\"!\"",
-    "\"?\"",
     "\"If\"",
     "\"EndIf\"",
     "\"Then\"",
@@ -143,23 +137,23 @@ public interface StefanMakConstants {
     "\"End\"",
     "\"Procedure\"",
     "\"Program\"",
-    "\"Integer\"",
-    "\"Boolean\"",
+    "\"int\"",
+    "\"bool\"",
     "\"Const\"",
     "\"Declare\"",
-    "\"Readonly\"",
+    "\"readonly\"",
     "\"new\"",
     "\"#\"",
-    "<LETTER>",
-    "<DIGIT>",
-    "<OTHERCHAR>",
-    "<IDENT>",
-    "<NUMBER>",
-    "<STRING>",
     "<RELOP>",
     "<EQUALOP>",
     "<ADDOP>",
     "<MULOP>",
+    "<NUMBER>",
+    "<DIGIT>",
+    "<IDENT>",
+    "<STRING>",
+    "<LETTER>",
+    "<OTHERCHAR>",
     "\":=\"",
   };
 
