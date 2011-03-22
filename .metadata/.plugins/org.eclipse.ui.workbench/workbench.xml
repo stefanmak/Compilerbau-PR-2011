@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="24" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
-<window height="1040" width="1016" x="0" y="0">
+<window height="820" maximized="true" minimized="true" width="1016" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -19,7 +19,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -31,20 +31,24 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" partName="StefanMak.jj" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Scanner/src/StefanMak.jj" title="StefanMak.jj" tooltip="Scanner/src/StefanMak.jj" workbook="DefaultEditorWorkbook">
+<editor id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" partName="StefanMak.jj" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Scanner/src/StefanMak.jj" title="StefanMak.jj" tooltip="Scanner/src/StefanMak.jj" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Scanner/src/StefanMak.jj"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4985" selectionTopPixel="33"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1143" selectionTopPixel="731"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerMessage.java" partName="CompilerMessage.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Scanner/src/yapl/lib/CompilerMessage.java" title="CompilerMessage.java" tooltip="Scanner/src/yapl/lib/CompilerMessage.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Scanner/src/yapl/lib/CompilerMessage.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="36" selectionOffset="1248" selectionTopPixel="332"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (40 items)"/>
+<expanded>&#x0A;<category IMemento.internal.id="Warnings (40 items)"/>
 <category IMemento.internal.id="Errors"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="64" org.eclipse.ui.ide.markerType="94" org.eclipse.ui.ide.pathField="124" org.eclipse.ui.ide.resourceField="163" org.eclipse.ui.ide.severityAndDescriptionField="773"/>
@@ -117,7 +121,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="sf.eclipse.javacc.editors.JJEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
@@ -250,58 +254,10 @@
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" path="/Scanner/src/StefanMak.jj"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Scanner/src/StefanMak.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" path="/CAB_3_1/src/CAB_3_1.jj"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" path="/CAB_3_1/src/CAB_3_1.jj"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Scanner/src/yapl/lib/CompilerMessage.java"/>
 </editors>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="4641" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2498" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2499" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2447" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2526" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2772" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2419" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2421" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2503" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2615" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2578" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2500" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2447" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2422" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2500" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="2381" y="0"/>
-</item>
-<item historyLabel="StefanMak.jj" index="0">
-<position info="not_deleted" x="3132" y="0"/>
-</item>
 <item historyLabel="StefanMak.jj" index="0">
 <position info="not_deleted" x="3031" y="0"/>
 </item>
@@ -398,8 +354,59 @@
 <item historyLabel="StefanMak.jj" index="0">
 <position info="not_deleted" x="4824" y="0"/>
 </item>
-<item active="true" historyLabel="StefanMak.jj" index="0">
+<item historyLabel="StefanMak.jj" index="0">
 <position info="not_deleted" x="4985" y="0"/>
+</item>
+<item historyLabel="CAB_3_1.jj" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4985" y="0"/>
+</item>
+<item historyLabel="CAB_3_1.jj" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="669" y="0"/>
+</item>
+<item historyLabel="CompilerMessage.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="964" y="1"/>
+</item>
+<item historyLabel="CompilerMessage.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="964" y="1"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1012" y="0"/>
+</item>
+<item historyLabel="CompilerMessage.java" index="4">
+<position info="not_deleted" x="754" y="7"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1012" y="0"/>
+</item>
+<item historyLabel="CompilerMessage.java" index="4">
+<position info="not_deleted" x="1248" y="36"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1012" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1133" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1097" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1143" y="0"/>
+</item>
+<item active="true" historyLabel="CompilerMessage.java" index="4">
+<position info="not_deleted" x="1248" y="36"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -418,23 +425,23 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerMessage.java" tooltip="Scanner/src/yapl/lib/CompilerMessage.java">
+<persistable path="/Scanner/src/yapl/lib/CompilerMessage.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="CAB_3_1.jj" tooltip="CAB_3_1/src/CAB_3_1.jj">
+<persistable path="/CAB_3_1/src/CAB_3_1.jj"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMak.java" tooltip="Scanner/src/StefanMak.java">
 <persistable path="/Scanner/src/StefanMak.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="eg1.java" tooltip="CAB_3_1/src/eg1.java">
 <persistable path="/CAB_3_1/src/eg1.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="CAB_3_1.jj" tooltip="CAB_3_1/src/CAB_3_1.jj">
-<persistable path="/CAB_3_1/src/CAB_3_1.jj"/>
-</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TokenMgrError.java" tooltip="Scanner/src/TokenMgrError.java">
 <persistable path="/Scanner/src/TokenMgrError.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerError.java" tooltip="Scanner/src/yapl/interfaces/CompilerError.java">
 <persistable path="/Scanner/src/yapl/interfaces/CompilerError.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerMessage.java" tooltip="Scanner/src/yapl/lib/CompilerMessage.java">
-<persistable path="/Scanner/src/yapl/lib/CompilerMessage.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMakTokenManager.java" tooltip="Scanner/src/StefanMakTokenManager.java">
 <persistable path="/Scanner/src/StefanMakTokenManager.java"/>
