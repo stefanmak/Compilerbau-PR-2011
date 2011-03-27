@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="IDENT" key="selection"/>
+		<item value="image" key="selection"/>
 		<list key="findhistory">
-			<item value="ident"/>
-			<item value="vardecl"/>
-			<item value="primaryexpr"/>
-			<item value="primaryexpre"/>
-			<item value="typ"/>
-			<item value="type"/>
-			<item value="primtype"/>
-			<item value="integer"/>
+			<item value="image"/>
+			<item value="new"/>
+			<item value="begin"/>
+			<item value="do"/>
+			<item value="void"/>
+			<item value="syntax"/>
+			<item value="Syntax"/>
+			<item value="line"/>
 		</list>
 		<list key="replacehistory">
 		</list>

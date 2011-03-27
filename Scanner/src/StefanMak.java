@@ -5,22 +5,21 @@ import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
 
-/** Simple brace matcher. */
+/** Scanner for Compiler Milestone 1 */
 public class StefanMak implements StefanMakConstants {
 
-  /* Program Name for failure and debugging*/
+  /** Program Name for failure and debugging*/
   private static String program_name;
 
   /** Main entry point. */
   public static void main(String args []) throws ParseException, TokenMgrError
   {
 
-        /* Declare variables for program read*/
+        /** Declare variables for program read*/
         File file = null;
         FileInputStream fis = null;
 
-
-        /* Read YAPL File from file */
+        /** Read YAPL File from file */
         if(args.length != 0)
         {
                 try
@@ -38,18 +37,22 @@ public class StefanMak implements StefanMakConstants {
           System.exit(0);
         }
 
+        /** Give my Parser the InputStream to start the work */
     StefanMak parser = new StefanMak(fis);
         try
             {
               parser.Start();
+              /** Parsing was correct and complete */
               CompilerMessage.printOK(StefanMak.program_name);
             }
             catch (TokenMgrError ex)
             {
+              /** Lexical Error etc. occured */
               CompilerMessage.printError(ex,StefanMak.program_name);
             }
             catch (ParseException ex)
             {
+              /** Parse Error occured */
               CompilerMessage.printError(ex,StefanMak.program_name);
             }
           }
@@ -651,7 +654,7 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(DOT);
   }
 
-/** Root production. */
+/** Root node for production */
   static final public void Start() throws ParseException {
     PROGRAM();
   }
@@ -668,6 +671,11 @@ public class StefanMak implements StefanMakConstants {
     try { return !jj_3_2(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(1, xla); }
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
   }
 
   static private boolean jj_3R_15() {
@@ -697,11 +705,6 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3R_16() {
     if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
     return false;
   }
 
