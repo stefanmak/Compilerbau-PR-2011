@@ -1,10 +1,0 @@
-/**
- * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
- */options{  JDK_VERSION = "1.5";  static = true;}PARSER_BEGIN(eg1)
-public class eg1{  public static void main(String args []) throws ParseException  {    eg1 parser = new eg1(System.in);    while (true)    {      System.out.println("Reading from standard input...");            try      {        parser.S();      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        eg1.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(eg1)SKIP :{  " "| "\r"| "\t"| "\n"}void S() :{}{
-   (LOOKAHEAD(2) "a" | A() ) "c"}
-
-void A():{
-  }{
-  ( "a" A() ) | "b"}
-

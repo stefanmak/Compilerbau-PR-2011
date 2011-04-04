@@ -1,0 +1,56 @@
+<!--
+	MiniCompiler build file
+-->
+
+<project name="MiniCompiler" default="run" basedir=".">
+	<description>
+Build file for the Java MiniCompiler,
+2004/06/16, K. Leopold
+
+Properties:
+  pl0     - the pl0 file, default is pl0/quick.pl0
+  src     - location of the source files
+  build   - location where to put the compiled files
+
+Example for running the lexer:   ant runlexer -Dpl0=/path/to/test.pl0
+  </description>
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="bin" />
+	<property name="pl0" location="pl0/quick.pl0" />
+
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
+
+
+	<target name="compile" depends="init" description="compiles everything ">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" />
+	</target>
+
+
+
+	<target name="run" depends="compile" description="compiles if necessary and runs the the MiniCompiler. -Dp0 has to be set for the input file! The generated MIPS code ist stored in a file with the same name of the source file but with the extension .asm">
+		<java classname="itec.minicompiler.MiniComp">
+			<classpath>
+				<pathelement location="${build}" />
+				<pathelement path="${java.class.path}" />
+			</classpath>
+			<arg value="${pl0}" />
+		</java>
+	</target>
+
+
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+	</target>
+
+</project>
