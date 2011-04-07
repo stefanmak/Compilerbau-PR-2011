@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="23" version="2.0">
+<workbench progressCount="32" version="2.0">
 <workbenchAdvisor/>
-<window height="820" maximized="true" width="1016" x="0" y="0">
+<window height="1040" width="1227" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -20,8 +20,8 @@
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ant.ui.internal.editor.AntEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -30,18 +30,46 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+</presentation>
 </folder>
 </info>
 </editorArea>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SymbolImpl.java" partName="SymbolImpl.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M2/src/yapl/impl/SymbolImpl.java" title="SymbolImpl.java" tooltip="Stefan_MAK_M2/src/yapl/impl/SymbolImpl.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M2/src/yapl/impl/SymbolImpl.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="321" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SymboltableImpl.java" partName="SymboltableImpl.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java" title="SymboltableImpl.java" tooltip="Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="940" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Scope.java" partName="Scope.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M2/src/yapl/impl/Scope.java" title="Scope.java" tooltip="Stefan_MAK_M2/src/yapl/impl/Scope.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M2/src/yapl/impl/Scope.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="332" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" partName="StefanMak.jj" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M2/src/StefanMak.jj" title="StefanMak.jj" tooltip="Stefan_MAK_M2/src/StefanMak.jj" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M2/src/StefanMak.jj"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="371" selectionTopPixel="7591"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Symbol.java" partName="Symbol.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M2/src/yapl/interfaces/Symbol.java" title="Symbol.java" tooltip="Stefan_MAK_M2/src/yapl/interfaces/Symbol.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M2/src/yapl/interfaces/Symbol.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="9" selectionOffset="474" selectionTopPixel="0"/>
+</editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>&#x0A;<category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Warnings (73 items)"/>
+<expanded>
+<category IMemento.internal.id="Warnings (100 of 468 items)"/>
+<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Errors"/>
 </expanded>
-<columnWidths org.eclipse.ui.ide.locationField="64" org.eclipse.ui.ide.markerType="94" org.eclipse.ui.ide.pathField="124" org.eclipse.ui.ide.resourceField="94" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
+<columnWidths org.eclipse.ui.ide.locationField="64" org.eclipse.ui.ide.markerType="94" org.eclipse.ui.ide.pathField="124" org.eclipse.ui.ide.resourceField="94" org.eclipse.ui.ide.severityAndDescriptionField="561"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
@@ -111,7 +139,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.ui.console.ConsoleView" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="sf.eclipse.javacc.editors.JJEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
@@ -198,8 +226,8 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.1710008" ratioLeft="217" ratioRight="1052" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.3297546" ratioLeft="215" ratioRight="437" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<info folder="true" part="bottom" ratio="0.7085153" ratioLeft="649" ratioRight="267" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
@@ -240,7 +268,166 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory/>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" path="/Stefan_MAK_M2/src/StefanMak.jj"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M2/src/StefanMak.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M2/src/yapl/lib/YAPLException.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M2/src/ParseException.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M2/src/StefanMak.java"/>
+</editors>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="7580" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="7580" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4333" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4327" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4333" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4332" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4320" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4356" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4356" y="0"/>
+</item>
+<item historyLabel="SymboltableImpl.java" index="3">
+<position info="not_deleted" x="3845" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="2797" y="24"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="148" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="97" y="9"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="235" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="75" y="13"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position/>
+</item>
+<item historyLabel="ParseException.java" index="4">
+<position info="not_deleted" x="6116" y="33"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="2797" y="24"/>
+</item>
+<item historyLabel="SymboltableImpl.java" index="3">
+<position info="not_deleted" x="3845" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="261" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="97" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="17" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="5216" y="0"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="17" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="5216" y="0"/>
+</item>
+<item historyLabel="ParseException.java" index="4">
+<position info="not_deleted" x="6116" y="33"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="17" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="4356" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="629" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1898" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1781" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1813" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="1843" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="5">
+<position/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="136" y="4"/>
+</item>
+<item historyLabel="ParseException.java" index="4">
+<position info="not_deleted" x="6116" y="33"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="136" y="4"/>
+</item>
+<item historyLabel="YAPLException.java" index="2">
+<position info="not_deleted" x="17" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="136" y="4"/>
+</item>
+<item historyLabel="SymboltableImpl.java" index="3">
+<position info="not_deleted" x="940" y="4"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="371" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="5">
+<position info="not_deleted" x="3246" y="26"/>
+</item>
+<item active="true" historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="371" y="0"/>
+</item>
+</navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
@@ -257,50 +444,50 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMak.java" tooltip="Stefan_MAK_M2/src/StefanMak.java">
+<persistable path="/Stefan_MAK_M2/src/StefanMak.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ParseException.java" tooltip="Stefan_MAK_M2/src/ParseException.java">
+<persistable path="/Stefan_MAK_M2/src/ParseException.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Symbol.java" tooltip="Stefan_MAK_M2/src/yapl/interfaces/Symbol.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/interfaces/Symbol.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="YAPLException.java" tooltip="Stefan_MAK_M2/src/yapl/lib/YAPLException.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/lib/YAPLException.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" tooltip="Stefan_MAK_M2/src/StefanMak.jj">
+<persistable path="/Stefan_MAK_M2/src/StefanMak.jj"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Scope.java" tooltip="Stefan_MAK_M2/src/yapl/impl/Scope.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/impl/Scope.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Symboltable.java" tooltip="Stefan_MAK_M2/src/yapl/interfaces/Symboltable.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/interfaces/Symboltable.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SymboltableImpl.java" tooltip="Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/impl/SymboltableImpl.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Type.java" tooltip="Stefan_MAK_M2/src/yapl/impl/Type.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/impl/Type.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SymbolImpl.java" tooltip="Stefan_MAK_M2/src/yapl/impl/SymbolImpl.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/impl/SymbolImpl.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TokenImpl.java" tooltip="Stefan_MAK_M2/src/yapl/impl/TokenImpl.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/impl/TokenImpl.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Token.java" tooltip="Stefan_MAK_M2/src/yapl/interfaces/Token.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/interfaces/Token.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Type.java" tooltip="Stefan_MAK_M2/src/yapl/lib/Type.java">
+<persistable path="/Stefan_MAK_M2/src/yapl/lib/Type.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ant.ui.internal.editor.AntEditor" name="build.xml" tooltip="Stefan_MAK_M2/build.xml">
+<persistable path="/Stefan_MAK_M2/build.xml"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ParseException.java" tooltip="Test/src/ParseException.java">
 <persistable path="/Test/src/ParseException.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ant.ui.internal.editor.AntEditor" name="build.xml" tooltip="Scanner/build.xml">
-<persistable path="/Scanner/build.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerError.java" tooltip="Scanner/src/yapl/interfaces/CompilerError.java">
-<persistable path="/Scanner/src/yapl/interfaces/CompilerError.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Token.java" tooltip="Scanner/src/Token.java">
-<persistable path="/Scanner/src/Token.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="CAB_3_1.jj" tooltip="CAB_3_1/src/CAB_3_1.jj">
-<persistable path="/CAB_3_1/src/CAB_3_1.jj"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TokenMgrError.java" tooltip="Scanner/src/TokenMgrError.java">
-<persistable path="/Scanner/src/TokenMgrError.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ParseException.java" tooltip="Scanner/src/ParseException.java">
-<persistable path="/Scanner/src/ParseException.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" tooltip="Scanner/src/StefanMak.jj">
-<persistable path="/Scanner/src/StefanMak.jj"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerMessage.java" tooltip="Scanner/src/yapl/lib/CompilerMessage.java">
-<persistable path="/Scanner/src/yapl/lib/CompilerMessage.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMak.java" tooltip="Scanner/src/StefanMak.java">
-<persistable path="/Scanner/src/StefanMak.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="eg1.java" tooltip="CAB_3_1/src/eg1.java">
-<persistable path="/CAB_3_1/src/eg1.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMakTokenManager.java" tooltip="Scanner/src/StefanMakTokenManager.java">
-<persistable path="/Scanner/src/StefanMakTokenManager.java"/>
-</file>
-<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="yapl.jj" tooltip="C:\Projekte\UNI\7 Semester\Compilerbau PR\Lösungen Lederer\Lederer_Milestone1\src\yapl.jj">
-<persistable uri="file:/C:/Projekte/UNI/7%20Semester/Compilerbau%20PR/Lösungen%20Lederer/Lederer_Milestone1/src/yapl.jj"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="eg1.java" tooltip="Scanner/src/eg1.java">
-<persistable path="/Scanner/src/eg1.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="eg1TokenManager.java" tooltip="Scanner/src/eg1TokenManager.java">
-<persistable path="/Scanner/src/eg1TokenManager.java"/>
 </file>
 </mruList>
 </workbench>

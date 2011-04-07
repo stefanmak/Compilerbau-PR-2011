@@ -2,17 +2,15 @@ package yapl.lib;
 
 import yapl.interfaces.CompilerError;
 
-public class YAPLException extends Throwable implements CompilerError {
+public class YAPLException extends Error implements CompilerError {	
 
 	@Override
 	public int errorNumber() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
+	
 	public int line() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
