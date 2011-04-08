@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="pars" key="selection"/>
+		<item value="YAPLExce" key="selection"/>
 		<list key="findhistory">
-			<item value="pars"/>
-			<item value="parseexception"/>
-			<item value="primary"/>
-			<item value="procedurecall"/>
-			<item value="proc"/>
-			<item value="procedure"/>
-			<item value="symbolimp"/>
-			<item value="look"/>
+			<item value="yaplexce"/>
+			<item value="int kind"/>
+			<item value="form"/>
+			<item value="kind"/>
+			<item value="constdec"/>
+			<item value="Symbol procedure"/>
+			<item value="lookup"/>
+			<item value="ident"/>
 		</list>
 		<list key="replacehistory">
 		</list>

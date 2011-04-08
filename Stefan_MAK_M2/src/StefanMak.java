@@ -15,7 +15,7 @@ public class StefanMak implements StefanMakConstants {
   private static SymboltableImpl symTable;
 
   /** Main entry point. */
-  public static void main(String args []) throws TokenMgrError,YAPLException,ParseException
+  public static void main(String args []) throws TokenMgrError, YAPLException, ParseException
   {
     /** Declare variables for program read*/
     File file = null;
@@ -115,12 +115,12 @@ public class StefanMak implements StefanMakConstants {
     if (ident != null && (ident.getKind() != Symbol.Procedure) && (ident.getKind() != Symbol.Program))
     {
       // wrong type not an array
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,ident,t);}
     }
     else
     {
       // Array not declared
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.IdentNotDecl,ident,t);}
     }
   }
 
@@ -157,12 +157,12 @@ public class StefanMak implements StefanMakConstants {
     if (ident != null && (ident.getKind() != Symbol.Procedure))
     {
       // wrong type
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,ident,t);}
     }
     else
     {
       // variable not declared
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.IdentNotDecl,ident,t);}
     }
           break;
         case BLANK:
@@ -360,20 +360,21 @@ public class StefanMak implements StefanMakConstants {
     }
     jj_consume_token(RPAR);
     Symbol ident = symTable.lookup(t.image);
-    if (ident != null && (ident.getKind() != Symbol.Procedure) && (ident.getKind() != Symbol.Program))
+    if (ident != null && (ident.getKind() != Symbol.Procedure))
     {
       // wrong type not an array
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,ident,t);}
     }
     else
     {
       // Array not declared
-      {if (true) throw new YAPLException();}
+      {if (true) throw new YAPLException(CompilerError.IdentNotDecl,ident,t);}
     }
   }
 
   static final public void ASSIGNMENT() throws ParseException {
-    jj_consume_token(IDENT);
+  Token t;
+    t = jj_consume_token(IDENT);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACKET:
       SELECTOR();
@@ -384,6 +385,18 @@ public class StefanMak implements StefanMakConstants {
     }
     jj_consume_token(50);
     EXPR();
+    Symbol assi = symTable.lookup(t.image);
+    int kind = assi.getKind();
+    if (assi != null && (kind == Symbol.Constant || kind == Symbol.Variable || kind == Symbol.Parameter))
+    {
+      // wrong type not an array
+      {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,assi,t);}
+    }
+    else
+    {
+      // Array not declared
+      {if (true) throw new YAPLException(CompilerError.IdentNotDecl,assi,t);}
+    }
   }
 
   static final public void IFSTATEMENT() throws ParseException {
@@ -556,16 +569,40 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void CONSTDECL() throws ParseException {
+  Token t;
     jj_consume_token(CONST);
-    jj_consume_token(IDENT);
+    t = jj_consume_token(IDENT);
     jj_consume_token(IS);
     LITERAL();
     jj_consume_token(SEMICOLON);
+    Symbol constdec = symTable.lookup(t.image);
+    int kind = constdec.getKind();
+    if (constdec != null)
+    {
+      {if (true) throw new YAPLException(CompilerError.SymbolExists,constdec,t);}
+    }
+    else
+    {
+      constdec = new SymbolImpl(Symbol.Constant, t.image);
+      symTable.addSymbol(constdec);
+    }
   }
 
   static final public void VARDECL() throws ParseException {
+  Token t;
     TYPE();
-    jj_consume_token(IDENT);
+    t = jj_consume_token(IDENT);
+    Symbol vardecl = symTable.lookup(t.image);
+    int kind = vardecl.getKind();
+    if (vardecl != null)
+    {
+      {if (true) throw new YAPLException(CompilerError.SymbolExists,vardecl,t);}
+    }
+    else
+    {
+      vardecl = new SymbolImpl(Symbol.Constant, t.image);
+      symTable.addSymbol(vardecl);
+    }
     label_9:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -577,7 +614,18 @@ public class StefanMak implements StefanMakConstants {
         break label_9;
       }
       jj_consume_token(COMMA);
-      jj_consume_token(IDENT);
+      t = jj_consume_token(IDENT);
+      Symbol constdec = symTable.lookup(t.image);
+      kind = constdec.getKind();
+      if (constdec != null)
+      {
+        {if (true) throw new YAPLException(CompilerError.SymbolExists,constdec,t);}
+      }
+      else
+      {
+        constdec = new SymbolImpl(Symbol.Constant, t.image);
+        symTable.addSymbol(constdec);
+      }
     }
     jj_consume_token(SEMICOLON);
   }
@@ -613,6 +661,7 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void FORMALPARAM() throws ParseException {
+  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case READONLY:
       jj_consume_token(READONLY);
@@ -622,7 +671,17 @@ public class StefanMak implements StefanMakConstants {
       ;
     }
     TYPE();
-    jj_consume_token(IDENT);
+    t = jj_consume_token(IDENT);
+    Symbol form = symTable.lookup(t.image);
+    if (form != null)
+    {
+      {if (true) throw new YAPLException(CompilerError.SymbolExists,form,t);}
+    }
+    else
+    {
+      form = new SymbolImpl(Symbol.Parameter, t.image);
+      symTable.addSymbol(form);
+    }
   }
 
   static final public void FORMALPARAMLIST() throws ParseException {
@@ -643,9 +702,21 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void PROCEDURE() throws ParseException {
+  Token t;
     jj_consume_token(PROCEDURE);
     RETURNTYPE();
-    jj_consume_token(IDENT);
+    t = jj_consume_token(IDENT);
+    Symbol procedure = symTable.lookup(t.image);
+    if (procedure != null)
+    {
+      {if (true) throw new YAPLException(CompilerError.SymbolExists,procedure,t);}
+    }
+    else
+    {
+      procedure = new SymbolImpl(Symbol.Procedure, t.image);
+      symTable.addSymbol(procedure);
+      symTable.openScope(false);
+    }
     jj_consume_token(LPAR);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER:
@@ -659,7 +730,8 @@ public class StefanMak implements StefanMakConstants {
     }
     jj_consume_token(RPAR);
     BLOCK();
-    jj_consume_token(IDENT);
+    t = jj_consume_token(IDENT);
+
     jj_consume_token(SEMICOLON);
   }
 
@@ -700,7 +772,8 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(END);
     t = jj_consume_token(IDENT);
     Symbol endProgram = symTable.getNearestParentSymbol(Symbol.Program);
-    if (endProgram.getName().equals(t.image)) {if (true) throw new YAPLException();}
+    if (endProgram.getName().equals(t.image))
+    {if (true) throw new YAPLException(CompilerError.EndIdentMismatch,endProgram,t);}
     symTable.closeScope();
     jj_consume_token(DOT);
   }
@@ -724,16 +797,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -745,6 +808,16 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3R_16() {
     if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
     return false;
   }
 

@@ -2,6 +2,7 @@ package yapl.impl;
 
 import java.util.Stack;
 
+import yapl.interfaces.CompilerError;
 import yapl.interfaces.Symbol;
 import yapl.interfaces.Symboltable;
 import yapl.lib.YAPLException;
@@ -83,11 +84,11 @@ public class SymboltableImpl implements Symboltable{
 		if (s != null && !(s.getName().equals(""))) {
 			if (stack.peek().containsKey(s.getName())) {
 				// (SymbolExists)
-				throw new YAPLException();
+				throw new YAPLException(CompilerError.SymbolExists);
 			}
 		} else {
 			// (Internal)
-			throw new YAPLException();
+			throw new YAPLException(CompilerError.Internal);
 		}
 
 	}
@@ -114,7 +115,7 @@ public class SymboltableImpl implements Symboltable{
 		
 	public Symbol lookupRecursive(String name) throws YAPLException {
 		if(tempStack.empty())
-			throw new YAPLException();
+			throw new YAPLException(CompilerError.IdentNotDecl);
 		else{
 			if(tempStack.peek().containsKey(name))
 				return tempStack.peek().get(name);
