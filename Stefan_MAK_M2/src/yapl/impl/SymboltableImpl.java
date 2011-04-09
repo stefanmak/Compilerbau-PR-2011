@@ -55,7 +55,7 @@ public class SymboltableImpl implements Symboltable{
 	 *            main program.
 	 */
 	public void openScope(boolean isGlobal) {
-		// TODO
+		System.out.println("Open Scope " + isGlobal);
 		this.stack.push(new Scope());
 	}
 
@@ -81,10 +81,13 @@ public class SymboltableImpl implements Symboltable{
 	 * @see #openScope(boolean)
 	 */
 	public void addSymbol(Symbol s) throws YAPLException {
+		System.out.println("add " + s.getName());		
 		if (s != null && !(s.getName().equals(""))) {
 			if (stack.peek().containsKey(s.getName())) {
 				// (SymbolExists)
 				throw new YAPLException(CompilerError.SymbolExists);
+			}else{				
+				stack.peek().put(s.getName(), s);				
 			}
 		} else {
 			// (Internal)
@@ -104,18 +107,22 @@ public class SymboltableImpl implements Symboltable{
 	 *             (Internal) if <code>name</code> is <code>null</code>.
 	 */
 	public Symbol lookup(String name) throws YAPLException {
-				
+		System.out.println("Lookup: " + name);
+		if(name == null)
+			throw new YAPLException(CompilerError.IdentNotDecl);		
+		
 		if(this.stack.peek().containsKey(name))
 			return stack.peek().get(name);
-		else{
+		else{			
 			this.tempStack = (Stack<Scope>) this.stack.clone();
 			return lookupRecursive(name);
 		}
 	}
 		
-	public Symbol lookupRecursive(String name) throws YAPLException {
+	public Symbol lookupRecursive(String name) throws YAPLException {	
+		System.out.println("Lookup Rec: " + name);
 		if(tempStack.empty())
-			throw new YAPLException(CompilerError.IdentNotDecl);
+			return null;
 		else{
 			if(tempStack.peek().containsKey(name))
 				return tempStack.peek().get(name);
@@ -127,6 +134,17 @@ public class SymboltableImpl implements Symboltable{
 	}
 
 	/**
+	 * Looks up an element in the current scope
+	 * for overriding variables in parent scopes
+	 * @param name
+	 * @return
+	 */
+	public Symbol lookupCurrentScope(String name){	
+		System.out.println("--> " + name);
+		return this.stack.peek().get(name);
+	}
+	
+	/**
 	 * Set the parent symbol of the current scope. If a parent symbol has
 	 * already be set, it will be overwritten.
 	 * 
@@ -134,6 +152,7 @@ public class SymboltableImpl implements Symboltable{
 	 *            the parent symbol (eg. procedure symbol).
 	 */
 	public void setParentSymbol(Symbol sym) {
+		System.out.println("Add Parent: " + sym.getName());
 		this.stack.peek().setParent(sym);
 	}
 
@@ -158,6 +177,7 @@ public class SymboltableImpl implements Symboltable{
 			if(tempStack.peek().getParent().getKind() == kind)
 				return tempStack.peek().getParent();
 			else{
+				System.out.println(tempStack.peek().getParent().getKindString());
 				tempStack.pop();
 				return this.getNearestParentSymbol(kind);
 			}

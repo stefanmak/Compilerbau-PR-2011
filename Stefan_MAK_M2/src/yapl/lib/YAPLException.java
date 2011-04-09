@@ -22,7 +22,7 @@ public class YAPLException extends Error implements CompilerError {
 	 * @param errorNumber 
 	 */
 	public YAPLException(int errorNumber){	
-		this.errorNumber = errorNumber;
+		this.errorNumber = errorNumber;		
 	}
 	
 	/**
@@ -37,26 +37,38 @@ public class YAPLException extends Error implements CompilerError {
 		this.line = t.line();
 		
 		/**
-		 * • End <name> does not match Program <name> 
-		 * • End <name> does not match
-		 * • Procedure <name> 
-		 * • symbol <name> already declared in current scope (as <kind>) 
-		 * • identifier <name> not declared • illegal use of <kind> <name>
+		 * End <name> does not match Program <name> 
+		 * End <name> does not match Procedure <name> 
+		 * symbol <name> already declared in current scope (as <kind>) 
+		 * identifier <name> not declared 
+		 * illegal use of <kind> <name>
 		 */
 		
-		if(errorNumber == CompilerError.SymbolExists)
+		if(errorNumber == CompilerError.EndIdentMismatch && t.getKind() == Symbol.Program)
+			this.message = "End " 
+				+ symbol.getName() 
+				+ " does not match Program " 
+				+ symbol.getName();					
+		else if(errorNumber == CompilerError.EndIdentMismatch && t.getKind() == Symbol.Procedure)
+			this.message = "End " 
+				+ symbol.getName() 
+				+ " does not match Procedure " 
+				+ symbol.getName();			
+		else if(errorNumber == CompilerError.SymbolExists)
 			this.message = "symbol " 
 				+ symbol.getName() 
 				+ " already declared in current scope (as " 
 				+ symbol.getKindString() + ")";
 		else if(errorNumber == CompilerError.IdentNotDecl)
 			this.message = "identifier " 
-				+ symbol.getName() 
+				+ t.toString() 
 				+ " not declared"; 
+		else if(errorNumber == CompilerError.SymbolIllegalUse)
+			this.message = "illegal use of " 
+				+ symbol.getKindString() + " "
+				+ symbol.getName(); 				
 		else
-			this.message = "General Error";
-				
-		
+			this.message = "General Error";						
 	}
 	
 	
