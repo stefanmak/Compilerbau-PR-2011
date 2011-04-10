@@ -81,14 +81,12 @@ public class SymboltableImpl implements Symboltable{
 	 */
 	public void addSymbol(Symbol s) throws YAPLException {			
 		if (s != null && !(s.getName().equals(""))) {
-			if (stack.peek().containsKey(s.getName())) {
-				// (SymbolExists)
+			if (stack.peek().containsKey(s.getName())) { 
 				throw new YAPLException(CompilerError.SymbolExists);
 			}else{				
 				stack.peek().put(s.getName(), s);				
 			}
-		} else {
-			// (Internal)
+		} else { 
 			throw new YAPLException(CompilerError.Internal);
 		}
 

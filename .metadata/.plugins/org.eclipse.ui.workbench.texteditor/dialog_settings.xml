@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
-		<item value="219" key="DIALOG_Y_ORIGIN"/>
-		<item value="776" key="DIALOG_X_ORIGIN"/>
-		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="316" key="DIALOG_Y_ORIGIN"/>
+		<item value="997" key="DIALOG_X_ORIGIN"/>
+		<item value="423" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="YAPLExce" key="selection"/>
+		<item value="PROCEDURE" key="selection"/>
 		<list key="findhistory">
-			<item value="yaplexce"/>
-			<item value="int kind"/>
-			<item value="form"/>
-			<item value="kind"/>
-			<item value="constdec"/>
-			<item value="Symbol procedure"/>
-			<item value="lookup"/>
-			<item value="ident"/>
+			<item value="procedure"/>
+			<item value="start"/>
+			<item value="vardecl"/>
+			<item value="decl"/>
+			<item value="const_decl"/>
+			<item value="const_del"/>
+			<item value="statement"/>
+			<item value=".add"/>
 		</list>
 		<list key="replacehistory">
 		</list>

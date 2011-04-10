@@ -2,7 +2,7 @@ package yapl.impl;
 
 import yapl.interfaces.Symbol;
 import yapl.interfaces.Symboltable;
-import yapl.lib.Type;
+import yapl.impl.*;
 
 /** 
  * Represents the current symbol 
@@ -24,6 +24,8 @@ public class SymbolImpl implements Symbol {
 	private int offset;
 	/** Next Symbol of this Symbol */
 	private Symbol nextSymbol;
+	/** isGlobal Veriable - Currently not used */
+	private boolean isGloblal;
 
 	
 	/** Extended Constructor */
@@ -74,8 +76,7 @@ public class SymbolImpl implements Symbol {
 
 	/** Return the symbol's data type. */
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 	/** Set the symbol's data type. */
@@ -111,8 +112,7 @@ public class SymbolImpl implements Symbol {
 	 * @see #getOffset()
 	 */
 	public boolean isGlobal() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isGloblal;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class SymbolImpl implements Symbol {
 	 * @see #isGlobal()
 	 */
 	public void setGlobal(boolean isGlobal) {
-		// TODO Auto-generated method stub
+		this.isGloblal = isGlobal;
 
 	}
 

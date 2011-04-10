@@ -7,4 +7,5 @@
 <fullyQualifiedTypeName name="yapl.interfaces.CompilerError"/>
 <fullyQualifiedTypeName name="yapl.interfaces.Symbol"/>
 <fullyQualifiedTypeName name="yapl.interfaces.Token"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>

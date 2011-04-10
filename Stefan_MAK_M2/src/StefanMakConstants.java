@@ -79,33 +79,25 @@ public interface StefanMakConstants {
   /** RegularExpression Id. */
   int BLANK = 39;
   /** RegularExpression Id. */
-  int WRITEINT = 40;
+  int RELOP = 40;
   /** RegularExpression Id. */
-  int WRITEBOOL = 41;
+  int EQUALOP = 41;
   /** RegularExpression Id. */
-  int WRITELN = 42;
+  int ADDOP = 42;
   /** RegularExpression Id. */
-  int READINT = 43;
+  int MULOP = 43;
   /** RegularExpression Id. */
-  int RELOP = 44;
+  int NUMBER = 44;
   /** RegularExpression Id. */
-  int EQUALOP = 45;
+  int DIGIT = 45;
   /** RegularExpression Id. */
-  int ADDOP = 46;
+  int IDENT = 46;
   /** RegularExpression Id. */
-  int MULOP = 47;
+  int STRING = 47;
   /** RegularExpression Id. */
-  int NUMBER = 48;
+  int LETTER = 48;
   /** RegularExpression Id. */
-  int DIGIT = 49;
-  /** RegularExpression Id. */
-  int IDENT = 50;
-  /** RegularExpression Id. */
-  int STRING = 51;
-  /** RegularExpression Id. */
-  int LETTER = 52;
-  /** RegularExpression Id. */
-  int OTHERCHAR = 53;
+  int OTHERCHAR = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -152,10 +144,6 @@ public interface StefanMakConstants {
     "\"readonly\"",
     "\"new\"",
     "\"#\"",
-    "\"writeint\"",
-    "\"writebool\"",
-    "\"writeln\"",
-    "\"readint\"",
     "<RELOP>",
     "<EQUALOP>",
     "<ADDOP>",
