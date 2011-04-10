@@ -112,7 +112,7 @@ public class StefanMak implements StefanMakConstants {
       ;
     }
     Symbol ident = symTable.lookup(t.image);
-    if (ident != null && (ident.getKind() == Symbol.Procedure || ident.getKind() == Symbol.Program))
+    if (ident != null && (ident.getKind() != Symbol.Variable && ident.getKind() != Symbol.Parameter))
     {
       // wrong type not an array
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,ident,t);}
@@ -154,7 +154,7 @@ public class StefanMak implements StefanMakConstants {
             ;
           }
     Symbol ident = symTable.lookup(t.image);
-    if (ident != null && ident.getKind() == Symbol.Procedure && ident.getKind() == Symbol.Program)
+    if (ident != null && (ident.getKind() == Symbol.Procedure || ident.getKind() == Symbol.Program))
     {
       // wrong type
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse,ident,t);}
@@ -630,15 +630,15 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(COMMA);
       t = jj_consume_token(IDENT);
-      Symbol constdec = symTable.lookupCurrentScope(t.image);
-      if (constdec != null)
+      vardecl = symTable.lookupCurrentScope(t.image);
+      if (vardecl != null)
       {
-        {if (true) throw new YAPLException(CompilerError.SymbolExists,constdec,t);}
+        {if (true) throw new YAPLException(CompilerError.SymbolExists,vardecl,t);}
       }
       else
       {
-        constdec = new SymbolImpl(Symbol.Constant, t.image);
-        symTable.addSymbol(constdec);
+        vardecl = new SymbolImpl(Symbol.Variable, t.image);
+        symTable.addSymbol(vardecl);
       }
     }
     jj_consume_token(SEMICOLON);
@@ -892,35 +892,6 @@ public class StefanMak implements StefanMakConstants {
     try { return !jj_3_3(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(2, xla); }
-  }
-
-  static private boolean jj_3R_23() {
-    if (jj_3R_26()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_27()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_33() {
-    if (jj_scan_token(RELOP)) return true;
-    if (jj_3R_32()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_43() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(23)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(48)) return true;
-    }
-    }
-    return false;
   }
 
   static private boolean jj_3R_26() {
@@ -1188,6 +1159,35 @@ public class StefanMak implements StefanMakConstants {
   static private boolean jj_3R_27() {
     if (jj_scan_token(AND)) return true;
     if (jj_3R_26()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_23() {
+    if (jj_3R_26()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_27()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_33() {
+    if (jj_scan_token(RELOP)) return true;
+    if (jj_3R_32()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_43() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(22)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(23)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(48)) return true;
+    }
+    }
     return false;
   }
 

@@ -54,8 +54,7 @@ public class SymboltableImpl implements Symboltable{
 	 *            within all following procedure declarations and within the
 	 *            main program.
 	 */
-	public void openScope(boolean isGlobal) {
-		System.out.println("Open Scope " + isGlobal);
+	public void openScope(boolean isGlobal) {		
 		this.stack.push(new Scope());
 	}
 
@@ -80,8 +79,7 @@ public class SymboltableImpl implements Symboltable{
 	 *             (Internal) if the new symbol's name is <code>null</code>.
 	 * @see #openScope(boolean)
 	 */
-	public void addSymbol(Symbol s) throws YAPLException {
-		System.out.println("add " + s.getName());		
+	public void addSymbol(Symbol s) throws YAPLException {			
 		if (s != null && !(s.getName().equals(""))) {
 			if (stack.peek().containsKey(s.getName())) {
 				// (SymbolExists)
@@ -106,8 +104,8 @@ public class SymboltableImpl implements Symboltable{
 	 * @throws YAPLException
 	 *             (Internal) if <code>name</code> is <code>null</code>.
 	 */
-	public Symbol lookup(String name) throws YAPLException {
-		System.out.println("Lookup: " + name);
+	@SuppressWarnings("unchecked")
+	public Symbol lookup(String name) throws YAPLException {		
 		if(name == null)
 			throw new YAPLException(CompilerError.IdentNotDecl);		
 		
@@ -119,8 +117,7 @@ public class SymboltableImpl implements Symboltable{
 		}
 	}
 		
-	public Symbol lookupRecursive(String name) throws YAPLException {	
-		System.out.println("Lookup Rec: " + name);
+	public Symbol lookupRecursive(String name) throws YAPLException {			
 		if(tempStack.empty())
 			return null;
 		else{
@@ -139,8 +136,7 @@ public class SymboltableImpl implements Symboltable{
 	 * @param name
 	 * @return
 	 */
-	public Symbol lookupCurrentScope(String name){	
-		System.out.println("--> " + name);
+	public Symbol lookupCurrentScope(String name){			
 		return this.stack.peek().get(name);
 	}
 	
@@ -151,8 +147,7 @@ public class SymboltableImpl implements Symboltable{
 	 * @param sym
 	 *            the parent symbol (eg. procedure symbol).
 	 */
-	public void setParentSymbol(Symbol sym) {
-		System.out.println("Add Parent: " + sym.getName());
+	public void setParentSymbol(Symbol sym) {		
 		this.stack.peek().setParent(sym);
 	}
 
@@ -165,6 +160,7 @@ public class SymboltableImpl implements Symboltable{
 	 *            {@link Symbol} interface.
 	 * @return <code>null</code> if no appropriate symbol can be found.
 	 */
+	@SuppressWarnings("unchecked")
 	public Symbol getNearestParentSymbol(int kind) {
 		this.tempStack = (Stack<Scope>) this.stack.clone();
 		return this.getNearestParentSymbolRecursive(kind);
@@ -174,11 +170,11 @@ public class SymboltableImpl implements Symboltable{
 		if(tempStack.empty())
 			return null;
 		else{
-			if(tempStack.peek().getParent().getKind() == kind)
+			if(tempStack.peek().getParent().getKind() == kind){										
 				return tempStack.peek().getParent();
-			else{
-				System.out.println(tempStack.peek().getParent().getKindString());
-				tempStack.pop();
+			}
+			else{				
+				tempStack.pop();				
 				return this.getNearestParentSymbol(kind);
 			}
 		}

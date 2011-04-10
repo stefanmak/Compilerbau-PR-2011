@@ -44,12 +44,12 @@ public class YAPLException extends Error implements CompilerError {
 		 * illegal use of <kind> <name>
 		 */
 		
-		if(errorNumber == CompilerError.EndIdentMismatch && t.getKind() == Symbol.Program)
+		if(errorNumber == CompilerError.EndIdentMismatch && symbol.getKind() == Symbol.Program)
 			this.message = "End " 
 				+ symbol.getName() 
 				+ " does not match Program " 
 				+ symbol.getName();					
-		else if(errorNumber == CompilerError.EndIdentMismatch && t.getKind() == Symbol.Procedure)
+		else if(errorNumber == CompilerError.EndIdentMismatch && symbol.getKind() == Symbol.Procedure)
 			this.message = "End " 
 				+ symbol.getName() 
 				+ " does not match Procedure " 
@@ -67,8 +67,9 @@ public class YAPLException extends Error implements CompilerError {
 			this.message = "illegal use of " 
 				+ symbol.getKindString() + " "
 				+ symbol.getName(); 				
-		else
-			this.message = "General Error";						
+		else{			
+			this.message = "General Error on Symbol: " + symbol.getKindString() + " " + symbol.getKind();
+		}
 	}
 	
 	
