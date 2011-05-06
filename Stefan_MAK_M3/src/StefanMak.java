@@ -5,6 +5,7 @@ import yapl.impl.*;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
 /** Scanner for Compiler Milestone 1 */
 public class StefanMak implements StefanMakConstants {
@@ -14,7 +15,7 @@ public class StefanMak implements StefanMakConstants {
   /** Symbol Table */
   private static SymboltableImpl symTable;
 
-  /** Declare predefined prcedures as symbols */
+  /** Declare predefined procedures as symbols */
   private static Symbol pre_writeln;
 
   private static Symbol pre_writeint;
@@ -23,8 +24,8 @@ public class StefanMak implements StefanMakConstants {
 
   private static Symbol pre_readint;
 
-  /** List for var_decl */
-  //public LinkedList<Symbol> varList = new LinkedList<Symbol>();  /** Main entry point. */
+
+  /** Main entry point. */
   public static void main(String args []) throws TokenMgrError, YAPLException, ParseException
   {
     /** Declare variables for program read*/
@@ -137,23 +138,40 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
-  static final public void PRIMARYEXPR() throws ParseException {
-  Token t;
+  static final public Type PRIMARYEXPR() throws ParseException {
+  Token t = null;
+  Type type = null;
+  Boolean select = false;
+  int dim;
+  Symbol symbol;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TRUE:
     case FALSE:
     case NUMBER:
-      LITERAL();
+      t = LITERAL();
+        if(t.image.equals("True") || t.image.equals("False"))
+        {
+          type = new Type(false,Type.BOOL,t);
+        }else
+        {
+          type = new Type(false,Type.INT,t);
+        }
       break;
     case LPAR:
       jj_consume_token(LPAR);
-      EXPR();
+      type = EXPR();
       jj_consume_token(RPAR);
       break;
     default:
       jj_la1[4] = jj_gen;
       if (jj_2_1(2)) {
-        PROCEDURECALL();
+        type = PROCEDURECALL();
+    if(type.getType() == -1)
+    {
+      {if (true) throw new YAPLException(CompilerError.ProcNotFuncExpr,
+                        new SymbolImpl(Symbol.Procedure,type.getToken().toString()),
+                        type.getToken());}
+    }
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case IDENT:
@@ -180,6 +198,7 @@ public class StefanMak implements StefanMakConstants {
           break;
         case BLANK:
           ARRAYLEN();
+  {if (true) return new Type(false,type.getType(),t);}
           break;
         default:
           jj_la1[5] = jj_gen;
@@ -188,22 +207,34 @@ public class StefanMak implements StefanMakConstants {
         }
       }
     }
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void UNARYEXPR() throws ParseException {
+  static final public Type UNARYEXPR() throws ParseException {
+        Type returnType;
+        Token t = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ADDOP:
-      jj_consume_token(ADDOP);
+      t = jj_consume_token(ADDOP);
       break;
     default:
       jj_la1[6] = jj_gen;
       ;
     }
-    PRIMARYEXPR();
+    returnType = PRIMARYEXPR();
+    if(t != null && (returnType.getType() == Type.BOOL
+        || returnType instanceof ArrayType))
+        {
+          {if (true) throw new YAPLException(CompilerError.IllegalOp1Type,null, t);}
+        }
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void MULEXPR() throws ParseException {
-    UNARYEXPR();
+  static final public Type MULEXPR() throws ParseException {
+        Type type;
+        Type returnType;
+        Token t;
+    returnType = UNARYEXPR();
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -214,13 +245,28 @@ public class StefanMak implements StefanMakConstants {
         jj_la1[7] = jj_gen;
         break label_1;
       }
-      jj_consume_token(MULOP);
-      UNARYEXPR();
+      t = jj_consume_token(MULOP);
+      type = UNARYEXPR();
+     if((returnType.getType() != Type.BOOL && returnType.getType() != type.getType()))
+     {
+       {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
+     }else if( type instanceof ArrayType || returnType instanceof ArrayType)
+     {
+       {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
+     }else
+     {
+       returnType.setToken(t);
+     }
     }
+    {if (true) return returnType;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void ADDEXPR() throws ParseException {
-    MULEXPR();
+  static final public Type ADDEXPR() throws ParseException {
+        Type type;
+        Type returnType;
+        Token t;
+    returnType = MULEXPR();
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -231,39 +277,77 @@ public class StefanMak implements StefanMakConstants {
         jj_la1[8] = jj_gen;
         break label_2;
       }
-      jj_consume_token(ADDOP);
-      MULEXPR();
+      t = jj_consume_token(ADDOP);
+      type = MULEXPR();
+     if((returnType.getType() != Type.BOOL && returnType.getType() != type.getType()))
+     {
+       {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
+     }else if( type instanceof ArrayType || returnType instanceof ArrayType)
+     {
+       {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
+     }else
+     {
+       returnType.setToken(t);
+     }
     }
+    {if (true) return returnType;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void RELEXPR() throws ParseException {
-    ADDEXPR();
+  static final public Type RELEXPR() throws ParseException {
+        Type type;
+        Type returnType;
+        Token t;
+    returnType = ADDEXPR();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case RELOP:
-      jj_consume_token(RELOP);
-      ADDEXPR();
+      t = jj_consume_token(RELOP);
+      type = ADDEXPR();
+          if(returnType.getType() == Type.BOOL || type.getType() == Type.BOOL
+                || type instanceof ArrayType || returnType instanceof ArrayType)
+                {
+                  {if (true) throw new YAPLException(CompilerError.IllegalRelOpType,null, t);}
+                }else
+                {
+                  returnType = new Type(false, Type.BOOL, type.getToken());
+                }
       break;
     default:
       jj_la1[9] = jj_gen;
       ;
     }
+    {if (true) return returnType;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void EQUALEXPR() throws ParseException {
-    RELEXPR();
+  static final public Type EQUALEXPR() throws ParseException {
+        Token t;
+        Type type;
+        Type returnType;
+    returnType = RELEXPR();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case EQUALOP:
-      jj_consume_token(EQUALOP);
-      RELEXPR();
+      t = jj_consume_token(EQUALOP);
+      type = RELEXPR();
+          if(returnType.getType() != type.getType() || (type instanceof ArrayType && !(returnType instanceof ArrayType)))
+          {
+            {if (true) throw new YAPLException(CompilerError.IllegalEqualOpType,null,t);}
+          }
+          returnType = new Type(false,Type.BOOL,type.getToken());
       break;
     default:
       jj_la1[10] = jj_gen;
       ;
     }
+    {if (true) return returnType;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void CONDANDEXPR() throws ParseException {
-    EQUALEXPR();
+  static final public Type CONDANDEXPR() throws ParseException {
+        Type type;
+        Type returnType;
+        Token t;
+    returnType = EQUALEXPR();
     label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -274,16 +358,30 @@ public class StefanMak implements StefanMakConstants {
         jj_la1[11] = jj_gen;
         break label_3;
       }
-      jj_consume_token(AND);
-      EQUALEXPR();
+      t = jj_consume_token(AND);
+      type = EQUALEXPR();
+                if(returnType.getType() != Type.BOOL
+                        || type.getType() != Type.BOOL
+                        || type instanceof ArrayType
+                        || returnType instanceof ArrayType)
+                        {
+                          {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null,t);}
+                        }
+                returnType = new Type(false,Type.BOOL,type.getToken());
     }
+    {if (true) return returnType;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void CREATIONEXPR() throws ParseException {
+// Multidimensional Arrays  static final public Type CREATIONEXPR() throws ParseException {
+        Token t;
+        Token current = null;
+        Type type;
+        LinkedList<Type> types = new LinkedList<Type>();
     jj_consume_token(NEW);
-    PRIMTYPE();
+    t = PRIMTYPE();
     jj_consume_token(LBRACKET);
-    EXPR();
+    type = EXPR();
     jj_consume_token(RBRACKET);
     label_4:
     while (true) {
@@ -299,9 +397,14 @@ public class StefanMak implements StefanMakConstants {
       EXPR();
       jj_consume_token(RBRACKET);
     }
+    {if (true) return new ArrayType(false,Type.getTypeOfImage(t.image),current,0);}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void EXPR() throws ParseException {
+  static final public Type EXPR() throws ParseException {
+        Token t;
+        Type type;
+        Type returnType;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LPAR:
     case TRUE:
@@ -310,7 +413,7 @@ public class StefanMak implements StefanMakConstants {
     case ADDOP:
     case NUMBER:
     case IDENT:
-      CONDANDEXPR();
+      returnType = CONDANDEXPR();
       label_5:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -321,18 +424,28 @@ public class StefanMak implements StefanMakConstants {
           jj_la1[13] = jj_gen;
           break label_5;
         }
-        jj_consume_token(OR);
-        CONDANDEXPR();
+        t = jj_consume_token(OR);
+        type = CONDANDEXPR();
+      if(type.getType() != Type.BOOL || returnType.getType() != Type.BOOL)
+      {
+        {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null,t);}
+      }else
+      {
+        returnType = new Type(false,Type.BOOL,type.getToken());
       }
+      }
+    {if (true) return returnType;}
       break;
     case NEW:
-      CREATIONEXPR();
+      returnType = CREATIONEXPR();
+  {if (true) return returnType;}
       break;
     default:
       jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    throw new Error("Missing return statement in function");
   }
 
   static final public void ARGUMENTLIST() throws ParseException {
@@ -352,7 +465,7 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
-  static final public void PROCEDURECALL() throws ParseException {
+  static final public Type PROCEDURECALL() throws ParseException {
   Token t;
     t = jj_consume_token(IDENT);
     jj_consume_token(LPAR);
@@ -383,6 +496,7 @@ public class StefanMak implements StefanMakConstants {
       // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
+    throw new Error("Missing return statement in function");
   }
 
   static final public void ASSIGNMENT() throws ParseException {
@@ -572,20 +686,27 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public void RETURNTYPE() throws ParseException {
+  static final public Type RETURNTYPE() throws ParseException {
+        Token t = null;
+        Type type = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case VOID:
-      jj_consume_token(VOID);
+      t = jj_consume_token(VOID);
       break;
     case INTEGER:
     case BOOLEAN:
-      TYPE();
+      type = TYPE();
+  if(t == null)
+        {if (true) return null;}
+  else
+        {if (true) return type;}
       break;
     default:
       jj_la1[26] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    throw new Error("Missing return statement in function");
   }
 
   static final public void CONSTDECL() throws ParseException {
@@ -727,8 +848,10 @@ public class StefanMak implements StefanMakConstants {
 
   static final public void PROCEDURE() throws ParseException {
   Token t;
+  Token t_sec;
+  Type type;
     jj_consume_token(PROCEDURE);
-    RETURNTYPE();
+    type = RETURNTYPE();
     t = jj_consume_token(IDENT);
     Symbol procedure = symTable.lookupCurrentScope(t.image);
     if (procedure != null)
@@ -738,6 +861,7 @@ public class StefanMak implements StefanMakConstants {
     else
     {
       procedure = new SymbolImpl(Symbol.Procedure, t.image);
+      procedure.setType(type);
       symTable.addSymbol(procedure);
       symTable.openScope(false);
       symTable.setParentSymbol(procedure);
@@ -840,27 +964,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -872,6 +975,27 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAR)) return true;
     return false;
   }
 

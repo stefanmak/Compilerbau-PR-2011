@@ -30,35 +30,38 @@ import yapl.interfaces.Attrib;
 
 
 public class AttribImpl implements Attrib{
+	
+	private byte kind; 
+	private Type type;
+	private boolean isConstant;
+	private boolean isGlobal;
+	private int offset;
+	private byte register;
 
 	/** Return the kind of operand represented by this object.
-	 * 
 	 * @return one of the constants defined by this interface.
 	 */
 	public byte getKind() {
-		// TODO Auto-generated method stub
-		return 0;
+		return kind;
 	}
 
 	/**
 	 * Set the kind of operand represented by this object.
-	 * 
-	 * @param kind     one of the constants defined by this interface.
+	 * @param kind one of the constants defined by this interface.
 	 */
 	public void setKind(byte kind) {
-		// TODO Auto-generated method stub
+		this.kind = kind;
 		
 	}
 
 	/** Get the data type of this operand (or its target object). */
-	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+	public Type getType() {		
+		return type;
 	}
 
 	/** Set the data type of this operand (or its target object). */
 	public void setType(Type type) {
-		// TODO Auto-generated method stub
+		this.type = type;
 		
 	}
 
@@ -66,13 +69,12 @@ public class AttribImpl implements Attrib{
 	 * at compile time.
 	 */
 	public boolean isConstant() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isConstant;
 	}
 
 	/** Specify whether this operand can be evaluated at compile time. */
 	public void setConstant(boolean isConstant) {
-		// TODO Auto-generated method stub
+		this.isConstant = isConstant;
 		
 	}
 
@@ -80,15 +82,14 @@ public class AttribImpl implements Attrib{
 	 * a global memory object (i.e. it is stored in heap memory).
 	 */
 	public boolean isGlobal() {
-		// TODO Auto-generated method stub
-		return false;
+		return isGlobal;
 	}
 
 	/** Specify whether this operand represents a global memory object.
 	 * @see #isGlobal()
 	 */
 	public void setGlobal(boolean isGlobal) {
-		// TODO Auto-generated method stub
+		this.isGlobal = isGlobal;
 		
 	}
 
@@ -99,28 +100,24 @@ public class AttribImpl implements Attrib{
 	 *  the offset is relative to the current stack frame.
 	 */
 	public int getOffset() {
-		// TODO Auto-generated method stub
-		return 0;
+		return offset;
 	}
 
 	/** Set the address offset (for memory operands). 
 	 * @see #getOffset()
 	 */
 	public void setOffset(int offset) {
-		// TODO Auto-generated method stub
-		
+		this.offset = offset;		
 	}
 
 	/** Get the register number (for register operands). */
 	public byte getRegister() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.register;
 	}
 
 	/** Set the register number (for register operands). */
 	public void setRegister(byte register) {
-		// TODO Auto-generated method stub
-		
+		this.register = register; 		
 	}
 
 }
