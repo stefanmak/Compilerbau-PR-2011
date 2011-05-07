@@ -4,11 +4,11 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Stack"/>
 <fullyQualifiedTypeName name="java.text.ParseException"/>
-<fullyQualifiedTypeName name="yapl.interfaces.CompilerError"/>
 <fullyQualifiedTypeName name="yapl.interfaces.Symbol"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="yapl.interfaces.Attrib"/>
 <fullyQualifiedTypeName name="yapl.interfaces.CodeGen"/>
-<fullyQualifiedTypeName name="yapl.interfaces.Token"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="yapl.interfaces.Token"/>
+<fullyQualifiedTypeName name="yapl.interfaces.CompilerError"/>
 </qualifiedTypeNameHistroy>
