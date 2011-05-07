@@ -83,9 +83,11 @@ public class StefanMak implements StefanMakConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TRUE:
       t = jj_consume_token(TRUE);
+    {if (true) return t;}
       break;
     case FALSE:
       t = jj_consume_token(FALSE);
+    {if (true) return t;}
       break;
     case NUMBER:
       t = jj_consume_token(NUMBER);
@@ -156,11 +158,14 @@ public class StefanMak implements StefanMakConstants {
         {
           type = new Type(false,Type.INT,t);
         }
+        type.setToken(t);
+    {if (true) return type;}
       break;
     case LPAR:
       jj_consume_token(LPAR);
       type = EXPR();
       jj_consume_token(RPAR);
+  {if (true) return type;}
       break;
     default:
       jj_la1[4] = jj_gen;
@@ -172,6 +177,7 @@ public class StefanMak implements StefanMakConstants {
                         new SymbolImpl(Symbol.Procedure,type.getToken().toString()),
                         type.getToken());}
     }
+    {if (true) return type;}
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case IDENT:
@@ -650,10 +656,11 @@ public class StefanMak implements StefanMakConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER:
       t = jj_consume_token(INTEGER);
+   {if (true) return t;}
       break;
     case BOOLEAN:
       t = jj_consume_token(BOOLEAN);
-  {if (true) return t;}
+   {if (true) return t;}
       break;
     default:
       jj_la1[24] = jj_gen;
@@ -679,6 +686,7 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(LBRACKET);
       jj_consume_token(RBRACKET);
+    System.out.println("TYPE:" + t.getImage());
     dim++;
     }
     if (dim > 0) {if (true) return new ArrayType(false, Type.getTypeOfImage(t.image), t, dim);}
@@ -964,6 +972,27 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAR)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -975,27 +1004,6 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
     return false;
   }
 

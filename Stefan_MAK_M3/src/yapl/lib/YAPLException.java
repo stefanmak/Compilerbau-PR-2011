@@ -66,10 +66,68 @@ public class YAPLException extends Error implements CompilerError {
 		else if(errorNumber == CompilerError.SymbolIllegalUse)
 			this.message = "illegal use of " 
 				+ symbol.getKindString() + " "
-				+ symbol.getName(); 				
+				+ symbol.getName(); 	
+		else if(errorNumber == CompilerError.SelectorNotArray){
+			this.message = "expression before '[' is not an array type";			
+		}
+		else if(errorNumber == CompilerError.BadArraySelector){
+			this.message = "array index or dimension is not an integer type";			
+		}
+		else if(errorNumber == CompilerError.ArrayLenNotArray){
+			this.message = "expression after '#' is not an array type";			
+		}
+		else if(errorNumber == CompilerError.IllegalOp1Type){
+			this.message = "illegal operand type for unary operator " + t.getImage();			
+		}
+		else if(errorNumber == CompilerError.IllegalOp2Type){
+			this.message = "illegal operand types for binary operator " + t.getImage();			
+		}
+		else if(errorNumber == CompilerError.IllegalRelOpType){
+			this.message = "non-integer operand types for relational operator " + t.getImage();			
+		}
+		else if(errorNumber == CompilerError.IllegalEqualOpType){
+			this.message = "illegal operand types for equality operator " + t.getImage();			
+		}
+		else if(errorNumber == CompilerError.ProcNotFuncExpr){
+			this.message = "using procedure " + t.getImage() + " (not a function) in expression";			
+		}
+		else if(errorNumber == CompilerError.ReadonlyAssign){
+			this.message = "read-only l-value in assignment";			
+		}
+		else if(errorNumber == CompilerError.TypeMismatchAssign){
+			this.message = "type mismatch in assignment";			
+		}
+		else if(errorNumber == CompilerError.ArgNotApplicable){
+			this.message = "argument #" + 1 +" not applicable to procedure " + symbol.getName();			
+		}
+		else if(errorNumber == CompilerError.ReadonlyArg){
+			this.message = "read -only argument #"+1+" not applicable to procedure " + symbol.getName();			
+		}
+		else if(errorNumber == CompilerError.TooFewArgs){
+			this.message = "too few arguments for procedure " + symbol.getName();			
+		}
+		else if(errorNumber == CompilerError.CondNotBool){
+			this.message = "condition is not a boolean expression";			
+		}
+		else if(errorNumber == CompilerError.ReadonlyNotArray){
+			this.message = "type qualified as readonly is not an array type";			
+		}
+		else if(errorNumber == CompilerError.MissingReturn){
+			this.message = "missing Return statement in function " + symbol.getName();			
+		}
+		else if(errorNumber == CompilerError.MissingReturn){
+			this.message = "returning none or invalid type from function " + symbol.getName();			
+		}
+		else if(errorNumber == CompilerError.InvalidReturnType){
+			this.message = "illegal return value in procedure " + symbol.getName() + " (not a function)";			
+		}
+		else if(errorNumber == CompilerError.IllegalRetValMain){
+			this.message = "illegal return value in main program";			
+		}		//
 		else{			
 			this.message = "General Error on Symbol: " + symbol.getKindString() + " " + symbol.getKind();
 		}
+			
 	}
 	
 	

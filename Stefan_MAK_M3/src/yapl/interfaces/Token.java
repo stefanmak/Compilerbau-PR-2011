@@ -28,4 +28,9 @@ public interface Token {
 	 * Return the source code column number where the token begins.
 	 */
 	public int column();
+	
+	/**
+	 * Returns the Image of the Token
+	 */
+	public String getImage();
 }

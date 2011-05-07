@@ -125,6 +125,14 @@ public class Token implements java.io.Serializable, yapl.interfaces.Token {
 	public int getKind() {
 		return this.kind;
 	}
+	
+	/**
+	 * Returns the Image of the current Token
+	 * @return
+	 */
+	public String getImage(){
+		return this.image;		
+	}
 
 	/**
 	 * Implementation of the given Token Interface Returns the Line in witch the
