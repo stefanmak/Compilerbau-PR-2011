@@ -548,6 +548,21 @@ public class StefanMak implements StefanMakConstants {
       {
         argumentList.getFirst().getToken().setImage("" + counter);
         {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
+      }else if(start.getType() instanceof ArrayType
+                && argumentList.getFirst() instanceof ArrayType
+                        && (((ArrayType)argumentList.getFirst()).getDimension()
+                                !=((ArrayType)start.getType()).getDimension())
+                )
+      {
+        argumentList.getFirst().getToken().setImage("" + counter);
+        {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
+      }else if((start.getType() instanceof ArrayType)
+                                && ((ArrayType)argumentList.getFirst()).isReadOnly()
+                                && !start.getType().isReadOnly()
+                        )
+      {
+        argumentList.getFirst().getToken().setImage("" + counter);
+        {if (true) throw new YAPLException(CompilerError.ReadonlyArg,procedureName,argumentList.getFirst().getToken());}
       }
       counter++;
       start = start.getNextSymbol();
@@ -1030,9 +1045,13 @@ public class StefanMak implements StefanMakConstants {
     if (form != null)
     {
       {if (true) throw new YAPLException(CompilerError.SymbolExists, form, t);}
+    }else if(!(type instanceof ArrayType) && readOnly)
+    {
+      {if (true) throw new YAPLException(CompilerError.ReadonlyNotArray, form, t);}
     }
     else
     {
+      type.setReadOnly(readOnly);
       form = new SymbolImpl(Symbol.Parameter, t.image);
       form.setType(type);
       symTable.addSymbol(form);
@@ -1235,6 +1254,26 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -1247,26 +1286,6 @@ public class StefanMak implements StefanMakConstants {
   static private boolean jj_3R_13() {
     if (jj_scan_token(IDENT)) return true;
     if (jj_scan_token(LPAR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
     return false;
   }
 
