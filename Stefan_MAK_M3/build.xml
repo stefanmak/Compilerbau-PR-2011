@@ -21,7 +21,7 @@ Example for running:   ant run -Dyapl=test01.yapl
   <property name="src" location="src"/>
   <property name="build" location="bin-ant"/>
 	<property name="javacc" location="C:\Projekte\UNI\7 Semester\Compilerbau PR\Software\javacc-5.0"/>
-	<property name="yapl" location="C:\parser\type_checking\test30.yapl"/>
+	<property name="yapl" location="C:\parser\type_checking\test41.yapl"/>
 	<property name="grammar" location="${src}/StefanMak.jj"/>
 
   <target name="init">

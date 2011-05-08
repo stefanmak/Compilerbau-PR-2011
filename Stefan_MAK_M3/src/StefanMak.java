@@ -24,10 +24,16 @@ public class StefanMak implements StefanMakConstants {
 
   private static Symbol pre_readint;
 
+  /** stuff for procedures... */
+
   /** is set if a procedure needs a return*/
   private static boolean need_return;
   /** is set if one path of a procedure gives a return*/
   private static boolean set_return;
+  /** is set to a specific type for a procedure return */
+  private static Type returnType;
+  /** actual Procedure Symbol */
+  private static Symbol currentProcedureSymbol;
 
 
   /** Main entry point. */
@@ -180,7 +186,6 @@ public class StefanMak implements StefanMakConstants {
           type = new Type(false,Type.INT,t);
         }
         type.setToken(t);
-        System.out.println("blaaa" + type.getType() + t.getImage());
     {if (true) return type;}
       break;
     case LPAR:
@@ -213,8 +218,6 @@ public class StefanMak implements StefanMakConstants {
             ;
           }
     Symbol ident = symTable.lookup(t.image);
-        if(ident.getType() == null)
-                System.out.println("shit null");
 
     if (ident != null && (ident.getKind() == Symbol.Procedure || ident.getKind() == Symbol.Program))
     {
@@ -226,7 +229,7 @@ public class StefanMak implements StefanMakConstants {
       // variable not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
-    else if(dim >= 1 && ((!(ident.getType() instanceof ArrayType)) || ((ArrayType)ident.getType()).getDimension() != dim))
+    else if(dim >= 1 && ((!(ident.getType() instanceof ArrayType)) || (((ArrayType)ident.getType()).getDimension() - dim) < 0))
     {
        {if (true) throw new YAPLException(CompilerError.SelectorNotArray,ident, t);}
     }else if(dim >= 1 && ((ArrayType) ident.getType()).getDimension() == dim)
@@ -279,6 +282,10 @@ public class StefanMak implements StefanMakConstants {
         }
         else
         {
+          if(t!=null)
+          {
+            returnType.setToken(t);
+          }
           {if (true) return returnType;}
         }
     throw new Error("Missing return statement in function");
@@ -518,7 +525,6 @@ public class StefanMak implements StefanMakConstants {
         Symbol start = procedureName.getNextSymbol();
         LinkedList<Type > argumentList = new LinkedList<Type >();
         Type type;
-    System.out.println("Argumentlist");
     type = EXPR();
     argumentList.add(type);
     label_6:
@@ -538,7 +544,6 @@ public class StefanMak implements StefanMakConstants {
     }
     while(start != null)
     {
-      System.out.println(start.getType().getType() + " " + argumentList.getFirst().getType());
       if(start.getType().getType() != argumentList.getFirst().getType())
       {
         argumentList.getFirst().getToken().setImage("" + counter);
@@ -563,7 +568,6 @@ public class StefanMak implements StefanMakConstants {
   Type type;
   int arguments = 0;
     t = jj_consume_token(IDENT);
-    System.out.println("ProcCall");
     Symbol ident = symTable.lookup(t.image);
     if (ident != null && (ident.getKind() != Symbol.Procedure))
     {
@@ -655,11 +659,6 @@ public class StefanMak implements StefanMakConstants {
     }
 
     // Type Checks
-                        if(assi.getType() instanceof ArrayType)
-                                System.out.println("assi -- > " + assi.getName() + " " + assi.getType().getType() + " " + ((ArrayType)assi.getType()).getDimension());
-                        if(type instanceof ArrayType)
-                                System.out.println("type-- > " + type.getType() + " " + ((ArrayType)type).getDimension());
-
     if(assi.getType().isReadOnly())
     {
       {if (true) throw new YAPLException(CompilerError.ReadonlyAssign, assi, t);}
@@ -686,12 +685,6 @@ public class StefanMak implements StefanMakConstants {
                          )
                    )
                 {
-                        if(assi.getType() instanceof ArrayType)
-                                System.out.println("a -- > " + assi.getName() + " " + assi.getType().getType() + " " + ((ArrayType)assi.getType()).getDimension());
-                        if(type instanceof ArrayType)
-                                System.out.println("t -- > " + type.getType() + " " + ((ArrayType)type).getDimension());
-                        System.out.println(assi.getType().getType() + " " + type.getType());
-                System.out.println(t.getImage() + " " + t_sec.getImage());
                 {if (true) throw new YAPLException(CompilerError.TypeMismatchAssign, assi, t_sec);}
         }
   }
@@ -732,7 +725,9 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void RETURNSTATEMENT() throws ParseException {
-    jj_consume_token(RETURN);
+  Type type = null;
+  Token t;
+    t = jj_consume_token(RETURN);
     set_return = true;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LPAR:
@@ -743,11 +738,34 @@ public class StefanMak implements StefanMakConstants {
     case ADDOP:
     case NUMBER:
     case IDENT:
-      EXPR();
+      type = EXPR();
       break;
     default:
       jj_la1[19] = jj_gen;
       ;
+    }
+    if(currentProcedureSymbol == null && type != null)
+    {
+      if(type == null)
+      {
+        {if (true) throw new YAPLException(CompilerError.IllegalRetValMain,currentProcedureSymbol,t);}
+      }else
+      {
+        {if (true) throw new YAPLException(CompilerError.IllegalRetValMain,currentProcedureSymbol,type.getToken());}
+      }
+
+    }
+    else if(type != null && returnType == null)
+    {
+      {if (true) throw new YAPLException(CompilerError.IllegalRetValProc,currentProcedureSymbol,type.getToken());}
+    }
+    else if(type == null && returnType != null)
+    {
+      {if (true) throw new YAPLException(CompilerError.InvalidReturnType,currentProcedureSymbol,t);}
+    }
+    else if(type != null && returnType != null && type.getType() != returnType.getType())
+    {
+      {if (true) throw new YAPLException(CompilerError.InvalidReturnType,currentProcedureSymbol,type.getToken());}
     }
   }
 
@@ -1064,13 +1082,16 @@ public class StefanMak implements StefanMakConstants {
     {
       procedure = new SymbolImpl(Symbol.Procedure, t.image);
       procedure.setType(type);
+      currentProcedureSymbol = procedure;
+
           if(type.getType() == Type.OTHER)
           {
             need_return = false;
-
+            returnType = null;
           }else
           {
             need_return = true;
+            returnType = type;
           }
           set_return = false;
 
@@ -1096,6 +1117,7 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(RPAR);
     t_sec = BLOCK();
     t = jj_consume_token(IDENT);
+    //System.out.println(returnType.getType() + " - " +  procedure.getType().getType());
     Symbol procedureClose = symTable.getNearestParentSymbol(Symbol.Procedure);
     if (!procedureClose.getName().equals(t.image))
     {
@@ -1120,7 +1142,8 @@ public class StefanMak implements StefanMakConstants {
     else
     {
        symTable.closeScope();
-     }
+       currentProcedureSymbol = null;
+    }
     jj_consume_token(SEMICOLON);
   }
 
@@ -1212,11 +1235,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -1232,8 +1250,8 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
     return false;
   }
 
@@ -1242,8 +1260,13 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
     return false;
   }
 

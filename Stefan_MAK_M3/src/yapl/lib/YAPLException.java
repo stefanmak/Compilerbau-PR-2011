@@ -115,15 +115,15 @@ public class YAPLException extends Error implements CompilerError {
 		else if(errorNumber == CompilerError.MissingReturn){
 			this.message = "missing Return statement in function " + symbol.getName();			
 		}
-		else if(errorNumber == CompilerError.MissingReturn){
+		else if(errorNumber == CompilerError.InvalidReturnType){
 			this.message = "returning none or invalid type from function " + symbol.getName();			
 		}
-		else if(errorNumber == CompilerError.InvalidReturnType){
+		else if(errorNumber == CompilerError.IllegalRetValProc){
 			this.message = "illegal return value in procedure " + symbol.getName() + " (not a function)";			
 		}
 		else if(errorNumber == CompilerError.IllegalRetValMain){
 			this.message = "illegal return value in main program";			
-		}		//
+		}		
 		else{			
 			this.message = "General Error on Symbol: " + symbol.getKindString() + " " + symbol.getKind();
 		}
