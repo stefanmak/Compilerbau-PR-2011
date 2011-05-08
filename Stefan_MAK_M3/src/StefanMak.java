@@ -104,7 +104,7 @@ public class StefanMak implements StefanMakConstants {
   static final public int SELECTOR() throws ParseException {
         Type type;
         Token t;
-        int dim = 1;
+        int dim = 0;
     jj_consume_token(LBRACKET);
     type = EXPR();
     t = jj_consume_token(RBRACKET);
@@ -116,11 +116,11 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[1] = jj_gen;
       ;
     }
-    System.out.println("Blub " + type.getType());
     if(type.getType() != Type.INT || (type instanceof ArrayType))
     {
       {if (true) throw new YAPLException(CompilerError.BadArraySelector, null, t);}
     }
+    dim++;
     {if (true) return dim;}
     throw new Error("Missing return statement in function");
   }
@@ -228,7 +228,8 @@ public class StefanMak implements StefanMakConstants {
     {
            if(ident.getType() instanceof ArrayType )
            {
-              {if (true) return new ArrayType(ident.getType().isReadOnly(), ident.getType().getType(), t,dim);}
+              // Maybe SubArray     
+              {if (true) return new ArrayType(ident.getType().isReadOnly(), ident.getType().getType(), t,((ArrayType)ident.getType()).getDimension()-dim);}
             }
            else
            {
@@ -419,17 +420,18 @@ public class StefanMak implements StefanMakConstants {
 
 // Multidimensional Arrays  static final public Type CREATIONEXPR() throws ParseException {
         Token t;
-        Token current = null;
+        Token t_sec;
         Type type;
         LinkedList<Type> types = new LinkedList<Type>();
+        int dim = 1;
     jj_consume_token(NEW);
     t = PRIMTYPE();
     jj_consume_token(LBRACKET);
     type = EXPR();
-    t = jj_consume_token(RBRACKET);
+    t_sec = jj_consume_token(RBRACKET);
     if(type.getType() == Type.BOOL)
     {
-      {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t);}
+      {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t_sec);}
     }
     label_4:
     while (true) {
@@ -443,13 +445,14 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(LBRACKET);
       type = EXPR();
-      t = jj_consume_token(RBRACKET);
+      t_sec = jj_consume_token(RBRACKET);
       if(type.getType() == Type.BOOL)
       {
-        {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t);}
+        {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t_sec);}
       }
+      dim++;
     }
-    {if (true) return new ArrayType(false,Type.getTypeOfImage(t.image),current,0);}
+    {if (true) return new ArrayType(false,Type.getTypeOfImage(t.image),t,dim);}
     throw new Error("Missing return statement in function");
   }
 
@@ -569,25 +572,77 @@ public class StefanMak implements StefanMakConstants {
 
   static final public void ASSIGNMENT() throws ParseException {
   Token t;
+  Token t_sec;
+  Type type;
+  boolean selectorUsed = false;
     t = jj_consume_token(IDENT);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACKET:
       SELECTOR();
+                             selectorUsed = true;
       break;
     default:
       jj_la1[17] = jj_gen;
       ;
     }
-    jj_consume_token(50);
-    EXPR();
+    t_sec = jj_consume_token(50);
+    type = EXPR();
     Symbol assi = symTable.lookup(t.image);
     int kind;
-    if (assi != null) kind = assi.getKind();
-    else {if (true) throw new YAPLException(CompilerError.IdentNotDecl, assi, t);}
+    if(assi != null)
+    {
+       kind = assi.getKind();
+    }
+    else
+    {
+       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, assi, t);}
+    }
+
     if (kind == Symbol.Constant || (kind != Symbol.Variable && kind != Symbol.Parameter))
     {
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse, assi, t);}
     }
+
+    // Type Checks
+                        if(assi.getType() instanceof ArrayType)
+                                System.out.println("assi -- > " + assi.getName() + " " + assi.getType().getType() + " " + ((ArrayType)assi.getType()).getDimension());
+                        if(type instanceof ArrayType)
+                                System.out.println("type-- > " + type.getType() + " " + ((ArrayType)type).getDimension());
+
+    if(assi.getType().isReadOnly())
+    {
+      {if (true) throw new YAPLException(CompilerError.ReadonlyAssign, assi, t);}
+    }else if(
+                 !(
+                   (
+                          !(assi.getType() instanceof ArrayType)
+                          && !(type instanceof ArrayType)
+                          && assi.getType().getType()==type.getType()
+                        )
+                    ||
+                     (
+                      (assi.getType() instanceof ArrayType)
+                          && (type instanceof ArrayType)
+                          && (((ArrayType)assi.getType()).getDimension() == ((ArrayType)type).getDimension())
+                        )
+                        ||
+                         (
+                           selectorUsed
+                           && (assi.getType() instanceof ArrayType)
+                           && !(type instanceof ArrayType)
+                           && (assi.getType().getType() == type.getType())
+                         )
+                         )
+                   )
+                {
+                        if(assi.getType() instanceof ArrayType)
+                                System.out.println("a -- > " + assi.getName() + " " + assi.getType().getType() + " " + ((ArrayType)assi.getType()).getDimension());
+                        if(type instanceof ArrayType)
+                                System.out.println("t -- > " + type.getType() + " " + ((ArrayType)type).getDimension());
+                        System.out.println(assi.getType().getType() + " " + type.getType());
+                System.out.println(t.getImage() + " " + t_sec.getImage());
+                {if (true) throw new YAPLException(CompilerError.TypeMismatchAssign, assi, t_sec);}
+        }
   }
 
   static final public void IFSTATEMENT() throws ParseException {
@@ -1032,9 +1087,12 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_13() {
+  static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) jj_scanpos = xsp;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -1043,22 +1101,19 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
   static private boolean jj_3_1() {
     if (jj_3R_13()) return true;
     return false;
   }
 
-  static private boolean jj_3R_14() {
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13() {
     if (jj_scan_token(IDENT)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) jj_scanpos = xsp;
-    if (jj_scan_token(50)) return true;
+    if (jj_scan_token(LPAR)) return true;
     return false;
   }
 
