@@ -542,7 +542,7 @@ public class StefanMak implements StefanMakConstants {
       argumentList.add(type);
       arguments++;
     }
-    while(start != null)
+    while(start != null && !argumentList.isEmpty())
     {
       if(start.getType().getType() != argumentList.getFirst().getType())
       {
