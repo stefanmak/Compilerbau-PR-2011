@@ -33,4 +33,9 @@ public interface Token {
 	 * Returns the Image of the Token
 	 */
 	public String getImage();
+	
+	/**
+	 * Sets the Image
+	 */
+	public void setImage(String image);
 }

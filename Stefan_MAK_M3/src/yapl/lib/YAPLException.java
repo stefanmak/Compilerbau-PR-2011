@@ -98,7 +98,7 @@ public class YAPLException extends Error implements CompilerError {
 			this.message = "type mismatch in assignment";			
 		}
 		else if(errorNumber == CompilerError.ArgNotApplicable){
-			this.message = "argument #" + 1 +" not applicable to procedure " + symbol.getName();			
+			this.message = "argument #" + t.getImage() +" not applicable to procedure " + symbol.getName();			
 		}
 		else if(errorNumber == CompilerError.ReadonlyArg){
 			this.message = "read -only argument #"+1+" not applicable to procedure " + symbol.getName();			

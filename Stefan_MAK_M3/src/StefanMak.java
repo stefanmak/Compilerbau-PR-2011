@@ -512,10 +512,15 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public int ARGUMENTLIST() throws ParseException {
+  static final public int ARGUMENTLIST(Symbol procedureName) throws ParseException {
         int arguments = 1;
+        int counter = 1;
+        Symbol start = procedureName.getNextSymbol();
+        LinkedList<Type > argumentList = new LinkedList<Type >();
+        Type type;
     System.out.println("Argumentlist");
-    EXPR();
+    type = EXPR();
+    argumentList.add(type);
     label_6:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -527,8 +532,26 @@ public class StefanMak implements StefanMakConstants {
         break label_6;
       }
       jj_consume_token(COMMA);
-      EXPR();
+      type = EXPR();
+      argumentList.add(type);
       arguments++;
+    }
+    while(start != null)
+    {
+      System.out.println(start.getType().getType() + " " + argumentList.getFirst().getType());
+      if(start.getType().getType() != argumentList.getFirst().getType())
+      {
+        argumentList.getFirst().getToken().setImage("" + counter);
+        {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
+      }
+      counter++;
+      start = start.getNextSymbol();
+      argumentList.removeFirst();
+    }
+    if(argumentList.size() > 0)
+    {
+      argumentList.getFirst().getToken().setImage("" + counter);
+      {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
     }
     {if (true) return arguments;}
     throw new Error("Missing return statement in function");
@@ -540,23 +563,6 @@ public class StefanMak implements StefanMakConstants {
   Type type;
   int arguments = 0;
     t = jj_consume_token(IDENT);
-    jj_consume_token(LPAR);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LPAR:
-    case TRUE:
-    case FALSE:
-    case NEW:
-    case BLANK:
-    case ADDOP:
-    case NUMBER:
-    case IDENT:
-      arguments = ARGUMENTLIST();
-      break;
-    default:
-      jj_la1[16] = jj_gen;
-      ;
-    }
-    t_sec = jj_consume_token(RPAR);
     System.out.println("ProcCall");
     Symbol ident = symTable.lookup(t.image);
     if (ident != null && (ident.getKind() != Symbol.Procedure))
@@ -568,9 +574,24 @@ public class StefanMak implements StefanMakConstants {
     {
       // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
-    }else
-    {
-
+    }
+    jj_consume_token(LPAR);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LPAR:
+    case TRUE:
+    case FALSE:
+    case NEW:
+    case BLANK:
+    case ADDOP:
+    case NUMBER:
+    case IDENT:
+      arguments = ARGUMENTLIST(ident);
+      break;
+    default:
+      jj_la1[16] = jj_gen;
+      ;
+    }
+    t_sec = jj_consume_token(RPAR);
         // Count arguments
         Symbol start = ident.getNextSymbol();
         int counter = 0;
@@ -579,7 +600,7 @@ public class StefanMak implements StefanMakConstants {
                   start = start.getNextSymbol();
                   counter++;
                 }
-                if(counter != arguments)
+                if(counter > arguments)
                 {
                   {if (true) throw new YAPLException(CompilerError.TooFewArgs,ident,t_sec);}
                 }
@@ -597,7 +618,6 @@ public class StefanMak implements StefanMakConstants {
                 type = new Type(false, ident.getType().getType(), t);
         }
                 {if (true) return type;}
-    }
     throw new Error("Missing return statement in function");
   }
 
@@ -677,9 +697,14 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void IFSTATEMENT() throws ParseException {
+        Type type;
     jj_consume_token(IF);
-    EXPR();
+    type = EXPR();
     jj_consume_token(THEN);
+                if(type.getType() != Type.BOOL)
+                {
+                  {if (true) throw new YAPLException(CompilerError.CondNotBool,null,type.getToken());}
+                }
     STATEMENTLIST();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ELSE:
@@ -694,15 +719,21 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void WHILESTATEMENT() throws ParseException {
+        Type type;
     jj_consume_token(WHILE);
-    EXPR();
+    type = EXPR();
     jj_consume_token(DO);
+                if(type.getType() != Type.BOOL)
+                {
+                  {if (true) throw new YAPLException(CompilerError.CondNotBool,null,type.getToken());}
+                }
     STATEMENTLIST();
     jj_consume_token(ENDWHILE);
   }
 
   static final public void RETURNSTATEMENT() throws ParseException {
     jj_consume_token(RETURN);
+    set_return = true;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LPAR:
     case TRUE:
@@ -1065,8 +1096,6 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(RPAR);
     t_sec = BLOCK();
     t = jj_consume_token(IDENT);
-    System.out.println("dr\u00fcber");
-    //System.out.println(t_sec.getImage());
     Symbol procedureClose = symTable.getNearestParentSymbol(Symbol.Procedure);
     if (!procedureClose.getName().equals(t.image))
     {
@@ -1084,6 +1113,9 @@ public class StefanMak implements StefanMakConstants {
                                                 )
     {
       {if (true) throw new YAPLException(CompilerError.InvalidReturnType,procedure,t_sec);}
+    }else if(need_return && !set_return)
+    {
+      {if (true) throw new YAPLException(CompilerError.MissingReturn,procedure,t_sec);}
     }
     else
     {
@@ -1106,7 +1138,13 @@ public class StefanMak implements StefanMakConstants {
     /** put predefined procedures in symbol table */
     pre_writeln = new SymbolImpl(Symbol.Procedure, "writeln");
     symTable.addSymbol(pre_writeln);
+
     pre_writeint = new SymbolImpl(Symbol.Procedure, "writeint");
+        SymbolImpl predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
+        predefinedArgument.setType(new Type(false, Type.INT,null));
+        pre_writeint.setNextSymbol(predefinedArgument);
+
+    pre_writeint.setType(new Type(false, Type.INT,null));
     symTable.addSymbol(pre_writeint);
     pre_writebool = new SymbolImpl(Symbol.Procedure, "writebool");
     symTable.addSymbol(pre_writebool);
@@ -1179,13 +1217,12 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENT)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) jj_scanpos = xsp;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -1195,12 +1232,13 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENT)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) jj_scanpos = xsp;
-    if (jj_scan_token(50)) return true;
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
     return false;
   }
 

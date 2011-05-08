@@ -150,6 +150,16 @@ public class Token implements java.io.Serializable, yapl.interfaces.Token {
 		return this.beginColumn;
 	}
 
+	/**
+	 * Sets the Images Value
+	 * @param image
+	 * @return
+	 */
+	public void setImage(String image) {
+		// TODO Auto-generated method stub
+		this.image = image;
+	}
+
 }
 /*
  * JavaCC - OriginalChecksum=8d60e82dee1a74a4649ef9bd48c36c1f (do not edit this
