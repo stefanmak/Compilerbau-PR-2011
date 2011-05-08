@@ -101,27 +101,39 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public void SELECTOR() throws ParseException {
+  static final public int SELECTOR() throws ParseException {
+        Type type;
+        Token t;
+        int dim = 1;
     jj_consume_token(LBRACKET);
-    EXPR();
-    jj_consume_token(RBRACKET);
+    type = EXPR();
+    t = jj_consume_token(RBRACKET);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACKET:
-      SELECTOR();
+      dim = SELECTOR();
       break;
     default:
       jj_la1[1] = jj_gen;
       ;
     }
+    System.out.println("Blub " + type.getType());
+    if(type.getType() != Type.INT || (type instanceof ArrayType))
+    {
+      {if (true) throw new YAPLException(CompilerError.BadArraySelector, null, t);}
+    }
+    {if (true) return dim;}
+    throw new Error("Missing return statement in function");
   }
 
   static final public void ARRAYLEN() throws ParseException {
   Token t;
-    jj_consume_token(BLANK);
+  Token t_sec;
+  int dim = 0;
+    t_sec = jj_consume_token(BLANK);
     t = jj_consume_token(IDENT);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBRACKET:
-      SELECTOR();
+      dim = SELECTOR();
       break;
     default:
       jj_la1[2] = jj_gen;
@@ -138,13 +150,17 @@ public class StefanMak implements StefanMakConstants {
       // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
+    else if((! (ident.getType() instanceof ArrayType)) || ((ArrayType)ident.getType()).getDimension() == dim)
+    {
+       {if (true) throw new YAPLException(CompilerError.ArrayLenNotArray,ident, t_sec);}
+    }
   }
 
   static final public Type PRIMARYEXPR() throws ParseException {
   Token t = null;
   Type type = null;
   Boolean select = false;
-  int dim;
+  int dim = 0;
   Symbol symbol;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TRUE:
@@ -171,7 +187,7 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[4] = jj_gen;
       if (jj_2_1(2)) {
         type = PROCEDURECALL();
-    if(type.getType() == -1)
+    if(type.getType() == Type.OTHER)
     {
       {if (true) throw new YAPLException(CompilerError.ProcNotFuncExpr,
                         new SymbolImpl(Symbol.Procedure,type.getToken().toString()),
@@ -184,7 +200,7 @@ public class StefanMak implements StefanMakConstants {
           t = jj_consume_token(IDENT);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case LBRACKET:
-            SELECTOR();
+            dim = SELECTOR();
             break;
           default:
             jj_la1[3] = jj_gen;
@@ -201,10 +217,28 @@ public class StefanMak implements StefanMakConstants {
       // variable not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
+    else if(dim >= 1 && ((!(ident.getType() instanceof ArrayType)) || ((ArrayType)ident.getType()).getDimension() != dim))
+    {
+       {if (true) throw new YAPLException(CompilerError.SelectorNotArray,ident, t);}
+    }else if(dim >= 1 && ((ArrayType) ident.getType()).getDimension() == dim)
+        {
+           {if (true) return new Type(ident.getType().isReadOnly(), ident.getType().getType(), t);}
+    }
+    else
+    {
+           if(ident.getType() instanceof ArrayType )
+           {
+              {if (true) return new ArrayType(ident.getType().isReadOnly(), ident.getType().getType(), t,dim);}
+            }
+           else
+           {
+              {if (true) return new Type(ident.getType().isReadOnly(), ident.getType().getType(), t);}
+            }
+    }
           break;
         case BLANK:
           ARRAYLEN();
-  {if (true) return new Type(false,type.getType(),t);}
+  {if (true) return new Type(false,Type.INT,t);}
           break;
         default:
           jj_la1[5] = jj_gen;
@@ -232,6 +266,10 @@ public class StefanMak implements StefanMakConstants {
         || returnType instanceof ArrayType))
         {
           {if (true) throw new YAPLException(CompilerError.IllegalOp1Type,null, t);}
+        }
+        else
+        {
+          {if (true) return returnType;}
         }
     throw new Error("Missing return statement in function");
   }
@@ -388,7 +426,11 @@ public class StefanMak implements StefanMakConstants {
     t = PRIMTYPE();
     jj_consume_token(LBRACKET);
     type = EXPR();
-    jj_consume_token(RBRACKET);
+    t = jj_consume_token(RBRACKET);
+    if(type.getType() == Type.BOOL)
+    {
+      {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t);}
+    }
     label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -400,8 +442,12 @@ public class StefanMak implements StefanMakConstants {
         break label_4;
       }
       jj_consume_token(LBRACKET);
-      EXPR();
-      jj_consume_token(RBRACKET);
+      type = EXPR();
+      t = jj_consume_token(RBRACKET);
+      if(type.getType() == Type.BOOL)
+      {
+        {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t);}
+      }
     }
     {if (true) return new ArrayType(false,Type.getTypeOfImage(t.image),current,0);}
     throw new Error("Missing return statement in function");
@@ -473,6 +519,7 @@ public class StefanMak implements StefanMakConstants {
 
   static final public Type PROCEDURECALL() throws ParseException {
   Token t;
+  Type type;
     t = jj_consume_token(IDENT);
     jj_consume_token(LPAR);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -501,6 +548,21 @@ public class StefanMak implements StefanMakConstants {
     {
       // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
+    }else
+    {
+        if(ident.getType() == null)
+        {
+                type = new Type(false, Type.OTHER, t);
+        }
+        else if(ident.getType() instanceof ArrayType)
+        {
+                type = new ArrayType(false,ident.getType().getType(), t, ((ArrayType)ident.getType()).getDimension());
+        }
+        else
+        {
+                type = new Type(false, ident.getType().getType(), t);
+        }
+                {if (true) return type;}
     }
     throw new Error("Missing return statement in function");
   }
@@ -686,7 +748,6 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(LBRACKET);
       jj_consume_token(RBRACKET);
-    System.out.println("TYPE:" + t.getImage());
     dim++;
     }
     if (dim > 0) {if (true) return new ArrayType(false, Type.getTypeOfImage(t.image), t, dim);}
@@ -700,13 +761,11 @@ public class StefanMak implements StefanMakConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case VOID:
       t = jj_consume_token(VOID);
+   {if (true) return null;}
       break;
     case INTEGER:
     case BOOLEAN:
       type = TYPE();
-  if(t == null)
-        {if (true) return null;}
-  else
         {if (true) return type;}
       break;
     default:
@@ -736,6 +795,7 @@ public class StefanMak implements StefanMakConstants {
       if (t_sec.image.equals("True") || t_sec.image.equals("False")) type = new Type(true, Type.CONST, t_sec);
       else type = new Type(true, Type.INT, t_sec);
       constdec = new SymbolImpl(Symbol.Constant, t.image);
+      constdec.setType(type);
       symTable.addSymbol(constdec);
     }
   }
@@ -972,13 +1032,9 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAR)) return true;
     return false;
   }
 
@@ -987,9 +1043,13 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
     return false;
   }
 

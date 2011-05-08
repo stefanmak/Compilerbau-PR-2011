@@ -8,6 +8,7 @@ public class Type {
 	public static int INT = 0;
 	public static int BOOL = 1;
 	public static int CONST = 2;
+	public static int OTHER = 3;
 	
 	/** define data types **/
 	private boolean readOnly;
