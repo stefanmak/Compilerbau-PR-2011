@@ -1,0 +1,63 @@
+<!--
+	Example ANT build file for compiling the YAPL compiler.
+	(C) 2010, ITEC, M. Taschwer
+-->
+
+<project name="YAPL Compiler" default="compile-java" basedir=".">
+<description>
+Example ANT build file for compiling the YAPL compiler.
+
+Properties:
+  src     - location of the source files
+  build   - location where to put the compiled files
+  grammar - JavaCC grammar file
+  javacc  - home directory of the JavaCC installation
+  yapl    - test program to run the YAPL compiler
+
+Example for compiling: ant -Djavacc=/usr/local/javacc-5.0/
+Example for running:   ant run -Dyapl=test01.yapl
+</description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="bin-ant"/>
+	<property name="javacc" location="C:\Projekte\UNI\7 Semester\Compilerbau PR\Software\javacc-5.0"/>
+	<property name="yapl" location="C:\parser\type_checking\test50.yapl"/>
+	<property name="grammar" location="${src}/StefanMak.jj"/>
+
+  <target name="init">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+	
+  <target name="compile-javacc" depends="init"
+      description="compile the grammar file">
+      <javacc target="${grammar}" javacchome="${javacc}" static="true"/>
+  </target>
+
+  <target name="compile-java" depends="compile-javacc"
+        description="compile the source" >
+      <!-- Compile the java code from ${src} into ${build} -->
+      <javac srcdir="${src}" destdir="${build}"/>
+  </target>
+	
+  <target name="run" depends="compile-java" description="run the YAPL compiler">
+      <java classname="StefanMak">  
+          <classpath>
+              <pathelement location="${build}"/>
+              <pathelement path="${java.class.path}"/>
+          </classpath>
+          <arg value="${yapl}"/>
+      </java>
+  </target>	
+	
+  <target name="clean" description="remove all generated files" >      
+      <delete dir="${build}"/>
+      <delete>           
+          <fileset dir="${src}" includes="YAPL.java"/> 
+		  <fileset dir="${src}" includes="StefanMakConstants.java"/> 
+		  <fileset dir="${src}" includes="StefanMakTokenManager.java"/> 
+		  <fileset dir="${src}" includes="Token.java"/> 
+		  <fileset dir="${src}" includes="SimpleCharStream.java"/> 	  
+      </delete>
+  </target>
+</project>

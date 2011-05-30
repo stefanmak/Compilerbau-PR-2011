@@ -11,4 +11,6 @@
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="yapl.interfaces.Token"/>
 <fullyQualifiedTypeName name="yapl.interfaces.CompilerError"/>
+<fullyQualifiedTypeName name="yapl.interfaces.BackendAsmRM"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
 </qualifiedTypeNameHistroy>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="19" version="2.0">
+<workbench progressCount="10" version="2.0">
 <workbenchAdvisor/>
 <window height="760" maximized="true" width="823" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -13,14 +13,14 @@
 <coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="129" y="22"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="99" y="22"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="107" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="130" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ant.ui.internal.editor.AntEditor" itemType="typePlaceholder" x="-1" y="-1"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -30,12 +30,31 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+</presentation>
 </folder>
 </info>
 </editorArea>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendMIPS.java" partName="BackendMIPS.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/impl/BackendMIPS.java" title="BackendMIPS.java" tooltip="BackendTest/src/impl/BackendMIPS.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/impl/BackendMIPS.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1621" selectionTopPixel="510"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/Main.java" title="Main.java" tooltip="BackendTest/src/Main.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/Main.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="19" selectionOffset="676" selectionTopPixel="67"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRM.java" partName="BackendAsmRM.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java" title="BackendAsmRM.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="261" selectionOffset="3076" selectionTopPixel="1581"/>
+</editor>
 </editors>
 <views>
+<view id="org.eclipse.jdt.ui.TypeHierarchy" partName="Type Hierarchy">
+<viewState hidefields="false" hidelocaltypes="false" hidenonpublic="false" hidestatic="false" input="=Stefan_MAK_M4/src&lt;yapl.interfaces{BackendAsmRM.java[BackendAsmRM" link_editors="0" mv_vertical_scroll="0" orientation="3" qualified_names="0" ratio="350" selection="=Stefan_MAK_M4/src&lt;yapl.interfaces{BackendAsmRM.java[BackendAsmRM" showinherited="false" sortbydefiningtype="false" vertical_scroll="0" view="2" workingSetName=""/>
+</view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
@@ -97,7 +116,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
@@ -153,6 +172,7 @@
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.jdt.ui.PackageExplorer"/>
+<view id="org.eclipse.jdt.ui.TypeHierarchy"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.jdt.ui.JavadocView"/>
 <view id="org.eclipse.jdt.ui.SourceView"/>
@@ -171,12 +191,13 @@
 <info folder="true" part="left">
 <folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
-<page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.ui.TypeHierarchy" label="Type Hierarchy"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
 </presentation>
 </folder>
 </info>
@@ -189,7 +210,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.19967794" ratioLeft="248" ratioRight="994" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.8220859" ratioLeft="536" ratioRight="116" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="bottom" ratio="0.6978528" ratioLeft="455" ratioRight="197" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
@@ -229,7 +250,163 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory/>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/BackendTest/src/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/BackendTest/src/impl/BackendMIPS.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java"/>
+</editors>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="293" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="7148" y="1"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="293" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="7148" y="1"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="669" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2729" y="9"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2822" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2798" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2809" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2563" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="669" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="669" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="8126" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="1914" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="6707" y="1"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="6879" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="6695" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2729" y="9"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="3367" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="3355" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="3412" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="25" y="1435"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="1550" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="25" y="1435"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="9616" y="4"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="13021" y="160"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="6652" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="13216" y="224"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="669" y="0"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="7119" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="2258" y="60"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2714" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="2359" y="138"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2714" y="0"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="2258" y="60"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="2921" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="676" y="19"/>
+</item>
+<item historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="3237" y="19"/>
+</item>
+<item historyLabel="BackendAsmRM.java" index="2">
+<position info="not_deleted" x="3076" y="261"/>
+</item>
+<item active="true" historyLabel="BackendMIPS.java" index="1">
+<position info="not_deleted" x="3237" y="19"/>
+</item>
+</navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
@@ -249,6 +426,27 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRM.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" tooltip="BackendTest/src/Main.java">
+<persistable path="/BackendTest/src/Main.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRMImpl.java" tooltip="BackendTest/src/impl/BackendAsmRMImpl.java">
+<persistable path="/BackendTest/src/impl/BackendAsmRMImpl.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRM.java" tooltip="BackendTest/src/interfaces/BackendAsmRM.java">
+<persistable path="/BackendTest/src/interfaces/BackendAsmRM.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRMImpl.java" tooltip="Stefan_MAK_M4/src/yapl/impl/BackendAsmRMImpl.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/BackendAsmRMImpl.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeGenerator.java" tooltip="Stefan_MAK_M4/src/yapl/impl/CodeGenerator.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/CodeGenerator.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeGen.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/CodeGen.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/interfaces/CodeGen.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerError.java" tooltip="Stefan_MAK_M3/src/yapl/interfaces/CompilerError.java">
 <persistable path="/Stefan_MAK_M3/src/yapl/interfaces/CompilerError.java"/>
 </file>
@@ -272,27 +470,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ArrayType.java" tooltip="Stefan_MAK_M3/src/yapl/impl/ArrayType.java">
 <persistable path="/Stefan_MAK_M3/src/yapl/impl/ArrayType.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Type.java" tooltip="Stefan_MAK_M3/src/yapl/impl/Type.java">
-<persistable path="/Stefan_MAK_M3/src/yapl/impl/Type.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ant.ui.internal.editor.AntEditor" name="build.xml" tooltip="Stefan_MAK_M3/build.xml">
-<persistable path="/Stefan_MAK_M3/build.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Token.java" tooltip="Stefan_MAK_M2/src/Token.java">
-<persistable path="/Stefan_MAK_M2/src/Token.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" tooltip="Stefan_MAK_M3/src/StefanMak.jj">
-<persistable path="/Stefan_MAK_M3/src/StefanMak.jj"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" tooltip="Stefan_MAK_M2/src/StefanMak.jj">
-<persistable path="/Stefan_MAK_M2/src/StefanMak.jj"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="YAPLException.java" tooltip="Stefan_MAK_M2/src/yapl/lib/YAPLException.java">
-<persistable path="/Stefan_MAK_M2/src/yapl/lib/YAPLException.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CompilerMessage.java" tooltip="Stefan_MAK_M2/src/yapl/lib/CompilerMessage.java">
-<persistable path="/Stefan_MAK_M2/src/yapl/lib/CompilerMessage.java"/>
 </file>
 </mruList>
 </workbench>
