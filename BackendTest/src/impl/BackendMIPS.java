@@ -44,7 +44,7 @@ public class BackendMIPS implements BackendAsmRM {
 	/*--- Pointers --*/
 	private int sPC;            	// Address of the Start Entry
     private int pc,fp,sp;           // Program, Frame, Stackpointer
-    private int gp;					// Global Pointer for static data
+    private int gp = 0x10000000;	// Global Pointer for static data
        
     /*--- Register Mapping ---*/        
     private boolean[] registers;  		// Saves if the register is used
@@ -55,6 +55,11 @@ public class BackendMIPS implements BackendAsmRM {
     private final int TRUE = 1;
     private final int FALSE = 0;
     
+    /*--- Static data ---*/
+    private boolean[] staticData;				// stores on word ares
+    private boolean staticDataLabelPrinted = false;	// stores if the .data - staticData Lable was printed
+    private boolean textLabelPrinted = false;	// stores if the .close Lable was printed
+    
     /**
      * Constructor
      * @param printStream - for printing the generated code
@@ -63,6 +68,7 @@ public class BackendMIPS implements BackendAsmRM {
 		
 		registers = new boolean[32];
 		registerName = new HashMap<Byte,String>();
+		staticData = new boolean[16000];	
 		initRegisterNames();
 
 		this.printStream = printStream;
@@ -96,20 +102,20 @@ public class BackendMIPS implements BackendAsmRM {
 	public byte allocReg() {
 		
 		// at first temporary registers
-		for(int i = 8; i == 15; i++){
+		for(int i = 8; i <= 15; i++){
 			if(registers[i] == false){
 				registers[i] = true;
 				return (byte) i;
 			}
 		}
-		for(int i = 24; i == 25; i++){
+		for(int i = 24; i <= 25; i++){
 			if(registers[i] == false){
 				registers[i] = true;
 				return (byte) i;
 			}			
 		}
 		// long living varialbes
-		for(int i = 16; i == 23; i++){
+		for(int i = 16; i <= 23; i++){
 			if(registers[i] == false){
 				registers[i] = true;
 				return (byte) i;
@@ -143,7 +149,6 @@ public class BackendMIPS implements BackendAsmRM {
 	/** 
 	 * Emit a one-line comment into assembler code. 
 	 */
-	
 	public void comment(String comment) {
 		this.printStream.print("# " + comment + "\n");
 	}
@@ -169,10 +174,34 @@ public class BackendMIPS implements BackendAsmRM {
      *         allocated static data area. 
      */
 	public int allocStaticData(int bytes, String comment) {
+		// returning Address for the starting point of the data area
+		int returnAddress = this.gp;
+		
+		if(comment == null)
+			comment = "";
+				
+		// calculations for word alignment
 		double div = ((double)bytes) / ((double) this.wordSize());
 		int cWords = (int) Math.ceil(div);
 		
-		return 0;
+		// mark which 'block' are used
+		for(int i = 0; i <= cWords; i++ ){			
+			this.staticData[this.gp/this.WORDSIZE+i] = true;
+			this.gp += this.wordSize();
+		}
+		
+		comment += " (offset = " + (returnAddress - 0x10000000);
+		
+		// Prints the staticData
+		if(!this.staticDataLabelPrinted){
+			this.emitLabel("staticData", "");						
+			this.printStream.println("	.align 2");
+			this.staticDataLabelPrinted = true;
+		}
+		 		
+		this.printStream.println("	.space " + bytes + "# " + comment);
+		
+		return returnAddress;
 	}
 
     /**
@@ -182,10 +211,28 @@ public class BackendMIPS implements BackendAsmRM {
      * @return         start offset of allocated string in static data area. 
      */
 	public int allocStringConstant(String string){
-	    this.printStream.println(".data");
-	    this.printStream.println(".asciiz	" + string);
-	    this.comment("offset: ");
-		return 0;
+		// returning Address for the starting point of the data area
+		int returnAddress = this.gp;
+		
+		byte[] byteString = string.getBytes();		
+		double div = ((double) byteString.length)/((double)this.WORDSIZE);
+		int cWords = (int)Math.ceil(div);
+		// mark which 'block' are used
+		for(int i = 0; i <= cWords; i++ ){			
+			this.staticData[this.gp/this.WORDSIZE+i] = true;
+			this.gp += this.wordSize();
+		}			
+		
+		// Prints the staticData
+		if(!this.staticDataLabelPrinted){
+			this.emitLabel("staticData", "");						
+			this.printStream.println("	.align 2");
+			this.staticDataLabelPrinted = true;
+		}
+		
+		this.printStream.println("	.asciiz \"" + string + "\" # offeset = " + (returnAddress - 0x10000000));
+		
+		return returnAddress;
 	}
 
     /** 
@@ -667,7 +714,7 @@ public class BackendMIPS implements BackendAsmRM {
 		registerName.put((byte)16, "$t8");
 		registerName.put((byte)17, "$t9");		
 		// long living variables
-		for(int i = 16; i == 23; i++){
+		for(int i = 16; i <= 23; i++){
 			registerName.put((byte)i, "$s" + (i - 16));
 		}		
 		// reserved for kernel
