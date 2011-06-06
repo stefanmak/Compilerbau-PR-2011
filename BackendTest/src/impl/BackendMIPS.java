@@ -367,7 +367,13 @@ public class BackendMIPS implements BackendAsmRM {
      * @param addrReg   the register containing the memory address.
      */
 	public void loadWordReg(byte reg, byte addrReg) {
-		
+		String destReg = this.registerName.get(reg);
+		String sourceReg = this.registerName.get(addrReg);
+		if(destReg == "")
+			destReg = "$" + reg;
+		if(sourceReg == "")
+			sourceReg = "$" + addrReg;		
+		this.printStream.println("lw " + destReg + ", " + sourceReg);
 	}
 
     /** Issue a <em>store word</em> instruction using an address register.
@@ -375,8 +381,13 @@ public class BackendMIPS implements BackendAsmRM {
      * @param addrReg   the register containing the memory address.
      */
 	public void storeWordReg(byte reg, int addrReg) {
-		// TODO Auto-generated method stub
-
+		String destReg = this.registerName.get(reg);
+		String sourceReg = this.registerName.get(addrReg);
+		if(destReg == "")
+			destReg = "$" + reg;
+		if(sourceReg == "")
+			sourceReg = "$" + addrReg;		
+		this.printStream.println("sw " + destReg + ", " + sourceReg);
 	}
 
     /**
@@ -386,8 +397,7 @@ public class BackendMIPS implements BackendAsmRM {
      * @param index     register holding the element index.
      */
 	public void loadArrayElement(byte dest, byte baseAddr, byte index) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("lw $" + dest + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
 	}
 
 	/**
@@ -397,8 +407,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param index     register holding the element index.
 	 */
 	public void storeArrayElement(byte src, byte baseAddr, byte index) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("sw $" + src + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
 	}
 
 	/**
@@ -408,7 +417,6 @@ public class BackendMIPS implements BackendAsmRM {
 	 */
 	public void arrayLength(byte dest, byte baseAddr) {
 		// TODO Auto-generated method stub
-
 	}
 
     /*--- run-time I/O operations ---*/
@@ -431,8 +439,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regX			register number of source operand.
 	 */
 	public void neg(byte regDest, byte regX) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("neg $" + regDest + ", $" + regX);
 	}
 
 	/** 
@@ -444,8 +451,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void add(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("add $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -457,8 +463,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void sub(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("sub $" + regDest + ", $" + regX + ", $" + regY);	
 	}
 
 	/** 
@@ -470,8 +475,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void mul(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println("mul $" + regDest + ", $" + regX + ", $" + regY);
 	}
 	
 	/** 
@@ -482,9 +486,11 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regX			register number of first source operand.
 	 * @param regY			register number of second source operand.
 	 */
-	public void div(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+	public void div(byte regDest, byte regX, byte regY) {		
+		// divide
+		this.printStream.println("div $" + regX + ", $" + regY);
+		// load HI to destination
+		this.printStream.println("mfhi $" + regDest);
 	}
 
 	/** 
@@ -495,9 +501,9 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regX			register number of first source operand.
 	 * @param regY			register number of second source operand.
 	 */
-	public void mod(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+	public void mod(byte regDest, byte regX, byte regY) {		
+		this.printStream.println("div\t$" + regX + ", $" + regY);
+		this.printStream.println("mflo $" + regDest);
 	}
 	
     /*--- comparison operations ---*/
@@ -510,8 +516,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isLess(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println ("slt $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -523,8 +528,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isLessOrEqual(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println ("sle\t$" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
