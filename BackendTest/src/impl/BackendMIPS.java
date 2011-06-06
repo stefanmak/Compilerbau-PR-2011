@@ -540,8 +540,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isEqual(byte regDest, byte regX, byte regY) {
-		// TODO Auto-generated method stub
-
+		this.printStream.println ("seq $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
     /*--- logical operations ---*/
