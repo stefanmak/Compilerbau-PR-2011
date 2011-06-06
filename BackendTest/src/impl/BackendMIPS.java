@@ -44,7 +44,7 @@ public class BackendMIPS implements BackendAsmRM {
 	/*--- Pointers --*/
 	private int sPC;            	// Address of the Start Entry
     private int pc,fp,sp;           // Program, Frame, Stackpointer
-    private int gp = 0x10000000;	// Global Pointer for static data
+    private int gp = 0;				// Global Pointer for static data
        
     /*--- Register Mapping ---*/        
     private boolean[] registers;  		// Saves if the register is used
@@ -72,7 +72,7 @@ public class BackendMIPS implements BackendAsmRM {
 		initRegisterNames();
 
 		this.printStream = printStream;
-		initializing();
+		this.initHeaderAndStaticData();
 	}
 
     /*--- implementation constants ---*/    
@@ -126,7 +126,6 @@ public class BackendMIPS implements BackendAsmRM {
 			
 	}
 
-
 	/** 
      * Deallocate a register.
      * @param reg       the register number.
@@ -159,7 +158,10 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param comment	the comment, may be <code>null</code>. 
 	 */
 	public void emitLabel(String label, String comment) {
-		this.printStream.print(label + ": #" + comment);
+		if(comment == "")
+			this.printStream.print(label + ":\n");
+		else
+			this.printStream.print(label + ": # " + comment + "\n");
 	}
 
  /*--- compile-time memory allocation ---*/
@@ -183,23 +185,25 @@ public class BackendMIPS implements BackendAsmRM {
 		// calculations for word alignment
 		double div = ((double)bytes) / ((double) this.wordSize());
 		int cWords = (int) Math.ceil(div);
+			
 		
 		// mark which 'block' are used
-		for(int i = 0; i <= cWords; i++ ){			
+		for(int i = 0; i < cWords; i++ ){			
 			this.staticData[this.gp/this.WORDSIZE+i] = true;
 			this.gp += this.wordSize();
 		}
 		
-		comment += " (offset = " + (returnAddress - 0x10000000);
+		comment += " (offset = " + returnAddress + ")";
 		
 		// Prints the staticData
 		if(!this.staticDataLabelPrinted){
+			this.printStream.println(".data");
 			this.emitLabel("staticData", "");						
 			this.printStream.println("	.align 2");
 			this.staticDataLabelPrinted = true;
 		}
 		 		
-		this.printStream.println("	.space " + bytes + "# " + comment);
+		this.printStream.println("	.space " + bytes + " # " + comment);
 		
 		return returnAddress;
 	}
@@ -218,7 +222,7 @@ public class BackendMIPS implements BackendAsmRM {
 		double div = ((double) byteString.length)/((double)this.WORDSIZE);
 		int cWords = (int)Math.ceil(div);
 		// mark which 'block' are used
-		for(int i = 0; i <= cWords; i++ ){			
+		for(int i = 0; i < cWords; i++ ){			
 			this.staticData[this.gp/this.WORDSIZE+i] = true;
 			this.gp += this.wordSize();
 		}			
@@ -230,7 +234,15 @@ public class BackendMIPS implements BackendAsmRM {
 			this.staticDataLabelPrinted = true;
 		}
 		
-		this.printStream.println("	.asciiz \"" + string + "\" # offeset = " + (returnAddress - 0x10000000));
+		// Not static data
+		if(this.textLabelPrinted){
+			this.printStream.println(".data");
+			this.printStream.println("	.asciiz \"" + string + "\" # offset = " + returnAddress);
+			this.printStream.println(".text");
+		}else{		
+			this.printStream.println("	.asciiz \"" + string + "\" # offset = " + returnAddress);
+		}
+		
 		
 		return returnAddress;
 	}
@@ -283,8 +295,11 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param value		the constant value (word) to be loaded.
 	 */
 	public void loadConst(byte reg, int value) {
-		// TODO Auto-generated method stub
-
+		String register = this.registerName.get(reg);
+		if(register == "")
+			register = "$" + reg;
+		
+		this.printStream.println("li " + register + "," + value);		
 	}
 
 	/**
@@ -298,8 +313,15 @@ public class BackendMIPS implements BackendAsmRM {
      *                  it is relative to the current stack frame.
 	 */
 	public void loadAddress(byte reg, int addr, boolean isStatic) {
-		// TODO Auto-generated method stub
-
+		String register = this.registerName.get(reg);
+		if(register == "")
+			register = "$" + reg;
+		
+		if(isStatic){
+			this.printStream.println("la " + register + ", " + addr + "($23)" );
+		}else{
+			this.printStream.println("la " + register + ", " + addr + "($fp)" );
+		}
 	}
 	
 	/** Issue a <em>load word</em> instruction using an offset address.
@@ -310,8 +332,15 @@ public class BackendMIPS implements BackendAsmRM {
 	 *                  it is relative to the current stack frame.
 	 */
 	public void loadWord(byte reg, int addr, boolean isStatic) {
-		// TODO Auto-generated method stub
-
+		String register = this.registerName.get(reg);
+		if(register == "")
+			register = "$" + reg;
+		
+		if(isStatic){
+			this.printStream.println("lw " + register + ", " + addr + "($23)" );
+		}else{
+			this.printStream.println("lw " + register + ", " + addr + "($fp)" );
+		}
 	}
 
 	/** Issue a <em>store word</em> instruction using an offset address.
@@ -321,9 +350,16 @@ public class BackendMIPS implements BackendAsmRM {
      *                  relative to the static data area; otherwise, 
      *                  it is relative to the current stack frame.
 	 */
-	public void storeWord(byte reg, int addr, boolean isStatic) {
-		// TODO Auto-generated method stub
-
+	public void storeWord(byte reg, int addr, boolean isStatic) {		
+		String register = this.registerName.get(reg);
+		if(register == "")
+			register = "$" + reg;
+		
+		if(isStatic){
+			this.printStream.println("sw " + register + ", " + addr + "($23)" );
+		}else{
+			this.printStream.println("sw " + register + ", " + addr + "($fp)" );
+		}
 	}
 
     /** Issue a <em>load word</em> instruction using an address register.
@@ -331,8 +367,7 @@ public class BackendMIPS implements BackendAsmRM {
      * @param addrReg   the register containing the memory address.
      */
 	public void loadWordReg(byte reg, byte addrReg) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
     /** Issue a <em>store word</em> instruction using an address register.
@@ -570,9 +605,15 @@ public class BackendMIPS implements BackendAsmRM {
      * the main program entry point will be chosen by the implemenation. 
      */
 	public void enterMain() {
+
+		// closes the static data part if it's not done until now
+		this.closeStaticData();
+		// print ".globl main"
+		this.printStream.println(".globl main");
+		// print "main:"
 		this.emitLabel("main", "");
-		this.printStream.println("move	$fp, $sp");
-		//this.loadAddress(reg, addr, isStatic);
+		// standard init main code		
+		this.printStream.println("move	$fp, $sp");		
 		this.printStream.println("la  	$23, staticData	# pointer to static data");
 		
 	}
@@ -675,15 +716,21 @@ public class BackendMIPS implements BackendAsmRM {
 	/**
 	 * Prints out initial code
 	 */
-	public void initializing(){
+	public void initHeaderAndStaticData(){
 		this.comment(" MIPS assembler code generated by the YAPL compiler");
-		this.comment(" (C) 2011 ITEC, Klagenfurt University (mt@itec.aau.at)");
+		this.comment(" (C) 2011 ITEC, Klagenfurt University (mt@itec.aau.at)");				
+		this.allocStaticData(4, "dimAddr1");		
+	}
+	
+	/**
+	 * Prints out the closing of the initial code and static data definition
+	 */
+	public void closeStaticData(){
 		
-		this.printStream.println(".data");
-		this.printStream.println("staticData:");
-		this.printStream.println(".align 2");
-		this.printStream.println(".space 4	# dimAddr1 (offset = 0)");
-		
+		if(!this.textLabelPrinted){
+			this.textLabelPrinted = true;
+			this.printStream.println(".text");			
+		}
 	}
 	
 	/**
