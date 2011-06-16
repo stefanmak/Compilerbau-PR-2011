@@ -1,5 +1,12 @@
 package impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.HashMap;
 import interfaces.BackendAsmRM;
@@ -89,7 +96,7 @@ public class BackendMIPS implements BackendAsmRM {
 	public int wordSize() { 
 		return WORDSIZE;
 	}
-
+	
     /**
      * Return numerical representation of boolean value.     
      */
@@ -120,7 +127,7 @@ public class BackendMIPS implements BackendAsmRM {
 				return (byte) i;
 			}			
 		}
-		// long living varialbes
+		// long living variables
 		for(int i = 16; i <= 23; i++){
 			if(registers[i] == false){
 				registers[i] = true;
@@ -312,7 +319,7 @@ public class BackendMIPS implements BackendAsmRM {
 		if(register == "")
 			register = "$" + reg;
 		
-		this.printStream.println("li " + register + "," + value);		
+		this.printStream.println("\tli " + register + "," + value);		
 	}
 
 	/**
@@ -331,9 +338,9 @@ public class BackendMIPS implements BackendAsmRM {
 			register = "$" + reg;
 		
 		if(isStatic){
-			this.printStream.println("la " + register + ", " + addr + "($23)" );
+			this.printStream.println("\tla " + register + ", " + addr + "($23)" );
 		}else{
-			this.printStream.println("la " + register + ", " + addr + "($fp)" );
+			this.printStream.println("\tla " + register + ", " + addr + "($sp)" );
 		}
 	}
 	
@@ -350,9 +357,9 @@ public class BackendMIPS implements BackendAsmRM {
 			register = "$" + reg;
 		
 		if(isStatic){
-			this.printStream.println("lw " + register + ", " + addr + "($23)" );
+			this.printStream.println("\tlw " + register + ", " + addr + "($23)" );
 		}else{
-			this.printStream.println("lw " + register + ", " + addr + "($fp)" );
+			this.printStream.println("\tlw " + register + ", " + addr + "($sp)" );
 		}
 	}
 
@@ -369,9 +376,9 @@ public class BackendMIPS implements BackendAsmRM {
 			register = "$" + reg;
 		
 		if(isStatic){
-			this.printStream.println("sw " + register + ", " + addr + "($23)" );
+			this.printStream.println("\tsw " + register + ", " + addr + "($23)" );
 		}else{
-			this.printStream.println("sw " + register + ", " + addr + "($fp)" );
+			this.printStream.println("\tsw " + register + ", " + addr + "($sp)" );
 		}
 	}
 
@@ -386,7 +393,7 @@ public class BackendMIPS implements BackendAsmRM {
 			destReg = "$" + reg;
 		if(sourceReg == "")
 			sourceReg = "$" + addrReg;		
-		this.printStream.println("lw " + destReg + ", " + sourceReg);
+		this.printStream.println("\tlw " + destReg + ", " + sourceReg);
 	}
 
     /** Issue a <em>store word</em> instruction using an address register.
@@ -400,7 +407,7 @@ public class BackendMIPS implements BackendAsmRM {
 			destReg = "$" + reg;
 		if(sourceReg == "")
 			sourceReg = "$" + addrReg;		
-		this.printStream.println("sw " + destReg + ", " + sourceReg);
+		this.printStream.println("\tsw " + destReg + ", " + sourceReg);
 	}
 
     /**
@@ -410,7 +417,7 @@ public class BackendMIPS implements BackendAsmRM {
      * @param index     register holding the element index.
      */
 	public void loadArrayElement(byte dest, byte baseAddr, byte index) {
-		this.printStream.println("lw $" + dest + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
+		this.printStream.println("\tlw $" + dest + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
 	}
 
 	/**
@@ -420,7 +427,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param index     register holding the element index.
 	 */
 	public void storeArrayElement(byte src, byte baseAddr, byte index) {
-		this.printStream.println("sw $" + src + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
+		this.printStream.println("\tsw $" + src + ", " + this.WORDSIZE*index + "($" + baseAddr + ")");
 	}
 
 	/**
@@ -438,9 +445,19 @@ public class BackendMIPS implements BackendAsmRM {
      * Emit code for printing a string constant.
      * @param addr    address offset of string constant in static data area. 
      */
-	public void writeString(int addr) {
-		// TODO Auto-generated method stub
-
+	public void writeString(int addr) {		
+	    //addi	$sp, $sp, -4	# saveRegs
+		//la  	$4, 4($23)
+		//sw  	$4, 4($sp)	# arg 0
+		//jal 	write
+		//addi	$sp, $sp, 4	# restoreRegs complete
+		
+		this.printStream.println("\taddi	$sp, $sp, -4	# saveRegs");
+		this.loadAddress((byte)4, 4, true);
+		this.printStream.println("\tsw  	$4, 4($sp)	# arg 0");
+		this.callProc((byte) -1, "write");
+		this.printStream.println("\taddi	$sp, $sp, 4	# saveRegs");
+		
 	}
 
     /*--- arithmetic operations ---*/
@@ -452,7 +469,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regX			register number of source operand.
 	 */
 	public void neg(byte regDest, byte regX) {
-		this.printStream.println("neg $" + regDest + ", $" + regX);
+		this.printStream.println("\tneg $" + regDest + ", $" + regX);
 	}
 
 	/** 
@@ -464,7 +481,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void add(byte regDest, byte regX, byte regY) {
-		this.printStream.println("add $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println("\tadd $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -476,7 +493,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void sub(byte regDest, byte regX, byte regY) {
-		this.printStream.println("sub $" + regDest + ", $" + regX + ", $" + regY);	
+		this.printStream.println("\tsub $" + regDest + ", $" + regX + ", $" + regY);	
 	}
 
 	/** 
@@ -488,7 +505,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void mul(byte regDest, byte regX, byte regY) {
-		this.printStream.println("mul $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println("\tmul $" + regDest + ", $" + regX + ", $" + regY);
 	}
 	
 	/** 
@@ -501,9 +518,9 @@ public class BackendMIPS implements BackendAsmRM {
 	 */
 	public void div(byte regDest, byte regX, byte regY) {		
 		// divide
-		this.printStream.println("div $" + regX + ", $" + regY);
+		this.printStream.println("\tdiv $" + regX + ", $" + regY);
 		// load HI to destination
-		this.printStream.println("mfhi $" + regDest);
+		this.printStream.println("\tmfhi $" + regDest);
 	}
 
 	/** 
@@ -515,8 +532,8 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void mod(byte regDest, byte regX, byte regY) {		
-		this.printStream.println("div\t$" + regX + ", $" + regY);
-		this.printStream.println("mflo $" + regDest);
+		this.printStream.println("\tdiv\t$" + regX + ", $" + regY);
+		this.printStream.println("\tmflo $" + regDest);
 	}
 	
     /*--- comparison operations ---*/
@@ -529,7 +546,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isLess(byte regDest, byte regX, byte regY) {
-		this.printStream.println ("slt $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println ("\tslt $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -541,7 +558,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isLessOrEqual(byte regDest, byte regX, byte regY) {
-		this.printStream.println ("sle\t$" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println ("\tsle\t$" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -553,7 +570,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void isEqual(byte regDest, byte regX, byte regY) {
-		this.printStream.println ("seq $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println ("\tseq $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
     /*--- logical operations ---*/
@@ -566,7 +583,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regSrc		source register number.
 	 */
 	public void not(byte regDest, byte regSrc) {
-		this.printStream.println ("not $" + regDest + ", $" + regSrc);
+		this.printStream.println ("\tnot $" + regDest + ", $" + regSrc);
 	}
 
 	/** 
@@ -578,7 +595,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void and(byte regDest, byte regX, byte regY) {
-		this.printStream.println ("seq $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println ("\tseq $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
 	/** 
@@ -590,7 +607,7 @@ public class BackendMIPS implements BackendAsmRM {
 	 * @param regY			register number of second source operand.
 	 */
 	public void or(byte regDest, byte regX, byte regY) {
-		this.printStream.println ("seq $" + regDest + ", $" + regX + ", $" + regY);
+		this.printStream.println ("\tseq $" + regDest + ", $" + regX + ", $" + regY);
 	}
 
    /*--- jump instructions ---*/
@@ -604,14 +621,14 @@ public class BackendMIPS implements BackendAsmRM {
 	 */
 	public void branchIf(byte reg, boolean value, String label) {
 		if(value)
-			this.printStream.println ("beq $" + reg + ", 11111111, " + label);
+			this.printStream.println ("\tbeq $" + reg + ", 11111111, " + label);
 		else
-			this.printStream.println ("beq $" + reg + ", 00000000, " + label);	
+			this.printStream.println ("\tbeq $" + reg + ", 00000000, " + label);	
 	}
 
 	/** Emit unconditional jump to <code>label</code>. */
 	public void jump(String label) {
-		this.printStream.println("j " + label);		
+		this.printStream.println("\tjal " + label);		
 	}
 
 	/** 
@@ -622,13 +639,15 @@ public class BackendMIPS implements BackendAsmRM {
 
 		// closes the static data part if it's not done until now
 		this.closeStaticData();
+		// insert predefined functions
+		this.insertPredefinedFunctions();		
 		// print ".globl main"
 		this.printStream.println(".globl main");
 		// print "main:"
 		this.emitLabel("main", "");
 		// standard init main code		
-		this.printStream.println("move	$fp, $sp");		
-		this.printStream.println("la  	$23, staticData	# pointer to static data");
+		this.printStream.println("\tmove	$fp, $sp");		
+		this.printStream.println("\tla  	$23, staticData	# pointer to static data");
 		
 	}
 
@@ -640,8 +659,8 @@ public class BackendMIPS implements BackendAsmRM {
 	public void exitMain(String label) {
 				
 		this.printStream.println(label + ":");
-		this.printStream.println("li  	$v0, 10	# exit system call");
-		this.printStream.println("syscall");
+		this.printStream.println("\tli  	$v0, 10	# exit system call");
+		this.printStream.println("\tsyscall");
 
 	}
 
@@ -652,6 +671,10 @@ public class BackendMIPS implements BackendAsmRM {
      * @param nParams       the number of formal parameters.
      */
 	public void enterProc(String label, int nParams) {
+		
+		// closes the static data part if it's not done until now
+		this.closeStaticData();
+		
 		this.printStream.println(".globl " + label);		
 		this.emitLabel(label, "");
 		
@@ -659,9 +682,9 @@ public class BackendMIPS implements BackendAsmRM {
 	    //sw  	$fp, 8($sp)
 	    //addi	$fp, $sp, 8
 	    //sw  	$ra, -4($fp)
-		this.add((byte)29, (byte)29,(byte) -8);
+		this.printStream.println("\taddi	$sp, $sp, -8");		
 		this.storeWord((byte) 30, (byte)8, false);
-		this.add((byte)30, (byte)29, (byte)8);
+		this.printStream.println("\taddi	$fp, $sp, 8");		
 		this.storeWord((byte)31,(byte)-4,false);		
 		
 	}
@@ -680,9 +703,9 @@ public class BackendMIPS implements BackendAsmRM {
 		//lw  	$fp, 0($fp)
 		//jr  	$ra
 		this.loadWord((byte)31, (byte)-4, false);		    
-		this.printStream.println("move	$sp, $fp");
+		this.printStream.println("\tmove	$sp, $fp");
 		this.loadWord((byte)30, (byte)0, false);
-		this.printStream.println("jr  	$ra");
+		this.printStream.println("\tjr  	$ra");
 	}
 
     /** 
@@ -693,7 +716,7 @@ public class BackendMIPS implements BackendAsmRM {
      *                  if the procedure does not return a value.
      */
 	public void returnFromProc(String label, byte reg) {		
-		this.printStream.println("move $v0, $" + reg);
+		this.printStream.println("\tmove $v0, $" + reg);
 		this.jump(label);
 	}
 
@@ -704,7 +727,27 @@ public class BackendMIPS implements BackendAsmRM {
      * @param numArgs       the number of procedure arguments.
      */
 	public void prepareProcCall(int numArgs) {
-		// TODO Auto-generated method stub
+		
+	    //addi	$sp, $sp, -12	# saveRegs
+		this.printStream.println("\taddi	$sp, $sp, " + (-this.WORDSIZE*numArgs));		
+		this.comment("saveRegisters");
+		
+		int counter = 0;	
+		// save all registers in current skope
+		// at first temporary registers
+		for(int i = 8; i <= 15; i++){
+			this.storeWord((byte) i, (counter*(-this.WORDSIZE))-this.sp, false);
+			counter++;
+		}
+		for(int i = 24; i <= 25; i++){
+			this.storeWord((byte) i, (counter*(-this.WORDSIZE))-this.sp, false);
+			counter++;			
+		}
+		// long living varialbes
+		for(int i = 16; i <= 23; i++){
+			this.storeWord((byte) i, (counter*(-this.WORDSIZE))-this.sp, false);
+			counter++;
+		}
 
 	}
 
@@ -716,8 +759,8 @@ public class BackendMIPS implements BackendAsmRM {
      *                  value resides.
      */
 	public void passArg(int arg, byte reg) {
-		// TODO Auto-generated method stub
-
+		this.storeWord((byte) reg, (byte)((arg+1)*this.WORDSIZE), false);
+		this.comment("pass Arg");
 	}
 
     /** 
@@ -733,8 +776,12 @@ public class BackendMIPS implements BackendAsmRM {
      *                      the label given to {@link #enterProc(String, boolean)}.
      */
 	public void callProc(byte reg, String name) {
-		// TODO Auto-generated method stub
-
+	    //jal 	func
+	    //add 	$2, $v0, $zero
+		
+		this.jump(name);
+		if(reg > 0 )
+			this.add((byte) 2, (byte)2, (byte)0);		
 	}
 	
     /** 
@@ -742,8 +789,7 @@ public class BackendMIPS implements BackendAsmRM {
      * relative to the procedure's stack frame.
      * @param index     the parameter index, starts at 0.
      */	public int paramOffset(int index) {
-		// TODO Auto-generated method stub
-		return 0;
+		return (index + 1) * this.WORDSIZE;		
 	}
 	
 	/**
@@ -791,8 +837,8 @@ public class BackendMIPS implements BackendAsmRM {
 		registerName.put((byte)13, "$t5");
 		registerName.put((byte)14, "$t6");
 		registerName.put((byte)15, "$t7");
-		registerName.put((byte)16, "$t8");
-		registerName.put((byte)17, "$t9");		
+		registerName.put((byte)24, "$t8");
+		registerName.put((byte)25, "$t9");		
 		// long living variables
 		for(int i = 16; i <= 23; i++){
 			registerName.put((byte)i, "$s" + (i - 16));
@@ -808,6 +854,66 @@ public class BackendMIPS implements BackendAsmRM {
 		registerName.put((byte)30, "$fp");		
 		// return address
 		registerName.put((byte)31, "$ra");
+	}
+
+	public void generateWriteInt ()
+	{
+		this.enterProc("writeint", 1);
+		this.printStream.println ("\tlw\t$a0, " + this.paramOffset(0) + "($fp)");
+		this.printStream.println ("\tli\t$v0, 1");
+		this.printStream.println ("\tsyscall\t# print_int");
+		this.exitProc ("writeint_end");
+	}
+	
+	/**
+	 * Inserts the write, writeint and writebool function
+	 */
+	private void insertPredefinedFunctions(){
+		File writeFile = new File("src/impl/PredefinedSources/write.code");				
+		File writeintFile = new File("src/impl/PredefinedSources/writeint.code");
+		File writeboolFile = new File("src/impl/PredefinedSources/writebool.code");
+		
+		FileReader fis = null;	    
+	    BufferedReader br = null;
+		
+		try {
+			  
+			  // print WRITE
+			  fis = new FileReader(writeFile); 		      
+		      br = new BufferedReader(fis);
+		      
+		      while (br.ready()) {
+		        this.printStream.println(br.readLine());
+		      }
+ 
+		      fis.close();
+		      br.close();
+		      
+			  // print WRITEINT
+			  fis = new FileReader(writeintFile); 		      
+		      br = new BufferedReader(fis);
+		      
+		      while (br.ready()) {
+		        this.printStream.println(br.readLine());
+		      }
+ 
+		      fis.close();
+		      br.close();
+		      
+			  // print WRITEBOOL
+			  fis = new FileReader(writeboolFile); 		      
+		      br = new BufferedReader(fis);
+		      
+		      while (br.ready()) {
+		        this.printStream.println(br.readLine());
+		      }
+ 
+		      fis.close();
+		      br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
