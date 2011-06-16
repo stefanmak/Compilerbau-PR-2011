@@ -1,14 +1,15 @@
-.globl writeint
-writeint:
+.globl writeln
+writeln:	
 	addi	$sp, $sp, -8
 	sw 		$fp, 8($sp)
 	addi	$fp, $sp, 8
 	sw 		$ra, -4($sp)
 	lw		$a0, 4($fp)
-	li		$v0, 1
-	syscall	# print_int
-writeint_end:
+	li		$v0, 4
+	syscall	# print_string
+writeln_end:
 	lw 		$ra, -4($sp)
 	move	$sp, $fp
 	lw 		$fp, 0($sp)
 	jr  	$ra
+	

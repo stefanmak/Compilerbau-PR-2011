@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.io.*;
 
 /** Scanner for Compiler Milestone 1 */
 public class StefanMak implements StefanMakConstants {
@@ -23,6 +24,9 @@ public class StefanMak implements StefanMakConstants {
   private static Symbol pre_writebool;
 
   private static Symbol pre_readint;
+
+  /** Declaration for CodeGenerator **/
+  private static CodeGenerator cg = null;
 
   /** stuff for procedures... */
 
@@ -42,6 +46,13 @@ public class StefanMak implements StefanMakConstants {
     /** Declare variables for program read*/
     File file = null;
     FileInputStream fis = null;
+
+        File outputFile = null;
+        FileOutputStream fout = null;
+        PrintStream prout = null;
+
+
+
     symTable = new SymboltableImpl();
     /** Read YAPL File from file */
     if (args.length != 0)
@@ -50,6 +61,12 @@ public class StefanMak implements StefanMakConstants {
       {
         file = new File(args [0]);
         fis = new FileInputStream(file);
+
+        outputFile = new File(file.getAbsolutePath() + ".asm");
+        fout = new FileOutputStream(outputFile);
+        prout = new PrintStream(fout);
+
+        cg = new CodeGenerator(prout);
       }
       catch (IOException ex)
       {
@@ -70,6 +87,7 @@ public class StefanMak implements StefanMakConstants {
       parser.Start();
       /** Parsing was correct and complete */
       CompilerMessage.printOK(StefanMak.program_name);
+      prout.close();
     }
     catch (TokenMgrError ex)
     {
@@ -785,8 +803,10 @@ public class StefanMak implements StefanMakConstants {
   }
 
   static final public void WRITESTATEMENT() throws ParseException {
+ Token t;
     jj_consume_token(WRITE);
-    jj_consume_token(STRING);
+    t = jj_consume_token(STRING);
+    cg.writeString(t.image);
   }
 
   static final public void STATEMENT() throws ParseException {
@@ -1197,6 +1217,9 @@ public class StefanMak implements StefanMakConstants {
     /** Open Programm Scope */
     symTable.openScope(false);
     symTable.setParentSymbol(programStart);
+
+    /** Generate Code for Programm Start **/
+    cg.back.enterMain();
     label_12:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1231,6 +1254,9 @@ public class StefanMak implements StefanMakConstants {
     symTable.closeScope();
     /** Close Universe Scope */
     symTable.closeScope();
+
+    /** Generate Code for Programm End **/
+    cg.back.exitMain("main_end");
     jj_consume_token(DOT);
   }
 
@@ -1254,26 +1280,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -1286,6 +1292,26 @@ public class StefanMak implements StefanMakConstants {
   static private boolean jj_3R_13() {
     if (jj_scan_token(IDENT)) return true;
     if (jj_scan_token(LPAR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
     return false;
   }
 

@@ -1,5 +1,8 @@
 package yapl.impl;
 
+import java.io.File;
+import java.io.PrintStream;
+
 import yapl.interfaces.Attrib;
 import yapl.interfaces.CodeGen;
 import yapl.interfaces.Symbol;
@@ -8,6 +11,14 @@ import yapl.lib.YAPLException;
 
 public class CodeGenerator implements CodeGen{
 
+	public BackendMIPS back;
+	
+	public CodeGenerator(PrintStream printStream){
+				
+		back = new BackendMIPS(printStream);		
+		
+	}
+	
 	@Override
 	public String newLabel() {
 		// TODO Auto-generated method stub
@@ -120,14 +131,17 @@ public class CodeGenerator implements CodeGen{
 
 	@Override
 	public Attrib callProc(Symbol proc, Attrib[] args) throws YAPLException {
-		// TODO Auto-generated method stub
+		this.back.callProc((byte)0, proc.getName());
 		return null;
 	}
 
-	@Override
+	/**
+	 * Writes a String 
+	 */	
 	public void writeString(String string) throws YAPLException {
-		// TODO Auto-generated method stub
-		
+		string = string.substring(1, string.length()-1);		
+		int reg = this.back.allocStringConstant(string);		
+		this.back.writeString(reg);
 	}
 
 	@Override
