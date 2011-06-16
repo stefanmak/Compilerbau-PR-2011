@@ -2,6 +2,7 @@ package yapl.impl;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 import yapl.interfaces.Attrib;
 import yapl.interfaces.CodeGen;
@@ -131,15 +132,45 @@ public class CodeGenerator implements CodeGen{
 
 	@Override
 	public Attrib callProc(Symbol proc, Attrib[] args) throws YAPLException {
-		this.back.callProc((byte)0, proc.getName());
+		
+		// check if writeln -> predefine procedure
+		if(proc.getName().equals("writeln")){			
+			this.writeString("\"\\n\"");			
+		}else{		
+			this.back.callProc((byte)0, proc.getName());
+		}
 		return null;
 	}
+		
+	public void callProcedure(Symbol proc, LinkedList<Type> arguments) throws YAPLException {		
+		// check if writeln -> predefine procedure
+		if(proc.getName().equals("writeln")){			
+			this.writeString("\"\\n\"");			
+		}else{		
+			this.back.prepareProcCall(arguments.size());			
+			int argCounter = 4;
+			for(Type t: arguments){
+				
+				try{
+					int value = Integer.parseInt(t.getToken().getImage());
+					this.back.printStream.println("li	$" + argCounter + " , " + value);				
+					
+				}catch(Exception e){
+					// Argument is a Variable or Boolean
+					
+				}							
+			}
+			this.back.callProc((byte)0, proc.getName());
+			this.back.restoreRegisters();
+		}		
+	}
+		
 
 	/**
 	 * Writes a String 
 	 */	
 	public void writeString(String string) throws YAPLException {
-		string = string.substring(1, string.length()-1);		
+		string = string.substring(1, string.length()-1);				
 		int reg = this.back.allocStringConstant(string);		
 		this.back.writeString(reg);
 	}

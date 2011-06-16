@@ -25,6 +25,9 @@ public class StefanMak implements StefanMakConstants {
 
   private static Symbol pre_readint;
 
+  /** Argument List **/
+  private static LinkedList<Type > argumentList;
+
   /** Declaration for CodeGenerator **/
   private static CodeGenerator cg = null;
 
@@ -541,10 +544,12 @@ public class StefanMak implements StefanMakConstants {
         int arguments = 1;
         int counter = 1;
         Symbol start = procedureName.getNextSymbol();
-        LinkedList<Type > argumentList = new LinkedList<Type >();
+        argumentList = new LinkedList<Type >();
+        LinkedList<Type > tempList = new LinkedList<Type >();
         Type type;
     type = EXPR();
     argumentList.add(type);
+    tempList.add(type);
     label_6:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -558,6 +563,7 @@ public class StefanMak implements StefanMakConstants {
       jj_consume_token(COMMA);
       type = EXPR();
       argumentList.add(type);
+      tempList.add(type);
       arguments++;
     }
     while(start != null && !argumentList.isEmpty())
@@ -591,6 +597,8 @@ public class StefanMak implements StefanMakConstants {
       argumentList.getFirst().getToken().setImage("" + counter);
       {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
     }
+
+    argumentList = tempList;
     {if (true) return arguments;}
     throw new Error("Missing return statement in function");
   }
@@ -654,6 +662,10 @@ public class StefanMak implements StefanMakConstants {
         {
                 type = new Type(false, ident.getType().getType(), t);
         }
+
+                /** CodeGen for procedurecall **/
+        cg.callProcedure(symTable.lookup(t.image),argumentList);
+
                 {if (true) return type;}
     throw new Error("Missing return statement in function");
   }
@@ -1205,11 +1217,16 @@ public class StefanMak implements StefanMakConstants {
         SymbolImpl predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
         predefinedArgument.setType(new Type(false, Type.INT,null));
         pre_writeint.setNextSymbol(predefinedArgument);
-
     pre_writeint.setType(new Type(false, Type.INT,null));
     symTable.addSymbol(pre_writeint);
+
     pre_writebool = new SymbolImpl(Symbol.Procedure, "writebool");
+    predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
+        predefinedArgument.setType(new Type(false, Type.BOOL,null));
+        pre_writebool.setNextSymbol(predefinedArgument);
+    pre_writebool.setType(new Type(false, Type.BOOL,null));
     symTable.addSymbol(pre_writebool);
+
     pre_readint = new SymbolImpl(Symbol.Procedure, "readint");
     pre_readint.setType(new Type(false, Type.INT,null));
     symTable.addSymbol(pre_readint);
@@ -1280,12 +1297,8 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENT)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) jj_scanpos = xsp;
-    if (jj_scan_token(50)) return true;
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -1295,8 +1308,8 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
     return false;
   }
 
@@ -1305,13 +1318,17 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
     return false;
   }
 
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENT)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) jj_scanpos = xsp;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
