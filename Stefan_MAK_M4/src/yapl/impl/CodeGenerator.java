@@ -46,12 +46,18 @@ public class CodeGenerator implements CodeGen {
 
 	@Override
 	public void allocVariable(Symbol sym) throws YAPLException {
-		// Alloc static Data
+		// Alloc static Data		
 		if (sym.isGlobal()) {
 			if (sym.getType().getType() == 0) {
 				int value = Integer.parseInt(sym.getType().getToken()
 						.getImage());
 				sym.setOffset(this.back.allocIntConstant(value));
+			}else if(sym.getType().getType() == 1){
+				boolean value = Boolean.parseBoolean(sym.getType().getToken().getImage());
+				if(value)
+					sym.setOffset(this.back.allocIntConstant(1));
+				else
+					sym.setOffset(this.back.allocIntConstant(0));
 			}
 		}
 	}
@@ -174,17 +180,24 @@ public class CodeGenerator implements CodeGen {
 		} else {
 			this.back.prepareProcCall(arguments.size());
 			int argCounter = 4;
-			for (Type t : arguments) {
-
+			for (Type t : arguments) {				
 				try {
 					// Argument is number
 					int value = Integer.parseInt(t.getToken().getImage());
 					this.back.printStream.println("li	$" + argCounter + " , "
 							+ value);
 
-				} catch (Exception e) {
-					// Argument is a Variable or Boolean
-
+				} catch (Exception e1) {
+					// Argument is a Bool - Constant
+					if(t.getToken().getImage().equals("True"))											
+							this.back.printStream.println("li $" + argCounter + ", 1");
+					else if(t.getToken().getImage().equals("False"))
+							this.back.printStream.println("li $" + argCounter + ", 0");
+					else
+					{
+						Attrib offset = variables.get(arguments.getFirst().getToken().getImage());
+						this.back.loadWord((byte)argCounter, offset.getOffset(), true);						
+					}								
 				}
 			}
 			this.back.callProc((byte) 0, proc.getName());

@@ -4,8 +4,8 @@ writebool:
     sw  	$fp, 8($sp)
     addi	$fp, $sp, 8
     sw  	$ra, -4($fp)
-    lw  	$2, 4($30)
-    beqz	$2, wL1
+    #lw  	$2, 4($30)
+    beqz	$4, wL1
     addi	$sp, $sp, -4	# saveRegs
     la  	$4, 4($23)
     sw  	$4, 4($sp)	# arg 0
@@ -14,7 +14,7 @@ writebool:
     j   	writebool_end
 wL1:				# write 'False'
     addi	$sp, $sp, -4	# saveRegs
-    la  	$4, 9($23)
+    la  	$4, 12($23)
     sw  	$4, 4($sp)	# arg 0
     jal 	write
     addi	$sp, $sp, 4	# restoreRegs complete

@@ -984,7 +984,7 @@ public class StefanMak implements StefanMakConstants {
     }
     else
     {
-      if (t_sec.image.equals("True") || t_sec.image.equals("False")) type = new Type(true, Type.CONST, t_sec);
+      if (t_sec.image.equals("True") || t_sec.image.equals("False")) type = new Type(true, Type.BOOL, t_sec);
       else type = new Type(true, Type.INT, t_sec);
       constdec = new SymbolImpl(Symbol.Constant, t.image);
       constdec.setType(type);
