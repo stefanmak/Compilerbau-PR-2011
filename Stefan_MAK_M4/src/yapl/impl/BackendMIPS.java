@@ -273,6 +273,37 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 		return returnAddress;
 	}
 
+	/**
+	 * Allocates a integer in static data
+	 * @param string
+	 * @return
+	 */
+	public int allocIntConstant(int integer){				
+		// returning Address for the starting point of the data area
+		int returnAddress = this.gp;
+		this.gp += this.WORDSIZE;
+		
+		// Prints the staticData
+		if(!this.staticDataLabelPrinted){
+			this.emitLabel("staticData", "");						
+			this.printStream.println("	.align 2");
+			this.staticDataLabelPrinted = true;
+		}
+		
+		// Not static data
+		if(this.textLabelPrinted){
+			this.printStream.println(".data");
+			this.printStream.println("	.word " + integer + " # offset = " + returnAddress);
+			this.printStream.println(".text");
+		}else{		
+			this.printStream.println("	.word " + integer + " # offset = " + returnAddress);
+		}		
+		
+		return returnAddress;
+	}
+	
+	
+	
     /** 
      * Allocate space on the stack.
      * The allocated space will be word-aligned.

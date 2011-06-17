@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="18" version="2.0">
+<workbench progressCount="12" version="2.0">
 <workbenchAdvisor/>
-<window height="1040" width="1185" x="0" y="0">
+<window height="1040" width="1376" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -20,10 +20,11 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.ant.ui.internal.editor.AntEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.ClassFileEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ant.ui.internal.editor.AntEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="sf.eclipse.javacc.editors.JJEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -36,31 +37,21 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
-<part id="3"/>
-<part id="4"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/Main.java" title="Main.java" tooltip="BackendTest/src/Main.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3357" selectionTopPixel="1197"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeGenerator.java" partName="CodeGenerator.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M4/src/yapl/impl/CodeGenerator.java" title="CodeGenerator.java" tooltip="Stefan_MAK_M4/src/yapl/impl/CodeGenerator.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M4/src/yapl/impl/CodeGenerator.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3350" selectionTopPixel="153"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendMIPS.java" partName="BackendMIPS.java" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/impl/BackendMIPS.java" title="BackendMIPS.java" tooltip="BackendTest/src/impl/BackendMIPS.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/impl/BackendMIPS.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="29316" selectionTopPixel="14032"/>
+<editor activePart="true" focus="true" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" partName="StefanMak.jj" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M4/src/StefanMak.jj" title="StefanMak.jj" tooltip="Stefan_MAK_M4/src/StefanMak.jj" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M4/src/StefanMak.jj"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="19719" selectionTopPixel="15759"/>
 </editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="writebool.code" partName="writebool.code" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/impl/PredefinedSources/writebool.code" title="writebool.code" tooltip="BackendTest/src/impl/PredefinedSources/writebool.code" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/impl/PredefinedSources/writebool.code"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="322" selectionTopPixel="0"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.ui.DefaultTextEditor" name="writeint.code" partName="writeint.code" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/impl/PredefinedSources/writeint.code" title="writeint.code" tooltip="BackendTest/src/impl/PredefinedSources/writeint.code" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/impl/PredefinedSources/writeint.code"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="208" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.ui.DefaultTextEditor" name="write.code" partName="write.code" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/BackendTest/src/impl/PredefinedSources/write.code" title="write.code" tooltip="BackendTest/src/impl/PredefinedSources/write.code" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BackendTest/src/impl/PredefinedSources/write.code"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14" selectionTopPixel="0"/>
+<editor id="org.eclipse.ant.ui.internal.editor.AntEditor" name="build.xml" partName="build.xml" path="C:/Projekte/UNI/7 Semester/Compilerbau PR/myWorkspace/Stefan_MAK_M4/build.xml" title="build.xml" tooltip="Stefan_MAK_M4/build.xml" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Stefan_MAK_M4/build.xml"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1081" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -79,23 +70,17 @@
 <child filterId="org.eclipse.jdt.ui.TypesView.AnnotationFilter" isEnabled="false"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=BackendTest/src&lt;{Main.java[Main"/>
-</selectedElements>
 </viewState>
 </view>
 <view id="org.eclipse.jdt.ui.ProjectsView" partName="Projects">
 <viewState org.eclipse.jdt.ui.browsing.projectstoeditor="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.ProjectsView.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.ProjectsView.LibraryFilter" isEnabled="false"/>
 <child filterId="sf.eclipse.javacc.filters.FilterGeneratedJavaCCFiles" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.ProjectsView.NonSharedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.ProjectsView.ContainedLibraryFilter" isEnabled="false"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=BackendTest/src"/>
+<selectedElements>&#x0A;<selectedElement selectedElementPath="=BackendTest/src"/>
 </selectedElements>
 </viewState>
 </view>
@@ -113,11 +98,15 @@
 <element path="/BackendTest"/>
 <element path="/BackendTest/src"/>
 <element path="/BackendTest/src/impl"/>
-<element path="/BackendTest/src/impl/PredefinedSources"/>
-<element path="/BackendTest/src/interfaces"/>
+<element path="/Stefan_MAK_M4"/>
+<element path="/Stefan_MAK_M4/src"/>
+<element path="/Stefan_MAK_M4/src/yapl"/>
+<element path="/Stefan_MAK_M4/src/yapl/impl"/>
+<element path="/Stefan_MAK_M4/src/yapl/interfaces"/>
+<element path="/Stefan_MAK_M4/src/yapl/lib"/>
 </expanded>
 <selection>
-<element path="/BackendTest/src/impl/PredefinedSources/write.code"/>
+<element path="/Stefan_MAK_M4/build.xml"/>
 </selection>
 </viewState>
 </view>
@@ -182,13 +171,10 @@
 <child filterId="org.eclipse.jdt.internal.ui.PackagesView.NoPackageContainingFolders" isEnabled="true"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=BackendTest/src&lt;"/>
-</selectedElements>
 </viewState>
 </view>
 </views>
-<perspectives activePart="org.eclipse.ui.DefaultTextEditor" activePerspective="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+<perspectives activePart="sf.eclipse.javacc.editors.JJEditor" activePerspective="org.eclipse.jdt.ui.JavaBrowsingPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
@@ -340,52 +326,38 @@
 <view id="org.eclipse.ui.views.TaskList"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@5ee76547" ratio="0.74978936" ratioLeft="890" ratioRight="297" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@5ee76547" ratio="0.74978936" ratioLeft="890" ratioRight="297" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.49344978" ratioLeft="452" ratioRight="464" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.49344978" ratioLeft="452" ratioRight="464" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.4488304" ratioLeft="307" ratioRight="377" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.83363634" ratioLeft="917" ratioRight="183" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.83363634" ratioLeft="917" ratioRight="183" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49957877" ratioLeft="593" ratioRight="594" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49957877" ratioLeft="593" ratioRight="594" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
@@ -455,8 +427,9 @@
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.jdt.ui.SourceView"/>
-<view id="org.eclipse.jdt.ui.TypeHierarchy"/>
+<view id="sf.eclipse.javacc.Console"/>
 <view id="org.eclipse.ui.views.ResourceNavigator"/>
+<view id="org.eclipse.jdt.ui.TypeHierarchy"/>
 <fastViewBars>
 <fastViewBar fastViewLocation="16384" id="org.eclipse.ui.internal.ViewStack@24b81bfc" orientation="256" selectedTabId="org.eclipse.jdt.ui.PackagesView" style="0">
 <fastViews>
@@ -469,7 +442,7 @@
 <layout>
 <mainWindow>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@24b81bfc">
-<folder appearance="2" expanded="0">
+<folder appearance="2" expanded="2">
 <page content="org.eclipse.jdt.ui.ProjectsView" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackagesView" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypesView" label="LabelNotFound"/>
@@ -498,10 +471,11 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.22273998" ratioLeft="239" ratioRight="834" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1987c3db"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@379cb263" ratio="0.61790395" ratioLeft="566" ratioRight="350" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@379cb263" ratio="0.6899563" ratioLeft="632" ratioRight="284" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
+<page content="sf.eclipse.javacc.Console" label="JavaCC Console"/>
 <page content="org.eclipse.ui.views.ProblemView" label="LabelNotFound"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
@@ -510,6 +484,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
 </presentation>
 </folder>
 </info>
@@ -526,162 +501,161 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/BackendTest/src/impl/BackendMIPS.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/BackendTest/src/Main.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/BackendTest/src/impl/PredefinedSources/write.code"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/BackendTest/src/impl/PredefinedSources/writeint.code"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/BackendTest/src/impl/PredefinedSources/writebool.code"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/BackendTest/src/impl/PredefinedSources/writebool.code"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" path="/Stefan_MAK_M4/src/StefanMak.jj"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M4/src/StefanMak.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M4/src/yapl/impl/Type.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M4/src/yapl/impl/SymbolImpl.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Stefan_MAK_M4/src/yapl/lib/YAPLException.java"/>
 </editors>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="29729" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12738" y="0"/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="21903" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25288" y="0"/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="27406" y="15"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25348" y="0"/>
 </item>
-<item historyLabel="Main.java" index="1">
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20359" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25348" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20359" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25348" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25288" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25348" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20359" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25348" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="25288" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20359" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20396" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="SymbolImpl.java" index="3">
+<position info="not_deleted" x="607" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="Type.java" index="2">
+<position info="not_deleted" x="941" y="7"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20472" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12825" y="0"/>
+</item>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20557" y="23"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="27406" y="15"/>
+<item historyLabel="StefanMak.java" index="1">
+<position info="not_deleted" x="20558" y="23"/>
 </item>
-<item historyLabel="Main.java" index="1">
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="21807" y="9"/>
-</item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="writebool.code" index="4">
-<position info="not_deleted" x="334" y="0"/>
-</item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="writebool.code" index="4">
-<position info="not_deleted" x="334" y="0"/>
-</item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="21822" y="0"/>
-</item>
-<item historyLabel="Main.java" index="1">
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="22707" y="0"/>
+<item historyLabel="YAPLException.java" index="4">
+<position info="not_deleted" x="3499" y="10"/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position info="not_deleted" x="3563" y="0"/>
-</item>
-<item historyLabel="writebool.code" index="5">
-<position info="not_deleted" x="322" y="0"/>
-</item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="240"/>
-</item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="227" y="0"/>
-</item>
-<item historyLabel="Main.java" index="1">
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="22707" y="0"/>
-</item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="23842" y="8"/>
-</item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="11117" y="8"/>
-</item>
-<item historyLabel="write.code" index="2">
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="11117" y="8"/>
-</item>
-<item historyLabel="Main.java" index="1">
-<position info="not_deleted" x="689" y="0"/>
-</item>
-<item historyLabel="BackendMIPS.java" index="0">
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="Main.java" index="1">
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
+</item>
+<item historyLabel="StefanMak.jj" index="0">
 <position/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12833" y="0"/>
 </item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12833" y="0"/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12745" y="0"/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="29116" y="16"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12744" y="0"/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12735" y="0"/>
 </item>
-<item historyLabel="BackendMIPS.java" index="0">
-<position info="not_deleted" x="29316" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12734" y="0"/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12718" y="0"/>
 </item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="240" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12734" y="0"/>
 </item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12727" y="0"/>
 </item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="240" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12825" y="0"/>
 </item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12818" y="0"/>
 </item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="240" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12840" y="0"/>
 </item>
-<item historyLabel="Main.java" index="1">
-<position info="not_deleted" x="3357" y="0"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12825" y="0"/>
 </item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="238"/>
+<item historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12727" y="0"/>
 </item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
-</item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="238"/>
-</item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
-</item>
-<item historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="238"/>
-</item>
-<item historyLabel="write.code" index="2">
-<position info="not_deleted" x="14" y="0"/>
-</item>
-<item active="true" historyLabel="writeint.code" index="3">
-<position info="not_deleted" x="0" y="238"/>
+<item active="true" historyLabel="StefanMak.jj" index="0">
+<position info="not_deleted" x="12719" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -691,10 +665,6 @@
 <trimLayout>
 <trimArea IMemento.internal.id="16384">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@24b81bfc"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="org.eclipse.ui.editorss"/>
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@6fbfce66"/>
 </trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
@@ -707,50 +677,50 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="write.code" tooltip="BackendTest/src/impl/PredefinedSources/write.code">
-<persistable path="/BackendTest/src/impl/PredefinedSources/write.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="YAPLException.java" tooltip="Stefan_MAK_M4/src/yapl/lib/YAPLException.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/lib/YAPLException.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeint.code" tooltip="BackendTest/src/impl/PredefinedSources/writeint.code">
-<persistable path="/BackendTest/src/impl/PredefinedSources/writeint.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SymbolImpl.java" tooltip="Stefan_MAK_M4/src/yapl/impl/SymbolImpl.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/SymbolImpl.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writebool.code" tooltip="BackendTest/src/impl/PredefinedSources/writebool.code">
-<persistable path="/BackendTest/src/impl/PredefinedSources/writebool.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="sf.eclipse.javacc.editors.JJEditor" name="StefanMak.jj" tooltip="Stefan_MAK_M3/src/StefanMak.jj">
+<persistable path="/Stefan_MAK_M3/src/StefanMak.jj"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeboolean.code" tooltip="BackendTest/src/impl/PredefinedSources/writeboolean.code">
-<persistable path="/BackendTest/src/impl/PredefinedSources/writeboolean.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeint.code" tooltip="Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeint.code">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeint.code"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeint.code" tooltip="BackendTest/src/PredefindeSources/writeint.code">
-<persistable path="/BackendTest/src/PredefindeSources/writeint.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Type.java" tooltip="Stefan_MAK_M4/src/yapl/impl/Type.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/Type.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="writeint.cod" tooltip="BackendTest/src/PredefindeSources/writeint.cod">
-<persistable path="/BackendTest/src/PredefindeSources/writeint.cod"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StefanMak.java" tooltip="Stefan_MAK_M4/src/StefanMak.java">
+<persistable path="/Stefan_MAK_M4/src/StefanMak.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeint" tooltip="BackendTest/src/PredefindeSources/writeint">
-<persistable path="/BackendTest/src/PredefindeSources/writeint"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Token.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/Token.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/interfaces/Token.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeboolean.code" tooltip="BackendTest/src/PredefindeSources/writeboolean.code">
-<persistable path="/BackendTest/src/PredefindeSources/writeboolean.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AttribImpl.java" tooltip="Stefan_MAK_M4/src/yapl/impl/AttribImpl.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/AttribImpl.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="write.code" tooltip="BackendTest/src/PredefindeSources/write.code">
-<persistable path="/BackendTest/src/PredefindeSources/write.code"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeGen.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/CodeGen.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/interfaces/CodeGen.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendMIPS.java" tooltip="BackendTest/src/impl/BackendMIPS.java">
 <persistable path="/BackendTest/src/impl/BackendMIPS.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRM.java" tooltip="BackendTest/src/interfaces/BackendAsmRM.java">
-<persistable path="/BackendTest/src/interfaces/BackendAsmRM.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="write.code" tooltip="Stefan_MAK_M4/src/yapl/impl/PredefinedSources/write.code">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/PredefinedSources/write.code"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRM.java" tooltip="Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java">
-<persistable path="/Stefan_MAK_M4/src/yapl/interfaces/BackendAsmRM.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeln.code" tooltip="Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeln.code">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeln.code"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" tooltip="BackendTest/src/Main.java">
-<persistable path="/BackendTest/src/Main.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="writeln" tooltip="Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeln">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/PredefinedSources/writeln"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRMImpl.java" tooltip="BackendTest/src/impl/BackendAsmRMImpl.java">
-<persistable path="/BackendTest/src/impl/BackendAsmRMImpl.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="BackendMIPS.class" tooltip="Stefan_MAK_M4/bin/yapl/impl/BackendMIPS.class">
+<persistable path="/Stefan_MAK_M4/bin/yapl/impl/BackendMIPS.class"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendAsmRMImpl.java" tooltip="Stefan_MAK_M4/src/yapl/impl/BackendAsmRMImpl.java">
-<persistable path="/Stefan_MAK_M4/src/yapl/impl/BackendAsmRMImpl.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BackendMIPS.java" tooltip="Stefan_MAK_M4/src/yapl/impl/BackendMIPS.java">
+<persistable path="/Stefan_MAK_M4/src/yapl/impl/BackendMIPS.java"/>
 </file>
 </mruList>
 </workbench>

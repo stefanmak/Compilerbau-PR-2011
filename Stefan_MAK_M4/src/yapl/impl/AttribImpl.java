@@ -32,7 +32,7 @@ import yapl.interfaces.Attrib;
 public class AttribImpl implements Attrib{
 	
 	private byte kind; 
-	private Type type;
+	private Type type;	
 	private boolean isConstant;
 	private boolean isGlobal;
 	private int offset;
@@ -118,6 +118,5 @@ public class AttribImpl implements Attrib{
 	/** Set the register number (for register operands). */
 	public void setRegister(byte register) {
 		this.register = register; 		
-	}
-
+	}	
 }

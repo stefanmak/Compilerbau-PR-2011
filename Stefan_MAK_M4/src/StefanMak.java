@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.io.*;
+import java.util.HashMap;
 
 /** Scanner for Compiler Milestone 1 */
 public class StefanMak implements StefanMakConstants {
@@ -31,6 +32,10 @@ public class StefanMak implements StefanMakConstants {
   /** Declaration for CodeGenerator **/
   private static CodeGenerator cg = null;
 
+  /** Map which contains all variables **/
+  private static HashMap<String,Attrib > variablesMap = new HashMap<String,Attrib >();
+
+
   /** stuff for procedures... */
 
   /** is set if a procedure needs a return*/
@@ -46,6 +51,7 @@ public class StefanMak implements StefanMakConstants {
   /** Main entry point. */
   public static void main(String args []) throws TokenMgrError, YAPLException, ParseException
   {
+
     /** Declare variables for program read*/
     File file = null;
     FileInputStream fis = null;
@@ -53,8 +59,6 @@ public class StefanMak implements StefanMakConstants {
         File outputFile = null;
         FileOutputStream fout = null;
         PrintStream prout = null;
-
-
 
     symTable = new SymboltableImpl();
     /** Read YAPL File from file */
@@ -568,7 +572,10 @@ public class StefanMak implements StefanMakConstants {
     }
     while(start != null && !argumentList.isEmpty())
     {
-      if(start.getType().getType() != argumentList.getFirst().getType())
+      if(procedureName.getName().equals("writebool") && argumentList.getFirst().getType() == 2)
+      {
+      }
+          else if(start.getType().getType() != argumentList.getFirst().getType())
       {
         argumentList.getFirst().getToken().setImage("" + counter);
         {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
@@ -664,7 +671,7 @@ public class StefanMak implements StefanMakConstants {
         }
 
                 /** CodeGen for procedurecall **/
-        cg.callProcedure(symTable.lookup(t.image),argumentList);
+        cg.callProcedure(symTable.lookup(t.image),argumentList,variablesMap);
 
                 {if (true) return type;}
     throw new Error("Missing return statement in function");
@@ -981,7 +988,16 @@ public class StefanMak implements StefanMakConstants {
       else type = new Type(true, Type.INT, t_sec);
       constdec = new SymbolImpl(Symbol.Constant, t.image);
       constdec.setType(type);
+      constdec.setGlobal(true);
       symTable.addSymbol(constdec);
+
+      /** Code Generation **/
+      AttribImpl attrib = new AttribImpl();
+      attrib.setType(type);
+      cg.allocVariable(constdec);
+      attrib.setOffset(constdec.getOffset());
+      variablesMap.put(t.image,attrib);
+      //System.out.println(constdec.getOffset());
     }
   }
 
@@ -1224,7 +1240,7 @@ public class StefanMak implements StefanMakConstants {
     predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
         predefinedArgument.setType(new Type(false, Type.BOOL,null));
         pre_writebool.setNextSymbol(predefinedArgument);
-    pre_writebool.setType(new Type(false, Type.BOOL,null));
+    //pre_writebool.setType(new Type(false, Type.BOOL,null));
     symTable.addSymbol(pre_writebool);
 
     pre_readint = new SymbolImpl(Symbol.Procedure, "readint");
@@ -1297,6 +1313,25 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENT)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) jj_scanpos = xsp;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
     return false;
@@ -1308,27 +1343,8 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_15() {
     if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENT)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) jj_scanpos = xsp;
-    if (jj_scan_token(50)) return true;
     return false;
   }
 
