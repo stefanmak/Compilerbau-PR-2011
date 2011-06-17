@@ -217,8 +217,16 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 			this.printStream.println("	.align 2");
 			this.staticDataLabelPrinted = true;
 		}
-		 		
-		this.printStream.println("	.space " + cWords*this.WORDSIZE + " # " + comment);
+		
+		// Not static data
+		if(this.textLabelPrinted){
+			this.printStream.println(".data");
+			this.printStream.println("	.space " + cWords*this.WORDSIZE + " # " + comment);			
+			this.printStream.println(".text");
+		}else{		
+			this.printStream.println("	.space " + cWords*this.WORDSIZE + " # " + comment);			
+		}
+		
 		
 		return returnAddress;
 	}

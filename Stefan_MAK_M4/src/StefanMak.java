@@ -739,6 +739,12 @@ public class StefanMak implements StefanMakConstants {
                 {
                 {if (true) throw new YAPLException(CompilerError.TypeMismatchAssign, assi, t_sec);}
         }
+
+        /** Code Generation **/
+        AttribImpl attrib = (AttribImpl) variablesMap.get(t.image);
+        AttribImpl expr = new AttribImpl();
+        expr.setType(type);
+        cg.assign(attrib,expr);
   }
 
   static final public void IFSTATEMENT() throws ParseException {
@@ -1016,6 +1022,14 @@ public class StefanMak implements StefanMakConstants {
       vardecl = new SymbolImpl(Symbol.Variable, t.image);
       symTable.addSymbol(vardecl);
       vardecl.setType(type);
+
+       /** Code Generation **/
+      AttribImpl attrib = new AttribImpl();
+      attrib.setType(type);
+      cg.allocVariable(vardecl);
+      attrib.setOffset(vardecl.getOffset());
+      variablesMap.put(t.image,attrib);
+      //System.out.println(constdec.getOffset());
     }
     label_9:
     while (true) {
@@ -1039,6 +1053,14 @@ public class StefanMak implements StefanMakConstants {
         vardecl = new SymbolImpl(Symbol.Variable, t.image);
         vardecl.setType(type);
         symTable.addSymbol(vardecl);
+
+         /** Code Generation **/
+              AttribImpl attrib = new AttribImpl();
+              attrib.setType(type);
+              cg.allocVariable(vardecl);
+              attrib.setOffset(vardecl.getOffset());
+              variablesMap.put(t.image,attrib);
+              //System.out.println(constdec.getOffset());
       }
     }
     jj_consume_token(SEMICOLON);
@@ -1318,6 +1340,11 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENT)) return true;
     Token xsp;
@@ -1329,11 +1356,6 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3_1() {
     if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
     return false;
   }
 

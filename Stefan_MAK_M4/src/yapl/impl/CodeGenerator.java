@@ -12,7 +12,8 @@ import yapl.lib.YAPLException;
 public class CodeGenerator implements CodeGen {
 
 	public BackendMIPS back;
-
+	public HashMap<String, Attrib> variables;
+	
 	public CodeGenerator(PrintStream printStream) {
 
 		back = new BackendMIPS(printStream);
@@ -45,9 +46,9 @@ public class CodeGenerator implements CodeGen {
 	}
 
 	@Override
-	public void allocVariable(Symbol sym) throws YAPLException {
-		// Alloc static Data		
-		if (sym.isGlobal()) {
+	public void allocVariable(Symbol sym) throws YAPLException {		
+		//Constants
+		if(sym.getType().isReadOnly()){
 			if (sym.getType().getType() == 0) {
 				int value = Integer.parseInt(sym.getType().getToken()
 						.getImage());
@@ -59,6 +60,8 @@ public class CodeGenerator implements CodeGen {
 				else
 					sym.setOffset(this.back.allocIntConstant(0));
 			}
+		}else{			
+			sym.setOffset(this.back.allocStaticData(4, sym.getName()));	
 		}
 	}
 
@@ -93,9 +96,40 @@ public class CodeGenerator implements CodeGen {
 	}
 
 	@Override
-	public void assign(Attrib lvalue, Attrib expr) throws YAPLException {
-		// TODO Auto-generated method stub
-
+	public void assign(Attrib lvalue, Attrib expr) throws YAPLException { 
+		//System.out.println("->" + lvalue.getOffset() + " " + expr.getType().getToken().getImage());		
+		int value = 0;
+		
+		if(expr.getType().getToken().getImage().equals("True")){
+			value = 1;
+			byte reg = this.back.allocReg();
+			this.back.printStream.println("\tli 	$" + reg + ", " + value);
+			this.back.storeWord(reg, lvalue.getOffset(), true);
+		}
+		else if(expr.getType().getToken().getImage().equals("False")){
+			value = 0;
+			byte reg = this.back.allocReg();
+			this.back.printStream.println("\tli 	$" + reg + ", " + value);
+			this.back.storeWord(reg, lvalue.getOffset(), true);
+		}
+		else if(this.variables.containsKey(expr.getType().getToken().getImage())){
+			//System.out.println("TEST");
+			Attrib attrib = this.variables.get(expr.getType().getToken().getImage());
+			byte reg = this.back.allocReg();
+			this.back.printStream.println("\tlw 	$" + reg + ", " + attrib.getOffset() + "($23)");
+			this.back.storeWord(reg, lvalue.getOffset(), true);
+		}
+		else{
+			try{
+				value = Integer.parseInt(expr.getType().getToken().getImage());		
+				byte reg = this.back.allocReg();
+				this.back.printStream.println("\tli 	$" + reg + ", " + value);
+				this.back.storeWord(reg, lvalue.getOffset(), true);
+			}catch(Exception e){				
+				// Assignment is an expression or array
+			}			
+		}
+				
 	}
 
 	@Override
@@ -153,8 +187,11 @@ public class CodeGenerator implements CodeGen {
 		return null;
 	}
 
-	public void callProcedure(Symbol proc, LinkedList<Type> arguments, HashMap<String,Attrib> variables)
-			throws YAPLException {
+	public void callProcedure(Symbol proc, LinkedList<Type> arguments,
+			HashMap<String, Attrib> variables) throws YAPLException {
+		
+		this.variables = variables;
+		
 		// check if writeln -> predefined procedure
 		if (proc.getName().equals("writeln")) {
 			this.writeString("\"\\n\"");
@@ -166,13 +203,16 @@ public class CodeGenerator implements CodeGen {
 
 			try {
 				// Argument is number
-				int value = Integer.parseInt(arguments.getFirst().getToken().getImage());
-				this.back.printStream.println("li	$" + argCounter + " , "	+ value);
+				int value = Integer.parseInt(arguments.getFirst().getToken()
+						.getImage());
+				this.back.printStream.println("li	$" + argCounter + " , "
+						+ value);
 
 			} catch (Exception e) {
 				// Argument is a Variable
-				Attrib offset = variables.get(arguments.getFirst().getToken().getImage());
-				this.back.loadWord((byte)4, offset.getOffset(), true);
+				Attrib offset = variables.get(arguments.getFirst().getToken()
+						.getImage());
+				this.back.loadWord((byte) 4, offset.getOffset(), true);
 			}
 
 			this.back.callProc((byte) 0, proc.getName());
@@ -180,7 +220,7 @@ public class CodeGenerator implements CodeGen {
 		} else {
 			this.back.prepareProcCall(arguments.size());
 			int argCounter = 4;
-			for (Type t : arguments) {				
+			for (Type t : arguments) {
 				try {
 					// Argument is number
 					int value = Integer.parseInt(t.getToken().getImage());
@@ -189,15 +229,18 @@ public class CodeGenerator implements CodeGen {
 
 				} catch (Exception e1) {
 					// Argument is a Bool - Constant
-					if(t.getToken().getImage().equals("True"))											
-							this.back.printStream.println("li $" + argCounter + ", 1");
-					else if(t.getToken().getImage().equals("False"))
-							this.back.printStream.println("li $" + argCounter + ", 0");
-					else
-					{
-						Attrib offset = variables.get(arguments.getFirst().getToken().getImage());
-						this.back.loadWord((byte)argCounter, offset.getOffset(), true);						
-					}								
+					if (t.getToken().getImage().equals("True"))
+						this.back.printStream.println("li $" + argCounter
+								+ ", 1");
+					else if (t.getToken().getImage().equals("False"))
+						this.back.printStream.println("li $" + argCounter
+								+ ", 0");
+					else {
+						Attrib offset = variables.get(arguments.getFirst()
+								.getToken().getImage());
+						this.back.loadWord((byte) argCounter,
+								offset.getOffset(), true);
+					}
 				}
 			}
 			this.back.callProc((byte) 0, proc.getName());
