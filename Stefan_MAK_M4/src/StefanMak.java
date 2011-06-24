@@ -9,34 +9,30 @@ import java.util.*;
 import java.io.*;
 import java.util.HashMap;
 
-/** Scanner for Compiler Milestone 1 */
+/** Compiler (Scanner, Parser, TypeChecker and CodeGenerator) */
 public class StefanMak implements StefanMakConstants {
-  /** Program Name for failure and debugging*/
+  /** Program Name - for failure and debugging*/
   private static String program_name;
 
-  /** Symbol Table */
+  /** Symbol Table - for storing used Symbols (Variables, ProcNames, ...) */
   private static SymboltableImpl symTable;
 
-  /** Declare predefined procedures as symbols */
+  /** Declaration of the four predefined YAPL procedures as symbols */
   private static Symbol pre_writeln;
-
   private static Symbol pre_writeint;
-
   private static Symbol pre_writebool;
-
   private static Symbol pre_readint;
 
-  /** Argument List **/
+  /** Argument List - stores the types of arguments of the actual procedure (in order) **/
   private static LinkedList<Type > argumentList;
 
-  /** Declaration for CodeGenerator **/
+  /** Declaration for the CodeGenerator **/
   private static CodeGenerator cg = null;
 
-  /** Map which contains all variables **/
+  /** HashMap which contains all variables - for CodeGeneration **/
   private static HashMap<String,Attrib > variablesMap = new HashMap<String,Attrib >();
 
-
-  /** stuff for procedures... */
+  /** Variable for  */
 
   /** is set if a procedure needs a return*/
   private static boolean need_return;
@@ -47,32 +43,42 @@ public class StefanMak implements StefanMakConstants {
   /** actual Procedure Symbol */
   private static Symbol currentProcedureSymbol;
 
-
-  /** Main entry point. */
+  /** Main entry point */
   public static void main(String args []) throws TokenMgrError, YAPLException, ParseException
   {
 
-    /** Declare variables for program read*/
+    /** Declare variables for reading the source program */
     File file = null;
     FileInputStream fis = null;
 
+    /** Declare variables for writing the destination program */
         File outputFile = null;
         FileOutputStream fout = null;
         PrintStream prout = null;
 
+    /** Create new Symbol Table */
     symTable = new SymboltableImpl();
-    /** Read YAPL File from file */
-    if (args.length != 0)
+
+    /** Read YAPL Program from file */
+    if (args.length == 2)
     {
       try
       {
+
+        /** Read the input file */
         file = new File(args [0]);
         fis = new FileInputStream(file);
 
-        outputFile = new File(file.getAbsolutePath() + ".asm");
+                /** Open the output file */
+        outputFile = new File(args [1]);
+
+        /** If it not exists - > create it */
+        if(!outputFile.exists())
+                outputFile.createNewFile();
         fout = new FileOutputStream(outputFile);
         prout = new PrintStream(fout);
 
+                /** Initialize the CodeGenerator with the output stream */
         cg = new CodeGenerator(prout);
       }
       catch (IOException ex)
@@ -82,18 +88,23 @@ public class StefanMak implements StefanMakConstants {
     }
     else
     {
-      System.out.println("YAPL Program as first parameter needed...");
+      System.out.println("YAPL Program as first parameter needed and destination file as second");
       System.out.println("System exit...");
       System.exit(0);
     }
-    /** Create new Symbol Table */
-    /** Give my Parser the InputStream to start the work */
+
+    /** Give my Scanner/Parser/Generator the InputStream to start the work */
     StefanMak parser = new StefanMak(fis);
+
     try
     {
+      /** Starts the analysing process */
       parser.Start();
-      /** Parsing was correct and complete */
+
+      /** If method above terminates - > everything was correct */
       CompilerMessage.printOK(StefanMak.program_name);
+
+      /** Close the Printstream */
       prout.close();
     }
     catch (TokenMgrError ex)
@@ -113,7 +124,7 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
-/* Expressions */
+/** Expressions */
   static final public Token LITERAL() throws ParseException {
   Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -137,6 +148,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** Selctor for an Array Element  arr[3][x][x-7] */
   static final public int SELECTOR() throws ParseException {
         Type type;
         Token t;
@@ -152,15 +164,18 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[1] = jj_gen;
       ;
     }
+    // if type of the Expression in the selection is not Integer - > Throw error
     if(type.getType() != Type.INT || (type instanceof ArrayType))
     {
       {if (true) throw new YAPLException(CompilerError.BadArraySelector, null, t);}
     }
+    // Maybe more than one dimension, so increment dim to return the overall dimension
     dim++;
     {if (true) return dim;}
     throw new Error("Missing return statement in function");
   }
 
+/** Length of an Array #arr or #arr[] (on multidimensional) */
   static final public void ARRAYLEN() throws ParseException {
   Token t;
   Token t_sec;
@@ -175,23 +190,27 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[2] = jj_gen;
       ;
     }
+    // Array has to be declared before you can get its length
     Symbol ident = symTable.lookup(t.image);
+
+    // If Array declared but is not a variable or parameter - > Error
     if (ident != null && (ident.getKind() != Symbol.Variable && ident.getKind() != Symbol.Parameter))
     {
-      // wrong type not an array
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse, ident, t);}
     }
+    // If Array not declared before - > Error
     else if (ident == null)
     {
-      // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
+    // If identifier is not an Array or identifier is array but element access (dimArr == accessDim) - > Error
     else if((! (ident.getType() instanceof ArrayType)) || ((ArrayType)ident.getType()).getDimension() == dim)
     {
        {if (true) throw new YAPLException(CompilerError.ArrayLenNotArray,ident, t_sec);}
     }
   }
 
+/** Primary Expressions ( True, False, x+2, x[], write("bla") */
   static final public Type PRIMARYEXPR() throws ParseException {
   Token t = null;
   Type type = null;
@@ -1335,11 +1354,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
     return false;
@@ -1356,6 +1370,11 @@ public class StefanMak implements StefanMakConstants {
 
   static private boolean jj_3_1() {
     if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
     return false;
   }
 

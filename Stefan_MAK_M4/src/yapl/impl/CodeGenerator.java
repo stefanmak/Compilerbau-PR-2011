@@ -16,7 +16,7 @@ public class CodeGenerator implements CodeGen {
 	
 	public CodeGenerator(PrintStream printStream) {
 
-		back = new BackendMIPS(printStream);
+		back = new BackendMIPS(printStream);		
 
 	}
 

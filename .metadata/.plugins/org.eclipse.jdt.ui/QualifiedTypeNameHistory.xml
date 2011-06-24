@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="yapl.interfaces.Token"/>
 <fullyQualifiedTypeName name="yapl.interfaces.CompilerError"/>
 <fullyQualifiedTypeName name="yapl.interfaces.BackendAsmRM"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
@@ -20,4 +19,5 @@
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>
