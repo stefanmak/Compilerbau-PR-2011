@@ -101,25 +101,28 @@ public class CodeGenerator implements CodeGen {
 		try{
 		int value = 0;
 		
+		// assignement x := True
 		if(expr.getType().getToken().getImage().equals("True")){
 			value = 1;
 			byte reg = this.back.allocReg();
 			this.back.printStream.println("\tli 	$" + reg + ", " + value);
 			this.back.storeWord(reg, lvalue.getOffset(), true);
 		}
+		// assignement x := False
 		else if(expr.getType().getToken().getImage().equals("False")){
 			value = 0;
 			byte reg = this.back.allocReg();
 			this.back.printStream.println("\tli 	$" + reg + ", " + value);
 			this.back.storeWord(reg, lvalue.getOffset(), true);
 		}
-		else if(this.variables.containsKey(expr.getType().getToken().getImage())){
-			//System.out.println("TEST");
+		// assignment x := VARIABLE
+		else if(this.variables.containsKey(expr.getType().getToken().getImage())){		
 			Attrib attrib = this.variables.get(expr.getType().getToken().getImage());
 			byte reg = this.back.allocReg();
 			this.back.printStream.println("\tlw 	$" + reg + ", " + attrib.getOffset() + "($23)");
 			this.back.storeWord(reg, lvalue.getOffset(), true);
 		}
+		// assignment x:= 3
 		else{
 			try{
 				value = Integer.parseInt(expr.getType().getToken().getImage());		
@@ -180,6 +183,7 @@ public class CodeGenerator implements CodeGen {
 	}
 
 	@Override
+	// not really used
 	public Attrib callProc(Symbol proc, Attrib[] args) throws YAPLException {
 
 		// check if writeln -> predefine procedure
@@ -191,6 +195,7 @@ public class CodeGenerator implements CodeGen {
 		return null;
 	}
 
+	// used instead of callProc()
 	public void callProcedure(Symbol proc, LinkedList<Type> arguments,
 			HashMap<String, Attrib> variables) throws YAPLException {
 		

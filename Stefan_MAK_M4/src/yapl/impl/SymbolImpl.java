@@ -2,7 +2,6 @@ package yapl.impl;
 
 import yapl.interfaces.Symbol;
 import yapl.interfaces.Symboltable;
-import yapl.impl.*;
 
 /** 
  * Represents the current symbol 
@@ -14,17 +13,17 @@ import yapl.impl.*;
 
 public class SymbolImpl implements Symbol {
 
-	/** Kind of the Symbol */
+	/** Kind of the Symbol -> Program, Procedure, Variable, Constant, Parameter */
 	private int kind = -1;
-	/** Identifier of the Symbol */
+	/** Identifier of the Symbol -> the name of the "variable, procedure..." */
 	private String identifier = "";
 	/** Type of the Symbol */
 	private Type type; 
-	/** Offset of the Symbol */
+	/** Offset of the Symbol -> for CodeGeneration */
 	private int offset;
-	/** Next Symbol of this Symbol */
+	/** Next Symbol of this Symbol -> in current Scope */
 	private Symbol nextSymbol;
-	/** isGlobal Veriable - Currently not used */
+	/** isGlobal Veriable - Not used */
 	private boolean isGloblal;
 
 	

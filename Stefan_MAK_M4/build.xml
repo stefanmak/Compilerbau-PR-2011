@@ -20,8 +20,8 @@
 	<property name="build" location="bin-ant" />
 	<property name="javacc"
 	location="C:\Projekte\UNI\7 Semester\Compilerbau PR\Software\javacc-5.0" />
-	<property name="yapl" location="C:\Testfiles\type_checking\test35.yapl" />
-	<property name="outputFile" location="C:\Testfiles\codegen\test05.asm"/>
+	<property name="yapl" location="C:\Testfiles\codegen\test04.yapl" />
+	<property name="outputFile" location="C:\Testfiles\codegen\test04min.asm"/>
 	<property name="grammar" location="${src}/StefanMak.jj" />
 
 	<target name="init">

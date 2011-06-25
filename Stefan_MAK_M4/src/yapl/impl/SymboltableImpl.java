@@ -42,7 +42,7 @@ public class SymboltableImpl implements Symboltable{
 	private boolean debugging = false;
 	/** Stack of scopes */
 	private Stack<Scope> stack = new Stack<Scope>();
-	/** Copy Stack of scopes */
+	/** Copy Stack of scopes for recursive methods */
 	private Stack<Scope> tempStack;
 
 	/**
@@ -111,6 +111,7 @@ public class SymboltableImpl implements Symboltable{
 			return stack.peek().get(name);
 		else{			
 			this.tempStack = (Stack<Scope>) this.stack.clone();
+			// call the recursive (down) search of the Symbol
 			return lookupRecursive(name);
 		}
 	}

@@ -53,9 +53,8 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 	
 	public PrintStream printStream;
 
-	/*--- Pointers --*/
-	public int sPC;           	 	// Address of the Start Entry
-    public int pc,fp,sp;            // Program, Frame, Stackpointer
+	/*--- Pointers --*/	
+    public int pc,fp,sp;            // ProgramCounter, Frame, Stackpointer
     public int gp = 0;				// Global Pointer for static data
        
     /*--- Register Mapping ---*/        
@@ -68,9 +67,9 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
     private final int FALSE = 0;
     
     /*--- Static data ---*/
-    private boolean[] staticData;				// stores on word ares
+    private boolean[] staticData;					// stores on word ares
     private boolean staticDataLabelPrinted = false;	// stores if the .data - staticData Lable was printed
-    private boolean textLabelPrinted = false;	// stores if the .close Lable was printed
+    private boolean textLabelPrinted = false;		// stores if the .close Lable was printed
     
     /*---- Restore Counter ---*/
     public int counter = 0;
@@ -80,13 +79,15 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
      * @param printStream - for printing the generated code
      */
 	public BackendMIPS(PrintStream printStream) {
-		
+		// creates the 32 MIPS registers and static data
 		registers = new boolean[32];
 		registerName = new HashMap<Byte,String>();
-		staticData = new boolean[16000];	
+		staticData = new boolean[16000];
+		// fill the register names and the mapping
 		initRegisterNames();
 
 		this.printStream = printStream;
+		// write start sequence
 		this.initHeaderAndStaticData();
 	}
 
@@ -202,7 +203,7 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 		int cWords = (int) Math.ceil(div);
 			
 		
-		// mark which 'block' are used
+		// mark which 'blocks' are used
 		for(int i = 0; i < cWords; i++ ){			
 			this.staticData[this.gp/this.WORDSIZE+i] = true;
 			this.gp += this.wordSize();
@@ -218,7 +219,7 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 			this.staticDataLabelPrinted = true;
 		}
 		
-		// Not static data
+		// Allocate the space, maybe between normal source code
 		if(this.textLabelPrinted){
 			this.printStream.println(".data");
 			this.printStream.println("	.space " + cWords*this.WORDSIZE + " # " + comment);			
@@ -242,8 +243,10 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 		int returnAddress = this.gp;
 		
 		byte[] byteString = string.getBytes();		
+		// +1 for the closing /0 at the end of string
 		double div = ((double) (byteString.length+1))/((double)this.WORDSIZE);
 		int cWords = (int)Math.ceil(div);
+		
 		// mark which 'block' are used
 		for(int i = 0; i < cWords; i++ ){			
 			this.staticData[this.gp/this.WORDSIZE+i] = true;
@@ -260,7 +263,7 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 		// calculate dummy bytes for word alignment
 		int dummyBytes = cWords*this.WORDSIZE - (string.getBytes().length+1);
 		
-		// Exception for predefindend functions
+		// Exception for predefindend function (writeln) 
 		if(string.equals("\\n"))
 			dummyBytes++;
 		
@@ -309,8 +312,7 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
 		
 		return returnAddress;
 	}
-	
-	
+		
 	
     /** 
      * Allocate space on the stack.
@@ -492,8 +494,8 @@ public class BackendMIPS implements yapl.interfaces.BackendAsmRM {
      */
 	public void writeString(int addr) {		
 	    //addi	$sp, $sp, -4	# saveRegs
-		//la  	$4, 4($23)
-		//sw  	$4, 4($sp)	# arg 0
+		//la  	$a0, 4($23)
+		//sw  	$a0, 4($sp)	# arg 0
 		//jal 	write
 		//addi	$sp, $sp, 4	# restoreRegs complete
 		
