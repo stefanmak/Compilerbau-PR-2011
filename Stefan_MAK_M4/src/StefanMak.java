@@ -391,7 +391,7 @@ public class StefanMak implements StefanMakConstants {
 
 /** AddExpr = MulExpr { AddOp MulExpr } (Defines also the 'binding') - > x*y + a[2] */
   static final public Type ADDEXPR() throws ParseException {
-  // More than one type variable is needed to check 'recursive' the type compatibility        Type type;
+    // More than one type variable is needed to check 'recursive' the type compatibility        Type type;
         Type returnType;
         Token t;
     // Set the first return type
@@ -428,9 +428,9 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
-/**  */
+/** RelExpr = AddExpr [ RelOp AddExpr ] - > x*2+y/2 > z */
   static final public Type RELEXPR() throws ParseException {
-        Type type;
+    // Two type variables needed for evaluation of the Relational Operation        Type type;
         Type returnType;
         Token t;
     returnType = ADDEXPR();
@@ -438,14 +438,18 @@ public class StefanMak implements StefanMakConstants {
     case RELOP:
       t = jj_consume_token(RELOP);
       type = ADDEXPR();
+          // Relational Operation only on numbers - > Bool and Arrays - > Error
           if(returnType.getType() == Type.BOOL || type.getType() == Type.BOOL
                 || type instanceof ArrayType || returnType instanceof ArrayType)
-                {
+          {
                   {if (true) throw new YAPLException(CompilerError.IllegalRelOpType,null, t);}
-                }else
-                {
+          }
+          // Relational Operator was on numbers - > Result is a bool
+          else
+          {
+              // Type(readonly,type,token)
                   returnType = new Type(false, Type.BOOL, type.getToken());
-                }
+          }
       break;
     default:
       jj_la1[9] = jj_gen;
@@ -455,19 +459,23 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** RelExpr [ EqualOp RelExpr ] - > 3 < x == 7 > 4*x */
   static final public Type EQUALEXPR() throws ParseException {
-        Token t;
+    // Two Types needed for evaluation of the Expression        Token t;
         Type type;
         Type returnType;
-    returnType = RELEXPR();
+    // Set the types
+      returnType = RELEXPR();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case EQUALOP:
       t = jj_consume_token(EQUALOP);
       type = RELEXPR();
+          // both types are not equal or one of both types is an array - > Array
           if(returnType.getType() != type.getType() || (type instanceof ArrayType && !(returnType instanceof ArrayType)))
           {
             {if (true) throw new YAPLException(CompilerError.IllegalEqualOpType,null,t);}
           }
+          // Types are INT or BOOL - > Expression can be evaulated - > Result is BOOL
           returnType = new Type(false,Type.BOOL,type.getToken());
       break;
     default:
@@ -478,11 +486,13 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** EqualExpr { 'And' EqualExpr } - > y == z And x = FALSE */
   static final public Type CONDANDEXPR() throws ParseException {
-        Type type;
+    // Two Types needed for evaluation of the Expression 'recursive'        Type type;
         Type returnType;
         Token t;
-    returnType = EQUALEXPR();
+    // set return type of first Equalexpression
+      returnType = EQUALEXPR();
     label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -493,8 +503,10 @@ public class StefanMak implements StefanMakConstants {
         jj_la1[11] = jj_gen;
         break label_3;
       }
-      t = jj_consume_token(AND);
+      // set return type of next Equalexpression
+          t = jj_consume_token(AND);
       type = EQUALEXPR();
+        // if one of the types isn't BOOL or an array of BOOLs - > Error
                 if(returnType.getType() != Type.BOOL
                         || type.getType() != Type.BOOL
                         || type instanceof ArrayType
@@ -502,25 +514,28 @@ public class StefanMak implements StefanMakConstants {
                         {
                           {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null,t);}
                         }
+                // Type(readonly,type,token)
                 returnType = new Type(false,Type.BOOL,type.getToken());
     }
     {if (true) return returnType;}
     throw new Error("Missing return statement in function");
   }
 
-// Multidimensional Arrays  static final public Type CREATIONEXPR() throws ParseException {
-        Token t;
+/**  "new" PrimType "[" Expr "]" { "[" Expr "]" } - > Creation of Arrays or Multidimensional Arrays */
+  static final public Type CREATIONEXPR() throws ParseException {
+    // Two Tokens for exact Errors        Token t;
         Token t_sec;
         Type type;
-        LinkedList<Type> types = new LinkedList<Type>();
-        int dim = 1;
+        //LinkedList<Type> types = new LinkedList<Type>();        int dim = 1;
     jj_consume_token(NEW);
     t = PRIMTYPE();
     jj_consume_token(LBRACKET);
     type = EXPR();
     t_sec = jj_consume_token(RBRACKET);
+    // if Array Selector is a RelOperation etc. an type == BOOL - > Error
     if(type.getType() == Type.BOOL)
     {
+      // Type(readonly,type,token)
       {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t_sec);}
     }
     label_4:
@@ -538,16 +553,20 @@ public class StefanMak implements StefanMakConstants {
       t_sec = jj_consume_token(RBRACKET);
       if(type.getType() == Type.BOOL)
       {
+        // Type(readonly,type,token)
         {if (true) throw new YAPLException(CompilerError.BadArraySelector,null,t_sec);}
       }
+      // increment Dimension for every time an [] occurs
       dim++;
     }
+    // Type(readonly,type,token,dimension of the Array)
     {if (true) return new ArrayType(false,Type.getTypeOfImage(t.image),t,dim);}
     throw new Error("Missing return statement in function");
   }
 
+/** CondAndExpr { 'Or' CondAndExpr } | CreationExpr - > Every kind of 'normal' expression (incl. logical And & Or)*/
   static final public Type EXPR() throws ParseException {
-        Token t;
+    // Two Types needed for 'recursive' evaluation of types on CondAndExpr        Token t;
         Type type;
         Type returnType;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -558,7 +577,8 @@ public class StefanMak implements StefanMakConstants {
     case ADDOP:
     case NUMBER:
     case IDENT:
-      returnType = CONDANDEXPR();
+      // Set return Type of first expression
+        returnType = CONDANDEXPR();
       label_5:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -569,12 +589,16 @@ public class StefanMak implements StefanMakConstants {
           jj_la1[13] = jj_gen;
           break label_5;
         }
-        t = jj_consume_token(OR);
+        // Set return Type of next expression
+            t = jj_consume_token(OR);
         type = CONDANDEXPR();
+      // For logical 'OR' every type must be BOOL instead - > ERROR
       if(type.getType() != Type.BOOL || returnType.getType() != Type.BOOL)
       {
         {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null,t);}
-      }else
+      }
+          // Both Expressions evaluate to TRUE or FALSE - > BOOL as returnType [Log. AND / OR, <, >]
+      else
       {
         returnType = new Type(false,Type.BOOL,type.getToken());
       }
@@ -593,14 +617,16 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** Argumentlist of a Procedure - > Foo(x,2,True)...*	Takes a Symbol as Parameter to get all Parameters of the Procedure and their order.*	Returns number of arguments.*/
   static final public int ARGUMENTLIST(Symbol procedureName) throws ParseException {
-        int arguments = 1;
+        // Variable Declaration - > if Argumentlist is processed - > minimum one argument must have been occured        int arguments = 1;
         int counter = 1;
-        Symbol start = procedureName.getNextSymbol();
-        argumentList = new LinkedList<Type >();
-        LinkedList<Type > tempList = new LinkedList<Type >();
+        // Get first argument via procedureName        Symbol start = procedureName.getNextSymbol();
+        // Saves all Types of the arguments in order        argumentList = new LinkedList<Type >();
+        // Saves temporary all Types of the arguments in order        LinkedList<Type > tempList = new LinkedList<Type >();
         Type type;
-    type = EXPR();
+    // add first argument to the lists
+      type = EXPR();
     argumentList.add(type);
     tempList.add(type);
     label_6:
@@ -619,16 +645,23 @@ public class StefanMak implements StefanMakConstants {
       tempList.add(type);
       arguments++;
     }
+    // Little checking ;-) - > do it for all entries in the argument List   
     while(start != null && !argumentList.isEmpty())
     {
+      // If the predefined procedure 'writebool' is called - > don't throw Errors - >
+      // cause predefined type for argument is BOOL - > but could also be a CONST
       if(procedureName.getName().equals("writebool") && argumentList.getFirst().getType() == 2)
       {
       }
+      // If actual Type of the Argument List is not the same type as it is defined
+      // (--,--,start (bool),--)  < - > (--,--,(int),--)    <-- for third argument
           else if(start.getType().getType() != argumentList.getFirst().getType())
       {
         argumentList.getFirst().getToken().setImage("" + counter);
         {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
-      }else if(start.getType() instanceof ArrayType
+      }
+          // If actual element is of Type Array but doesn't have the same dimension
+      else if(start.getType() instanceof ArrayType
                 && argumentList.getFirst() instanceof ArrayType
                         && (((ArrayType)argumentList.getFirst()).getDimension()
                                 !=((ArrayType)start.getType()).getDimension())
@@ -636,7 +669,9 @@ public class StefanMak implements StefanMakConstants {
       {
         argumentList.getFirst().getToken().setImage("" + counter);
         {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
-      }else if((start.getType() instanceof ArrayType)
+      }
+          // If actual element	is of Type Array but is set to ReadOnly but Procedure is Read/Write
+      else if((start.getType() instanceof ArrayType)
                                 && ((ArrayType)argumentList.getFirst()).isReadOnly()
                                 && !start.getType().isReadOnly()
                         )
@@ -644,36 +679,41 @@ public class StefanMak implements StefanMakConstants {
         argumentList.getFirst().getToken().setImage("" + counter);
         {if (true) throw new YAPLException(CompilerError.ReadonlyArg,procedureName,argumentList.getFirst().getToken());}
       }
+      // Increment counter of arguments and set next symbol of procedure as start symbol and remove first element
+      // of argumentList (passed).
       counter++;
       start = start.getNextSymbol();
       argumentList.removeFirst();
     }
+        // If we have arguments left - > ERROR too much arguments      
     if(argumentList.size() > 0)
     {
       argumentList.getFirst().getToken().setImage("" + counter);
       {if (true) throw new YAPLException(CompilerError.ArgNotApplicable,procedureName,argumentList.getFirst().getToken());}
     }
-
+        // Restore the whole argument list and return it
     argumentList = tempList;
     {if (true) return arguments;}
     throw new Error("Missing return statement in function");
   }
 
+/** ident "(" [ ArgumentList ] ")" - > calc(x,y,True) ... */
   static final public Type PROCEDURECALL() throws ParseException {
   Token t;
   Token t_sec;
   Type type;
   int arguments = 0;
     t = jj_consume_token(IDENT);
+    // Procedure has to be defined before usage
     Symbol ident = symTable.lookup(t.image);
+    // Element is declared but isn't a procedure
     if (ident != null && (ident.getKind() != Symbol.Procedure))
     {
-      // wrong type not an array
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse, ident, t);}
     }
+    // Element isn't declared
     else if (ident == null)
     {
-      // Array not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
     jj_consume_token(LPAR);
@@ -693,7 +733,7 @@ public class StefanMak implements StefanMakConstants {
       ;
     }
     t_sec = jj_consume_token(RPAR);
-        // Count arguments
+        // Count arguments of the defined procedure
         Symbol start = ident.getNextSymbol();
         int counter = 0;
                 while(start != null)
@@ -701,19 +741,23 @@ public class StefanMak implements StefanMakConstants {
                   start = start.getNextSymbol();
                   counter++;
                 }
+
+                // Defined Procedure has more arguments than argumentlist - > ERROR
                 if(counter > arguments)
                 {
                   {if (true) throw new YAPLException(CompilerError.TooFewArgs,ident,t_sec);}
                 }
-
+        // If ident is not declared - > Type is Error Type [OTHER] <- Redundant because Exception thrown above
         if(ident.getType() == null)
         {
                 type = new Type(false, Type.OTHER, t);
         }
+        // Return Type is an Array Type
         else if(ident.getType() instanceof ArrayType)
         {
                 type = new ArrayType(false,ident.getType().getType(), t, ((ArrayType)ident.getType()).getDimension());
         }
+        // Return Type is INT or BOOL
         else
         {
                 type = new Type(false, ident.getType().getType(), t);
@@ -726,6 +770,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** ident [ Selector ] ":=" Expr  - > x := 3,... */
   static final public void ASSIGNMENT() throws ParseException {
   Token t;
   Token t_sec;
@@ -743,27 +788,45 @@ public class StefanMak implements StefanMakConstants {
     }
     t_sec = jj_consume_token(50);
     type = EXPR();
+    // Assigned symbol has already been declared
     Symbol assi = symTable.lookup(t.image);
     int kind;
     if(assi != null)
     {
        kind = assi.getKind();
     }
+    // Symbol/Variable has not been declared - > Error
     else
     {
        {if (true) throw new YAPLException(CompilerError.IdentNotDecl, assi, t);}
     }
 
+        // If Variable is a constant or procedure or program - > Error
     if (kind == Symbol.Constant || (kind != Symbol.Variable && kind != Symbol.Parameter))
     {
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse, assi, t);}
     }
 
-    // Type Checks
+    // If Parameter in Procedure is set to readonly, it can't be assigned - > Error			
     if(assi.getType().isReadOnly())
     {
       {if (true) throw new YAPLException(CompilerError.ReadonlyAssign, assi, t);}
-    }else if(
+    }
+        // Example x := y
+        // First Block
+        //		x is not an Array
+        //		y is not an Array
+        //		x and y have the same type
+        // Second Block
+        //		x is an Array
+        //		y is an Array
+        //		x and y have the same dimension
+        // Third Block
+        //		x is an Array - > used with selection x[3]
+        //		y is not an Array
+        //		x and y have the same basic type
+        // If none of this blocks True - > ERROR
+    else if(
                  !(
                    (
                           !(assi.getType() instanceof ArrayType)
@@ -790,12 +853,18 @@ public class StefanMak implements StefanMakConstants {
         }
 
         /** Code Generation **/
+
+        // Get first attrib from Data Structure
         AttribImpl attrib = (AttribImpl) variablesMap.get(t.image);
+        // Make new attrib for Code Generation
         AttribImpl expr = new AttribImpl();
+        // Set type for Code Generation
         expr.setType(type);
+        // Generate Code for Assignment
         cg.assign(attrib,expr);
   }
 
+/** 'If' Expr 'Then' StatementList [ 'Else' StatementList ] 'EndIf' */
   static final public void IFSTATEMENT() throws ParseException {
         Type type;
     jj_consume_token(IF);
@@ -1384,12 +1453,6 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_15() {
     if (jj_3R_16()) return true;
     return false;
@@ -1400,13 +1463,19 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAR)) return true;
     return false;
   }
 
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
     return false;
   }
 
