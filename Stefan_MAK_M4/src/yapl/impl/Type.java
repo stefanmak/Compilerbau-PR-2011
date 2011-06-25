@@ -16,7 +16,7 @@ public class Type {
 	private Token token;
 
 	
-	/** Constructor(s) of Type */
+	/** Constructor(s) of Type */	
 	public Type(boolean readOnly, int type, Token token){		
 		this.readOnly = readOnly;
 		this.type = type;

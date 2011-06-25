@@ -210,7 +210,7 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
-/** Primary Expressions ( True, False, x+2, x[], write("bla") */
+/** Primary Expressions ( True, False, x+2, x[], write('bla') */
   static final public Type PRIMARYEXPR() throws ParseException {
   Token t = null;
   Type type = null;
@@ -221,14 +221,18 @@ public class StefanMak implements StefanMakConstants {
     case TRUE:
     case FALSE:
     case NUMBER:
-      t = LITERAL();
+      // True, False, Number
+        t = LITERAL();
         if(t.image.equals("True") || t.image.equals("False"))
         {
+          // Type(readonly,type,token)
           type = new Type(false,Type.BOOL,t);
         }else
         {
+          // Type(readonly,type,token)
           type = new Type(false,Type.INT,t);
         }
+        // Set the token of the actual type
         type.setToken(t);
     {if (true) return type;}
       break;
@@ -242,6 +246,7 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[4] = jj_gen;
       if (jj_2_1(2)) {
         type = PROCEDURECALL();
+    // procedure doesn't have a return value - > not a function
     if(type.getType() == Type.OTHER)
     {
       {if (true) throw new YAPLException(CompilerError.ProcNotFuncExpr,
@@ -261,40 +266,49 @@ public class StefanMak implements StefanMakConstants {
             jj_la1[3] = jj_gen;
             ;
           }
+    // Element has already been declared
     Symbol ident = symTable.lookup(t.image);
 
+    // Element isn't a Variable, Const or Parameter - > Error
     if (ident != null && (ident.getKind() == Symbol.Procedure || ident.getKind() == Symbol.Program))
     {
       // wrong type
       {if (true) throw new YAPLException(CompilerError.SymbolIllegalUse, ident, t);}
     }
+    // Element is currently not declared - > Error
     else if (ident == null)
     {
       // variable not declared
       {if (true) throw new YAPLException(CompilerError.IdentNotDecl, ident, t);}
     }
+    // Element used as an Array but is not an ArrayType or Element is ArrayType but selected Dimension is too deep 
     else if(dim >= 1 && ((!(ident.getType() instanceof ArrayType)) || (((ArrayType)ident.getType()).getDimension() - dim) < 0))
     {
        {if (true) throw new YAPLException(CompilerError.SelectorNotArray,ident, t);}
-    }else if(dim >= 1 && ((ArrayType) ident.getType()).getDimension() == dim)
+    }
+        // Element is an Array and access dimension is same as Array Dimension - > Type = 'normal' Type
+    else if(dim >= 1 && ((ArrayType) ident.getType()).getDimension() == dim)
         {
            {if (true) return new Type(ident.getType().isReadOnly(), ident.getType().getType(), t);}
     }
     else
     {
+       // Element is an Array and return is a SubArray 		
            if(ident.getType() instanceof ArrayType )
            {
-              // Maybe SubArray     
               {if (true) return new ArrayType(ident.getType().isReadOnly(), ident.getType().getType(), t,((ArrayType)ident.getType()).getDimension()-dim);}
-            }
+           }
+           // Element is a 'normal' Type 
            else
            {
+             // Type(readonly,type,token) 	      
               {if (true) return new Type(ident.getType().isReadOnly(), ident.getType().getType(), t);}
-            }
+           }
     }
           break;
         case BLANK:
           ARRAYLEN();
+  // Type(readonly,type,token)
   {if (true) return new Type(false,Type.INT,t);}
           break;
         default:
@@ -307,6 +321,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** UnaryExpr = [AddOp] PrimaryExpr - >  +/-  True, x , y[2], #x, calc(x) */
   static final public Type UNARYEXPR() throws ParseException {
         Type returnType;
         Token t = null;
@@ -319,27 +334,29 @@ public class StefanMak implements StefanMakConstants {
       ;
     }
     returnType = PRIMARYEXPR();
-    if(t != null && (returnType.getType() == Type.BOOL
-        || returnType instanceof ArrayType))
-        {
-          {if (true) throw new YAPLException(CompilerError.IllegalOp1Type,null, t);}
+    // if +/- in front and returnType is Bool or Arraytype - > Error
+    if(t != null && (returnType.getType() == Type.BOOL || returnType instanceof ArrayType))
+    {
+        {if (true) throw new YAPLException(CompilerError.IllegalOp1Type,null, t);}
+    }
+    else
+    {
+        // if +/- is not null - > set it to type
+        if(t!=null){
+                returnType.setToken(t);
         }
-        else
-        {
-          if(t!=null)
-          {
-            returnType.setToken(t);
-          }
-          {if (true) return returnType;}
-        }
+        {if (true) return returnType;}
+    }
     throw new Error("Missing return statement in function");
   }
 
+/** MulExpr = UnaryExpr { MulOp UnaryExpr } - > y[2] * x * 2 , x * 3 */
   static final public Type MULEXPR() throws ParseException {
-        Type type;
+        // More than one type variable is needed to check 'recursive' the type compatibility        Type type;
         Type returnType;
         Token t;
-    returnType = UNARYEXPR();
+    // Set the first return type 
+      returnType = UNARYEXPR();
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -352,13 +369,18 @@ public class StefanMak implements StefanMakConstants {
       }
       t = jj_consume_token(MULOP);
       type = UNARYEXPR();
+     // next expression must not be a Bool and equivalent to the first type - > Error 
      if((returnType.getType() != Type.BOOL && returnType.getType() != type.getType()))
      {
        {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
-     }else if( type instanceof ArrayType || returnType instanceof ArrayType)
+     }
+         // if one of the two (or both) types are Arrays - > Error
+     else if( type instanceof ArrayType || returnType instanceof ArrayType)
      {
        {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
-     }else
+     }
+         // both are of same type and mulOp can be applied
+     else
      {
        returnType.setToken(t);
      }
@@ -367,11 +389,13 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** AddExpr = MulExpr { AddOp MulExpr } (Defines also the 'binding') - > x*y + a[2] */
   static final public Type ADDEXPR() throws ParseException {
-        Type type;
+  // More than one type variable is needed to check 'recursive' the type compatibility        Type type;
         Type returnType;
         Token t;
-    returnType = MULEXPR();
+    // Set the first return type
+      returnType = MULEXPR();
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -384,13 +408,18 @@ public class StefanMak implements StefanMakConstants {
       }
       t = jj_consume_token(ADDOP);
       type = MULEXPR();
+     // next expression must not be a Bool and equivalent to the first type - > Error
      if((returnType.getType() != Type.BOOL && returnType.getType() != type.getType()))
      {
        {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
-     }else if( type instanceof ArrayType || returnType instanceof ArrayType)
+     }
+         // if one of the two (or both) types are Arrays - > Error
+     else if( type instanceof ArrayType || returnType instanceof ArrayType)
      {
        {if (true) throw new YAPLException(CompilerError.IllegalOp2Type,null, t);}
-     }else
+     }
+        // both are of same type and AddOp can be applied
+     else
      {
        returnType.setToken(t);
      }
@@ -399,6 +428,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/**  */
   static final public Type RELEXPR() throws ParseException {
         Type type;
         Type returnType;
@@ -1354,6 +1384,27 @@ public class StefanMak implements StefanMakConstants {
     finally { jj_save(1, xla); }
   }
 
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(LBRACKET)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
   static private boolean jj_3_2() {
     if (jj_3R_14()) return true;
     return false;
@@ -1365,27 +1416,6 @@ public class StefanMak implements StefanMakConstants {
     xsp = jj_scanpos;
     if (jj_3R_15()) jj_scanpos = xsp;
     if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_3R_16()) return true;
     return false;
   }
 
