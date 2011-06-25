@@ -97,7 +97,8 @@ public class CodeGenerator implements CodeGen {
 
 	@Override
 	public void assign(Attrib lvalue, Attrib expr) throws YAPLException { 
-		//System.out.println("->" + lvalue.getOffset() + " " + expr.getType().getToken().getImage());		
+		//System.out.println("->" + lvalue.getOffset() + " " + expr.getType().getToken().getImage());
+		try{
 		int value = 0;
 		
 		if(expr.getType().getToken().getImage().equals("True")){
@@ -129,7 +130,10 @@ public class CodeGenerator implements CodeGen {
 				// Assignment is an expression or array
 			}			
 		}
-				
+			
+		}catch(Exception ex){
+			// General Code Gen Error			
+		}
 	}
 
 	@Override
@@ -190,6 +194,8 @@ public class CodeGenerator implements CodeGen {
 	public void callProcedure(Symbol proc, LinkedList<Type> arguments,
 			HashMap<String, Attrib> variables) throws YAPLException {
 		
+		try{
+		
 		this.variables = variables;
 		
 		// check if writeln -> predefined procedure
@@ -245,6 +251,9 @@ public class CodeGenerator implements CodeGen {
 			}
 			this.back.callProc((byte) 0, proc.getName());
 			this.back.restoreRegisters();
+		}
+		}catch(Exception ex){
+			// General Code Generation Error occured			
 		}
 	}
 

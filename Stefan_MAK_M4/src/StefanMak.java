@@ -870,6 +870,7 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(IF);
     type = EXPR();
     jj_consume_token(THEN);
+        // Expression has to be BOOL for evaluation
                 if(type.getType() != Type.BOOL)
                 {
                   {if (true) throw new YAPLException(CompilerError.CondNotBool,null,type.getToken());}
@@ -887,11 +888,13 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(ENDIF);
   }
 
+/** 'While' Expr 'Do' StatementList 'EndWhile' */
   static final public void WHILESTATEMENT() throws ParseException {
         Type type;
     jj_consume_token(WHILE);
     type = EXPR();
     jj_consume_token(DO);
+                // Expression has to be BOOL for evaluation
                 if(type.getType() != Type.BOOL)
                 {
                   {if (true) throw new YAPLException(CompilerError.CondNotBool,null,type.getToken());}
@@ -900,10 +903,12 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(ENDWHILE);
   }
 
+/** 'Return' [ Expr ] - > Has to be the same as the procedure defines*/
   static final public void RETURNSTATEMENT() throws ParseException {
   Type type = null;
   Token t;
     t = jj_consume_token(RETURN);
+    // minimum one path of the procedure returns (something) 
     set_return = true;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LPAR:
@@ -920,38 +925,47 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[19] = jj_gen;
       ;
     }
+        // Checks if the programm is currently in an Procedure or the Expr() is used (not null)
     if(currentProcedureSymbol == null && type != null)
     {
+      // return without value
       if(type == null)
       {
         {if (true) throw new YAPLException(CompilerError.IllegalRetValMain,currentProcedureSymbol,t);}
-      }else
+      }
+          // return without procedure scope
+      else
       {
         {if (true) throw new YAPLException(CompilerError.IllegalRetValMain,currentProcedureSymbol,type.getToken());}
       }
-
     }
+    // Current Procedure exists and type is not null but current procedure doesn't need a return statement (void)
     else if(type != null && returnType == null)
     {
       {if (true) throw new YAPLException(CompilerError.IllegalRetValProc,currentProcedureSymbol,type.getToken());}
     }
+    // Current Procedure exists but type is null but return Type is needed
     else if(type == null && returnType != null)
     {
       {if (true) throw new YAPLException(CompilerError.InvalidReturnType,currentProcedureSymbol,t);}
     }
+    // Current Procedure exists, type exists and return Type is needed - > but different types
     else if(type != null && returnType != null && type.getType() != returnType.getType())
     {
       {if (true) throw new YAPLException(CompilerError.InvalidReturnType,currentProcedureSymbol,type.getToken());}
     }
   }
 
+/** 'Write' string */
   static final public void WRITESTATEMENT() throws ParseException {
  Token t;
     jj_consume_token(WRITE);
     t = jj_consume_token(STRING);
+    /** Generate immediate Write Code */
     cg.writeString(t.image);
   }
 
+/** 	IfStatement | WhileStatement | ReturnStatement*		| WriteStatement | Assignment | ProcedureCall | Block*/
   static final public void STATEMENT() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IF:
@@ -988,6 +1002,7 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
+/** { Statement ";" } */
   static final public void STATEMENTLIST() throws ParseException {
     label_7:
     while (true) {
@@ -1010,8 +1025,10 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
+/** [ Decl ] 'Begin' StatementList 'End'  - > For Procedure Scope or Main Scope */
   static final public Token BLOCK() throws ParseException {
         Token t;
+    // Open a new Scope
     symTable.openScope(false);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DECLARE:
@@ -1024,11 +1041,13 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(BEGIN);
     STATEMENTLIST();
     t = jj_consume_token(END);
+    // Close current Scope 
     symTable.closeScope();
     {if (true) return t;}
     throw new Error("Missing return statement in function");
   }
 
+/** 'int' | 'bool' - > For var/array declaration or return types*/
   static final public Token PRIMTYPE() throws ParseException {
         Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1048,6 +1067,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** PrimType { "[" "]" } - > For var/array declaration, return types or parameters */
   static final public Type TYPE() throws ParseException {
   Token t;
   int dim = 0;
@@ -1064,24 +1084,36 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(LBRACKET);
       jj_consume_token(RBRACKET);
+    // increment dimension (for multidimensional arrays)
     dim++;
     }
-    if (dim > 0) {if (true) return new ArrayType(false, Type.getTypeOfImage(t.image), t, dim);}
-    else {if (true) return new Type(false, Type.getTypeOfImage(t.image), t);}
+    // create ArrayType if dim is greater than 0
+    if (dim > 0)
+    {
+      {if (true) return new ArrayType(false, Type.getTypeOfImage(t.image), t, dim);}
+    }
+    // otherwise create new Type - > out of string with helperfunction  
+    else
+    {
+      {if (true) return new Type(false, Type.getTypeOfImage(t.image), t);}
+    }
     throw new Error("Missing return statement in function");
   }
 
+/** 'void' | Type - > void or Primitive Type or ArrayType*/
   static final public Type RETURNTYPE() throws ParseException {
         Token t = null;
         Type type = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case VOID:
       t = jj_consume_token(VOID);
+   // returns new Type with Sort - > OTHER
    {if (true) return new Type(false,Type.OTHER,t);}
       break;
     case INTEGER:
     case BOOLEAN:
       type = TYPE();
+        // returns new Type (Primitive or ArrayType)
         {if (true) return type;}
       break;
     default:
@@ -1092,6 +1124,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** 'Const' ident '=' Literal ';' */
   static final public void CONSTDECL() throws ParseException {
   Token t;
   Token t_sec;
@@ -1101,53 +1134,81 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(IS);
     t_sec = LITERAL();
     jj_consume_token(SEMICOLON);
+    // Lookup if there is a symbol with the same identifier in this scope
     Symbol constdec = symTable.lookupCurrentScope(t.image);
+    // If Symbol exists in this scope - > Error
     if (constdec != null)
     {
       {if (true) throw new YAPLException(CompilerError.SymbolExists, constdec, t);}
     }
+    // Create new Symbol
     else
     {
-      if (t_sec.image.equals("True") || t_sec.image.equals("False")) type = new Type(true, Type.BOOL, t_sec);
-      else type = new Type(true, Type.INT, t_sec);
+      // if declaration is a BOOL
+      if (t_sec.image.equals("True") || t_sec.image.equals("False"))
+      {
+        type = new Type(true, Type.BOOL, t_sec);
+      }
+      // declaration is an INT
+      else
+      {
+        type = new Type(true, Type.INT, t_sec);
+      }
+      // create new symbol with given type
       constdec = new SymbolImpl(Symbol.Constant, t.image);
       constdec.setType(type);
+      // is a global variable 
       constdec.setGlobal(true);
+      // add it to symbol table
       symTable.addSymbol(constdec);
 
       /** Code Generation **/
+      // create a new attribute with given type
       AttribImpl attrib = new AttribImpl();
       attrib.setType(type);
+      // allocate variable 
       cg.allocVariable(constdec);
+      // get the offset of the constdeclr
       attrib.setOffset(constdec.getOffset());
+      // add it to the global map of variables      
       variablesMap.put(t.image,attrib);
-      //System.out.println(constdec.getOffset());
     }
   }
 
+/** Type ident { ',' ident } ';' - > int x,y,z; */
   static final public void VARDECL() throws ParseException {
   Token t;
   Type type;
     type = TYPE();
     t = jj_consume_token(IDENT);
+    // Lookup if first variable has been declared in this scope
     Symbol vardecl = symTable.lookupCurrentScope(t.image);
+    // Variable already exists in current scope
     if (vardecl != null)
     {
       {if (true) throw new YAPLException(CompilerError.SymbolExists, vardecl, t);}
     }
+    // Variable is free - > create it
     else
     {
+      // create new Symbol
       vardecl = new SymbolImpl(Symbol.Variable, t.image);
+      // add it to symbolTable
       symTable.addSymbol(vardecl);
+      // set the actual type      
       vardecl.setType(type);
 
-       /** Code Generation **/
+      /** Code Generation **/
+      // create new attribute      
       AttribImpl attrib = new AttribImpl();
+      // set the actual type
       attrib.setType(type);
+      // allocate Space for the variable
       cg.allocVariable(vardecl);
+      // set the offset to attrib
       attrib.setOffset(vardecl.getOffset());
+      // add it to the global map of variables          
       variablesMap.put(t.image,attrib);
-      //System.out.println(constdec.getOffset());
     }
     label_9:
     while (true) {
@@ -1161,29 +1222,39 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(COMMA);
       t = jj_consume_token(IDENT);
+      // Lookup if next variable has been declared in this scope
       vardecl = symTable.lookupCurrentScope(t.image);
+      // If Symbol exists in this scope - > Error
       if (vardecl != null)
       {
         {if (true) throw new YAPLException(CompilerError.SymbolExists, vardecl, t);}
       }
+      // Variable is free - > create it
       else
       {
+        // create new Symbol
         vardecl = new SymbolImpl(Symbol.Variable, t.image);
         vardecl.setType(type);
+        // add it to symbolTable
         symTable.addSymbol(vardecl);
 
-         /** Code Generation **/
-              AttribImpl attrib = new AttribImpl();
-              attrib.setType(type);
-              cg.allocVariable(vardecl);
-              attrib.setOffset(vardecl.getOffset());
-              variablesMap.put(t.image,attrib);
-              //System.out.println(constdec.getOffset());
+        /** Code Generation **/
+        // create new attribute      
+            AttribImpl attrib = new AttribImpl();
+            // set the actual type
+            attrib.setType(type);
+            // allocate Space for the variable   
+            cg.allocVariable(vardecl);
+            // set the offset to attrib
+            attrib.setOffset(vardecl.getOffset());
+            // add it to the global map of variables    
+            variablesMap.put(t.image,attrib);
       }
     }
     jj_consume_token(SEMICOLON);
   }
 
+/** 'Declare' { ConstDecl | VarDecl } */
   static final public void DECL() throws ParseException {
     jj_consume_token(DECLARE);
     label_10:
@@ -1214,6 +1285,7 @@ public class StefanMak implements StefanMakConstants {
     }
   }
 
+/** [ 'readonly' ] Type ident - > One Parameter of a Function/Procedure */
   static final public Symbol FORMALPARAM() throws ParseException {
   Token t;
   Type type;
@@ -1229,25 +1301,34 @@ public class StefanMak implements StefanMakConstants {
     }
     type = TYPE();
     t = jj_consume_token(IDENT);
+    // Lookup if variable has already been declared in this scope - > procedure calc(int x, int x <- ERROR)
     Symbol form = symTable.lookupCurrentScope(t.image);
+    // Variable/Parameter exists already - > ERROR
     if (form != null)
     {
       {if (true) throw new YAPLException(CompilerError.SymbolExists, form, t);}
-    }else if(!(type instanceof ArrayType) && readOnly)
+    }
+        // Readonly can only applied on ArrayTypes
+    else if(!(type instanceof ArrayType) && readOnly)
     {
       {if (true) throw new YAPLException(CompilerError.ReadonlyNotArray, form, t);}
     }
+    // Create new Symbol
     else
     {
       type.setReadOnly(readOnly);
+      // create new Symbol
       form = new SymbolImpl(Symbol.Parameter, t.image);
+      // set the Type
       form.setType(type);
+      // add symbol to symbol table
       symTable.addSymbol(form);
       {if (true) return form;}
     }
     throw new Error("Missing return statement in function");
   }
 
+/** FormalParam { ',' FormalParam } - > procedur calc(int x, bool y,...) */
   static final public Symbol FORMALPARAMLIST() throws ParseException {
   Symbol returnSymbol;
   Symbol s1,s2;
@@ -1265,6 +1346,7 @@ public class StefanMak implements StefanMakConstants {
       }
       jj_consume_token(COMMA);
       s2 = FORMALPARAM();
+          // Link the symbols of the formal parameter to a list! First points on Second, Second on Third...
       s1.setNextSymbol(s2);
       s1 = s2;
     }
@@ -1272,6 +1354,7 @@ public class StefanMak implements StefanMakConstants {
     throw new Error("Missing return statement in function");
   }
 
+/** 'Procedure' ReturnType ident '(' [ FormalParamList ] ')' Block ident ';' */
   static final public void PROCEDURE() throws ParseException {
   Token t;
   Token t_sec;
@@ -1280,30 +1363,42 @@ public class StefanMak implements StefanMakConstants {
     jj_consume_token(PROCEDURE);
     type = RETURNTYPE();
     t = jj_consume_token(IDENT);
+    // Lookup if identifier has already been used in this scope 
     Symbol procedure = symTable.lookupCurrentScope(t.image);
     if (procedure != null)
     {
       {if (true) throw new YAPLException(CompilerError.SymbolExists, procedure, t);}
     }
+    // identifier is ready to use
     else
     {
+      // create new (Procedure) Symbol 
       procedure = new SymbolImpl(Symbol.Procedure, t.image);
+      // set actual (return) type of the symbol
       procedure.setType(type);
+      // set the global Variable for later access in 'ReturnStatement'
       currentProcedureSymbol = procedure;
 
+      // if (return) Type is VOID no return is needed 
           if(type.getType() == Type.OTHER)
           {
             need_return = false;
             returnType = null;
-          }else
+          }
+          // set the global variables for later 'ReturnStatemen'
+          else
           {
             need_return = true;
             returnType = type;
           }
+          // set the global variable that no path return (actual) a return value
           set_return = false;
 
+          // add symbol to symbol table	       
       symTable.addSymbol(procedure);
+      // open a new scope (the procedure scope)
       symTable.openScope(false);
+      // set parent symbol of the actual scope to procedure
       symTable.setParentSymbol(procedure);
     }
     jj_consume_token(LPAR);
@@ -1317,74 +1412,83 @@ public class StefanMak implements StefanMakConstants {
       jj_la1[32] = jj_gen;
       ;
     }
+    // procedure has parameters
     if(startSymbol != null)
     {
+      // set the next symbol of procedurescope for argumentlist
       procedure.setNextSymbol(startSymbol);
     }
     jj_consume_token(RPAR);
     t_sec = BLOCK();
     t = jj_consume_token(IDENT);
-    //System.out.println(returnType.getType() + " - " +  procedure.getType().getType());
+        // gets the nearest parent of kind 'Procedure' - > from top to bottom on Scope stack    
     Symbol procedureClose = symTable.getNearestParentSymbol(Symbol.Procedure);
+    // if procedure name is not the same as the identifier at the end - > Error
     if (!procedureClose.getName().equals(t.image))
     {
       {if (true) throw new YAPLException(CompilerError.EndIdentMismatch, procedureClose, t);}
     }
-    else if(need_return && (
-                                                !(( (procedure.getType() instanceof ArrayType)
-                                                        && (type instanceof ArrayType)
-                                                        && (((ArrayType)procedure.getType()).getDimension() == ((ArrayType)type).getDimension()))
-                                                ||
-                                                (!(procedure.getType() instanceof ArrayType)
-                                                        && !(type instanceof ArrayType)
-                                                        && procedure.getType().getType()== type.getType()))
-                                                )
-                                                )
-    {
-      {if (true) throw new YAPLException(CompilerError.InvalidReturnType,procedure,t_sec);}
-    }else if(need_return && !set_return)
+    // if return is needed but not set - > Error
+        else if(need_return && !set_return)
     {
       {if (true) throw new YAPLException(CompilerError.MissingReturn,procedure,t_sec);}
     }
+    // Procedure was correct    
     else
     {
+       // close the procedure scope
        symTable.closeScope();
+       // current procedure is null
        currentProcedureSymbol = null;
     }
     jj_consume_token(SEMICOLON);
   }
 
+/** 'Program' ident { Decl | Procedure } 'Begin' StatementList 'End' ident '.' - > First entry in the program */
   static final public void PROGRAM() throws ParseException {
   Token t;
     jj_consume_token(PROGRAM);
     t = jj_consume_token(IDENT);
+    // Set the global variable for program name
     program_name = t.image;
+    // create new Symbol with the current program name
     Symbol programStart = new SymbolImpl(Symbol.Program, t.image);
 
-    /** Open Universe Scope which contains predefined Procedures */
+    // Open Universe Scope which contains predefined Procedures
     symTable.openScope(true);
     symTable.setParentSymbol(null);
 
     /** put predefined procedures in symbol table */
+    // writeln() - > has no parameter 
     pre_writeln = new SymbolImpl(Symbol.Procedure, "writeln");
     symTable.addSymbol(pre_writeln);
 
+    // writeint(int x) - > with one parameter
     pre_writeint = new SymbolImpl(Symbol.Procedure, "writeint");
+        // create predefined argument of type int
         SymbolImpl predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
+        // token is null	
         predefinedArgument.setType(new Type(false, Type.INT,null));
+        // link the argument to the procedure name
         pre_writeint.setNextSymbol(predefinedArgument);
-    pre_writeint.setType(new Type(false, Type.INT,null));
+    // add predefined procedure in symbol table
     symTable.addSymbol(pre_writeint);
 
+    // writebool(bool b) - > with one parameter
     pre_writebool = new SymbolImpl(Symbol.Procedure, "writebool");
+    // create predefined argument of type int
     predefinedArgument = new SymbolImpl(Symbol.Parameter,"");
         predefinedArgument.setType(new Type(false, Type.BOOL,null));
+        // link the argument to the procedure name
         pre_writebool.setNextSymbol(predefinedArgument);
-    //pre_writebool.setType(new Type(false, Type.BOOL,null));
+        // add predefined procedure in symbol table    
     symTable.addSymbol(pre_writebool);
 
+    // readint() - > no parameter
     pre_readint = new SymbolImpl(Symbol.Procedure, "readint");
+    // set return type - > INT
     pre_readint.setType(new Type(false, Type.INT,null));
+    // add to symbol table
     symTable.addSymbol(pre_readint);
 
     /** Open Programm Scope */
@@ -1421,8 +1525,12 @@ public class StefanMak implements StefanMakConstants {
     STATEMENTLIST();
     jj_consume_token(END);
     t = jj_consume_token(IDENT);
+    // check if the first symbol with the same parent symbol has the same name, if not - > Error
     Symbol endProgram = symTable.getNearestParentSymbol(Symbol.Program);
-    if (!endProgram.getName().equals(t.image)) {if (true) throw new YAPLException(CompilerError.EndIdentMismatch, endProgram, t);}
+    if (!endProgram.getName().equals(t.image))
+    {
+        {if (true) throw new YAPLException(CompilerError.EndIdentMismatch, endProgram, t);}
+    }
     /** Close Program Scope */
     symTable.closeScope();
     /** Close Universe Scope */
@@ -1434,7 +1542,7 @@ public class StefanMak implements StefanMakConstants {
   }
 
 /* Predefined Functions */
-/* Root node for production */
+/* Root node for productions */
   static final public void Start() throws ParseException {
     PROGRAM();
   }
@@ -1458,6 +1566,11 @@ public class StefanMak implements StefanMakConstants {
     return false;
   }
 
+  static private boolean jj_3_2() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_16() {
     if (jj_scan_token(LBRACKET)) return true;
     return false;
@@ -1466,11 +1579,6 @@ public class StefanMak implements StefanMakConstants {
   static private boolean jj_3R_13() {
     if (jj_scan_token(IDENT)) return true;
     if (jj_scan_token(LPAR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_14()) return true;
     return false;
   }
 
